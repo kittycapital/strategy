@@ -1,474 +1,249 @@
 #!/usr/bin/env python3
 """
-Strategy (MSTR) Bitcoin Purchase & Stock Issuance Tracker
-Fetches 8-K filings from SEC EDGAR and parses BTC purchase + ATM stock sale data.
-Outputs JSON for Chart.js dashboard on GitHub Pages.
+Strategy (MSTR) Bitcoin Purchase Tracker
+Scrapes bitbo.io/treasuries/microstrategy for purchase history.
+Outputs strategy_btc_seed.json for Chart.js dashboard.
 
-Data Source: SEC EDGAR free API (no API key required)
-  - Submissions API: https://data.sec.gov/submissions/CIK0001050446.json
-  - Filing HTML pages: https://www.sec.gov/Archives/edgar/data/1050446/...
-
-CIK for Strategy Inc (MSTR): 0001050446
+Source: https://bitbo.io/treasuries/microstrategy/
+Table columns: Date | BTC Purchased | Amount | Total Bitcoin | Total Dollars
 """
 
 import json
 import re
 import sys
-import time
-import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 from html.parser import HTMLParser
 
-# ─── Configuration ───────────────────────────────────────────────────
-CIK = "0001050446"
-SUBMISSIONS_URL = f"https://data.sec.gov/submissions/CIK{CIK}.json"
-ARCHIVE_BASE = "https://www.sec.gov/Archives/edgar/data/1050446"
-USER_AGENT = "HerdVibe/1.0 (contact@herdvibe.com)"  # SEC requires User-Agent
-OUTPUT_FILE = "strategy_btc_data.json"
-RATE_LIMIT_DELAY = 0.15  # SEC allows 10 req/sec, be conservative
+URL = "https://bitbo.io/treasuries/microstrategy/"
+OUTPUT = "strategy_btc_seed.json"
+USER_AGENT = "HerdVibe/1.0 (contact@herdvibe.com)"
 
-# ─── HTML Table Parser ───────────────────────────────────────────────
+
 class TableParser(HTMLParser):
-    """Parse HTML tables from SEC filing pages."""
+    """Extract all <table> data from HTML."""
     def __init__(self):
         super().__init__()
         self.tables = []
-        self.current_table = []
-        self.current_row = []
-        self.current_cell = ""
+        self.cur_table = []
+        self.cur_row = []
+        self.cur_cell = ""
         self.in_table = False
         self.in_row = False
         self.in_cell = False
-        self.cell_tag = None
 
     def handle_starttag(self, tag, attrs):
         if tag == "table":
             self.in_table = True
-            self.current_table = []
+            self.cur_table = []
         elif tag == "tr" and self.in_table:
             self.in_row = True
-            self.current_row = []
+            self.cur_row = []
         elif tag in ("td", "th") and self.in_row:
             self.in_cell = True
-            self.cell_tag = tag
-            self.current_cell = ""
+            self.cur_cell = ""
 
     def handle_endtag(self, tag):
         if tag in ("td", "th") and self.in_cell:
             self.in_cell = False
-            self.current_row.append(self.current_cell.strip())
+            self.cur_row.append(self.cur_cell.strip())
         elif tag == "tr" and self.in_row:
             self.in_row = False
-            if self.current_row:
-                self.current_table.append(self.current_row)
+            if self.cur_row:
+                self.cur_table.append(self.cur_row)
         elif tag == "table" and self.in_table:
             self.in_table = False
-            if self.current_table:
-                self.tables.append(self.current_table)
+            if self.cur_table:
+                self.tables.append(self.cur_table)
 
     def handle_data(self, data):
         if self.in_cell:
-            self.current_cell += data
+            self.cur_cell += data
 
 
-def fetch_url(url, max_retries=3):
-    """Fetch URL with proper headers and retry logic."""
-    for attempt in range(max_retries):
+def fetch(url):
+    """Fetch URL content."""
+    req = Request(url, headers={"User-Agent": USER_AGENT})
+    try:
+        with urlopen(req, timeout=30) as r:
+            return r.read().decode("utf-8", errors="replace")
+    except (HTTPError, URLError) as e:
+        print(f"ERROR fetching {url}: {e}")
+        sys.exit(1)
+
+
+def parse_date(s):
+    """Parse date string like '3/16/2026' or '03/19/2024' or '4/1/2024 - 5/1/2024' → 'YYYY-MM-DD'."""
+    s = s.strip()
+    # Handle date ranges — take the last date
+    if " - " in s:
+        s = s.split(" - ")[-1].strip()
+    # Remove leading zeros and parse
+    for fmt in ("%m/%d/%Y", "%m/%d/%y"):
         try:
-            req = Request(url, headers={
-                "User-Agent": USER_AGENT,
-                "Accept-Encoding": "gzip, deflate",
-                "Accept": "text/html,application/json"
-            })
-            with urlopen(req, timeout=30) as resp:
-                data = resp.read()
-                # Handle gzip if needed
-                if resp.headers.get('Content-Encoding') == 'gzip':
-                    import gzip
-                    data = gzip.decompress(data)
-                return data.decode('utf-8', errors='replace')
-        except HTTPError as e:
-            if e.code == 429:  # Rate limited
-                wait = (attempt + 1) * 5
-                print(f"  Rate limited, waiting {wait}s...")
-                time.sleep(wait)
-            elif e.code == 404:
-                print(f"  404 Not Found: {url}")
-                return None
-            else:
-                print(f"  HTTP {e.code} for {url}, attempt {attempt+1}/{max_retries}")
-                time.sleep(2)
-        except (URLError, TimeoutError) as e:
-            print(f"  Error: {e}, attempt {attempt+1}/{max_retries}")
-            time.sleep(2)
+            return datetime.strptime(s, fmt).strftime("%Y-%m-%d")
+        except ValueError:
+            continue
     return None
 
 
-def get_8k_filings():
-    """Get list of all 8-K filings from SEC EDGAR Submissions API."""
-    print("Fetching MSTR submission history from SEC EDGAR...")
-    raw = fetch_url(SUBMISSIONS_URL)
-    if not raw:
-        print("ERROR: Could not fetch submissions data")
-        return []
+def parse_num(s):
+    """Parse number: '22,337' → 22337, '$1.568B' → 1568000000, '-704' → -704."""
+    s = s.strip().replace(",", "").replace("**", "")
+    if not s or s == "--":
+        return 0
 
-    data = json.loads(raw)
-    recent = data.get("filings", {}).get("recent", {})
+    # Handle $XXB / $XXM format
+    m = re.match(r"\$?([\d.]+)\s*(B|M|T)?", s, re.IGNORECASE)
+    if m:
+        val = float(m.group(1))
+        unit = (m.group(2) or "").upper()
+        if unit == "T":
+            val *= 1_000_000_000_000
+        elif unit == "B":
+            val *= 1_000_000_000
+        elif unit == "M":
+            val *= 1_000_000
+        return val
 
-    forms = recent.get("form", [])
-    dates = recent.get("filingDate", [])
-    accessions = recent.get("accessionNumber", [])
-    primary_docs = recent.get("primaryDocument", [])
-
-    filings_8k = []
-    for i, form in enumerate(forms):
-        if form == "8-K":
-            acc_no_dashes = accessions[i].replace("-", "")
-            doc_url = f"{ARCHIVE_BASE}/{acc_no_dashes}/{primary_docs[i]}"
-            filings_8k.append({
-                "date": dates[i],
-                "accession": accessions[i],
-                "url": doc_url
-            })
-
-    # Also check additional filing files if entity has >1000 filings
-    extra_files = data.get("filings", {}).get("files", [])
-    for file_info in extra_files:
-        fname = file_info.get("name", "")
-        if fname:
-            extra_url = f"https://data.sec.gov/submissions/{fname}"
-            time.sleep(RATE_LIMIT_DELAY)
-            extra_raw = fetch_url(extra_url)
-            if extra_raw:
-                extra_data = json.loads(extra_raw)
-                ex_forms = extra_data.get("form", [])
-                ex_dates = extra_data.get("filingDate", [])
-                ex_accs = extra_data.get("accessionNumber", [])
-                ex_docs = extra_data.get("primaryDocument", [])
-                for i, form in enumerate(ex_forms):
-                    if form == "8-K":
-                        acc_no_dashes = ex_accs[i].replace("-", "")
-                        doc_url = f"{ARCHIVE_BASE}/{acc_no_dashes}/{ex_docs[i]}"
-                        filings_8k.append({
-                            "date": ex_dates[i],
-                            "accession": ex_accs[i],
-                            "url": doc_url
-                        })
-
-    # Sort by date descending
-    filings_8k.sort(key=lambda x: x["date"], reverse=True)
-    print(f"Found {len(filings_8k)} 8-K filings total")
-    return filings_8k
-
-
-def parse_number(text):
-    """Parse a number from text, handling commas, $, ~, etc."""
-    if not text:
-        return None
-    # Remove common non-numeric chars
-    cleaned = re.sub(r'[$ ,~\xa0\u200b]', '', text.strip())
-    cleaned = cleaned.replace('(', '-').replace(')', '')
+    # Plain number
     try:
-        return float(cleaned)
+        return float(s.replace("$", ""))
     except ValueError:
-        return None
+        return 0
 
 
-def extract_btc_purchase_data(html_content):
-    """
-    Extract Bitcoin purchase data from an 8-K filing HTML.
-    Strategy's 8-K filings include tables with:
-    - Date(s) of purchase
-    - Number of bitcoins purchased
-    - Aggregate purchase price (USD)
-    - Average price per bitcoin (USD)
-    """
-    if not html_content:
-        return None
-
-    # Quick check: does this filing mention bitcoin purchases?
-    lower = html_content.lower()
-    if 'bitcoin' not in lower:
-        return None
-
-    # Check for purchase-related keywords
-    purchase_keywords = ['bitcoin purchased', 'btc purchased', 'acquired', 'aggregate purchase price',
-                         'average purchase price per bitcoin', 'average price per bitcoin']
-    has_purchase_info = any(kw in lower for kw in purchase_keywords)
-    if not has_purchase_info:
-        return None
-
-    # Parse tables
-    parser = TableParser()
-    parser.feed(html_content)
-
-    result = {
-        "btc_purchases": [],
-        "stock_sales": [],
-        "total_btc_held": None,
-        "total_cost_basis": None
-    }
-
-    for table in parser.tables:
+def find_purchase_table(tables):
+    """Find the table with purchase history (has 'Date' and 'BTC Purchased' headers)."""
+    for table in tables:
         if len(table) < 2:
             continue
-
-        # Check header row for BTC purchase table
-        header = ' '.join(table[0]).lower()
-
-        # BTC Purchase table detection
-        if ('bitcoin' in header or 'btc' in header) and ('purchase' in header or 'acquired' in header or 'price' in header):
-            for row in table[1:]:
-                if len(row) >= 3:
-                    # Try to find: date, btc amount, aggregate price, avg price
-                    btc_amount = None
-                    agg_price = None
-                    avg_price = None
-
-                    for cell in row:
-                        num = parse_number(cell)
-                        if num is None:
-                            continue
-                        # Heuristic: BTC amount is typically < 100,000
-                        # Aggregate price is typically > 1,000,000
-                        # Average price is typically 10,000 - 200,000
-                        if num > 1_000_000 and agg_price is None:
-                            agg_price = num
-                        elif 5_000 < num < 500_000 and avg_price is None and btc_amount is not None:
-                            avg_price = num
-                        elif 0 < num < 100_000 and btc_amount is None:
-                            btc_amount = num
-
-                    if btc_amount and btc_amount > 0:
-                        result["btc_purchases"].append({
-                            "btc_amount": btc_amount,
-                            "aggregate_price_usd": agg_price,
-                            "avg_price_per_btc": avg_price
-                        })
-
-        # Stock ATM sale table detection
-        if ('share' in header or 'stock' in header) and ('sold' in header or 'sale' in header or 'proceeds' in header or 'issued' in header):
-            for row in table[1:]:
-                if len(row) >= 2:
-                    shares = None
-                    proceeds = None
-                    for cell in row:
-                        num = parse_number(cell)
-                        if num is None:
-                            continue
-                        if num > 1_000_000 and proceeds is None:
-                            proceeds = num
-                        elif num > 0 and shares is None:
-                            shares = num
-
-                    if shares and shares > 0:
-                        result["stock_sales"].append({
-                            "shares_sold": shares,
-                            "proceeds_usd": proceeds
-                        })
-
-    # Also try regex extraction from body text as fallback
-    if not result["btc_purchases"]:
-        # Pattern: "purchased approximately X,XXX bitcoin" or "acquired X,XXX BTC"
-        btc_pattern = re.findall(
-            r'(?:purchased|acquired)\s+(?:approximately\s+)?([0-9,]+)\s+(?:bitcoin|BTC)',
-            html_content, re.IGNORECASE
-        )
-        price_pattern = re.findall(
-            r'(?:aggregate\s+purchase\s+price|total\s+cost)\s+(?:of\s+)?(?:approximately\s+)?\$([0-9,.]+)\s*(million|billion)?',
-            html_content, re.IGNORECASE
-        )
-        avg_pattern = re.findall(
-            r'(?:average\s+(?:purchase\s+)?price)\s+(?:of\s+)?(?:approximately\s+)?\$([0-9,.]+)',
-            html_content, re.IGNORECASE
-        )
-
-        if btc_pattern:
-            btc_amt = parse_number(btc_pattern[0])
-            agg = None
-            avg = None
-            if price_pattern:
-                val = parse_number(price_pattern[0][0])
-                unit = price_pattern[0][1].lower() if price_pattern[0][1] else ''
-                if val:
-                    if 'billion' in unit:
-                        val *= 1_000_000_000
-                    elif 'million' in unit:
-                        val *= 1_000_000
-                    agg = val
-            if avg_pattern:
-                avg = parse_number(avg_pattern[0])
-
-            if btc_amt:
-                result["btc_purchases"].append({
-                    "btc_amount": btc_amt,
-                    "aggregate_price_usd": agg,
-                    "avg_price_per_btc": avg
-                })
-
-    # Extract total holdings if mentioned
-    total_pattern = re.findall(
-        r'(?:total|aggregate)\s+(?:of\s+)?(?:approximately\s+)?([0-9,]+)\s+(?:bitcoin|BTC)',
-        html_content, re.IGNORECASE
-    )
-    if total_pattern:
-        result["total_btc_held"] = parse_number(total_pattern[-1])  # Last mention = most recent total
-
-    # Extract stock issuance from ATM text
-    atm_shares = re.findall(
-        r'sold\s+([0-9,]+)\s+shares?\s+(?:of\s+)?(?:its\s+)?(?:Class\s+A\s+)?(?:common\s+)?stock',
-        html_content, re.IGNORECASE
-    )
-    atm_proceeds = re.findall(
-        r'(?:net\s+)?proceeds\s+(?:of\s+)?(?:approximately\s+)?\$([0-9,.]+)\s*(million|billion)?',
-        html_content, re.IGNORECASE
-    )
-
-    if atm_shares and not result["stock_sales"]:
-        shares = parse_number(atm_shares[0])
-        proceeds = None
-        if atm_proceeds:
-            val = parse_number(atm_proceeds[0][0])
-            unit = atm_proceeds[0][1].lower() if atm_proceeds[0][1] else ''
-            if val:
-                if 'billion' in unit:
-                    val *= 1_000_000_000
-                elif 'million' in unit:
-                    val *= 1_000_000
-                proceeds = val
-        if shares:
-            result["stock_sales"].append({
-                "shares_sold": shares,
-                "proceeds_usd": proceeds
-            })
-
-    return result if (result["btc_purchases"] or result["total_btc_held"]) else None
-
-
-def load_existing_data():
-    """Load previously collected data to avoid re-scraping."""
-    if os.path.exists(OUTPUT_FILE):
-        with open(OUTPUT_FILE, 'r') as f:
-            return json.load(f)
+        header = " ".join(table[0]).lower()
+        if "date" in header and ("btc" in header or "purchased" in header):
+            return table
+    # Fallback: find largest table with 5 columns
+    for table in tables:
+        if len(table) > 5 and all(len(r) >= 4 for r in table[1:3]):
+            return table
     return None
 
 
 def main():
-    print("=" * 60)
-    print("Strategy (MSTR) Bitcoin Purchase Tracker")
-    print("Data Source: SEC EDGAR (free, no API key)")
-    print("=" * 60)
+    print("=" * 55)
+    print("Strategy BTC Tracker — bitbo.io scraper")
+    print("=" * 55)
 
-    # Load existing data for incremental updates
-    existing = load_existing_data()
-    known_accessions = set()
-    if existing and "filings" in existing:
-        known_accessions = {f["accession"] for f in existing["filings"]}
-        print(f"Loaded {len(known_accessions)} previously processed filings")
+    html = fetch(URL)
+    print(f"Fetched {len(html):,} bytes from bitbo.io")
 
-    # Get 8-K filing list
-    filings_8k = get_8k_filings()
-    if not filings_8k:
-        print("No 8-K filings found, using existing data if available")
-        if existing:
-            return
+    parser = TableParser()
+    parser.feed(html)
+    print(f"Found {len(parser.tables)} tables")
+
+    table = find_purchase_table(parser.tables)
+    if not table:
+        print("ERROR: Could not find purchase history table")
         sys.exit(1)
 
-    # Filter to BTC-era filings (2020+) and new ones only
-    btc_era = [f for f in filings_8k if f["date"] >= "2020-08-01"]
-    new_filings = [f for f in btc_era if f["accession"] not in known_accessions]
+    # Skip header row(s)
+    start = 0
+    for i, row in enumerate(table):
+        if any("date" in c.lower() for c in row):
+            start = i + 1
+            break
 
-    print(f"\nBTC-era 8-K filings: {len(btc_era)}")
-    print(f"New filings to process: {len(new_filings)}")
-
-    # Process new filings
-    results = []
-    if existing and "filings" in existing:
-        results = existing["filings"]
-
-    for i, filing in enumerate(new_filings):
-        print(f"\n[{i+1}/{len(new_filings)}] Processing {filing['date']} - {filing['accession']}")
-        time.sleep(RATE_LIMIT_DELAY)
-
-        html = fetch_url(filing["url"])
-        if not html:
-            print("  Could not fetch filing, skipping")
+    purchases = []
+    for row in table[start:]:
+        if len(row) < 4:
             continue
 
-        parsed = extract_btc_purchase_data(html)
-        if parsed:
-            entry = {
-                "date": filing["date"],
-                "accession": filing["accession"],
-                "url": filing["url"],
-                **parsed
-            }
-            results.append(entry)
-            btc_sum = sum(p["btc_amount"] for p in parsed["btc_purchases"])
-            print(f"  ✓ Found BTC purchase: {btc_sum:,.0f} BTC")
-            if parsed["stock_sales"]:
-                shares_sum = sum(s["shares_sold"] for s in parsed["stock_sales"])
-                print(f"  ✓ Found stock sale: {shares_sum:,.0f} shares")
-        else:
-            print("  ✗ No BTC purchase data in this filing")
+        date_str = row[0].replace("**", "").strip()
+        date = parse_date(date_str)
+        if not date:
+            continue
 
-    # Sort results by date
-    results.sort(key=lambda x: x["date"])
+        btc = parse_num(row[1])
+        amount = parse_num(row[2])        # Purchase amount USD
+        cum_btc = parse_num(row[3])        # Total Bitcoin after purchase
+        # row[4] if exists = Total Dollars cumulative (not needed for per-purchase)
 
-    # Calculate cumulative totals
-    cumulative_btc = 0
-    cumulative_cost = 0
-    cumulative_shares_sold = 0
-    cumulative_proceeds = 0
+        if btc == 0:
+            continue
 
-    for entry in results:
-        for p in entry.get("btc_purchases", []):
-            cumulative_btc += p.get("btc_amount", 0)
-            if p.get("aggregate_price_usd"):
-                cumulative_cost += p["aggregate_price_usd"]
-        entry["cumulative_btc"] = cumulative_btc
-        entry["cumulative_cost_usd"] = cumulative_cost
-        entry["avg_cost_basis"] = cumulative_cost / cumulative_btc if cumulative_btc > 0 else 0
+        avg_price = amount / btc if btc > 0 and amount > 0 else 0
 
-        for s in entry.get("stock_sales", []):
-            cumulative_shares_sold += s.get("shares_sold", 0)
-            if s.get("proceeds_usd"):
-                cumulative_proceeds += s["proceeds_usd"]
-        entry["cumulative_shares_sold"] = cumulative_shares_sold
-        entry["cumulative_proceeds_usd"] = cumulative_proceeds
+        purchases.append({
+            "date": date,
+            "btc": int(btc),
+            "avg_price": round(avg_price),
+            "total_usd": int(amount),
+            "cumulative_btc": int(cum_btc),
+            "funding": "atm"  # Default; most recent are ATM
+        })
 
-    # Build output
+    # Sort oldest first
+    purchases.sort(key=lambda x: x["date"])
+
+    # Fix funding type for known early purchases
+    funding_map = {
+        "2020-08-11": "cash", "2020-09-14": "cash", "2020-12-04": "cash",
+        "2020-12-21": "convertible_notes",
+        "2021-01-22": "cash", "2021-02-02": "cash",
+        "2021-02-24": "convertible_notes",
+        "2021-03-01": "cash", "2021-03-05": "cash", "2021-03-12": "cash",
+        "2021-04-05": "cash", "2021-05-13": "cash", "2021-05-18": "cash",
+        "2021-06-21": "notes",
+        "2022-01-31": "cash", "2022-04-05": "loan",
+        "2022-06-28": "cash", "2022-09-20": "cash",
+        "2022-12-22": "cash", "2022-12-24": "cash",
+        "2023-03-27": "cash", "2023-04-05": "cash", "2023-07-31": "cash",
+        "2023-11-01": "cash",
+        "2024-02-06": "cash", "2024-05-01": "cash", "2024-08-01": "cash",
+        "2024-09-20": "notes",
+        "2025-02-10": "atm_preferred", "2025-02-24": "atm_preferred",
+        "2025-06-23": "cash",
+        "2025-08-11": "cash",
+        "2025-10-13": "cash", "2025-10-20": "cash", "2025-10-27": "cash",
+        "2025-11-03": "cash", "2025-11-10": "cash",
+        "2025-12-01": "cash", "2025-12-31": "cash",
+    }
+    for p in purchases:
+        if p["date"] in funding_map:
+            p["funding"] = funding_map[p["date"]]
+
+    if not purchases:
+        print("ERROR: No purchases parsed")
+        sys.exit(1)
+
+    last = purchases[-1]
+    total_btc = last["cumulative_btc"]
+    total_cost = sum(p["total_usd"] for p in purchases)
+    avg_cost = total_cost / total_btc if total_btc > 0 else 0
+
     output = {
         "last_updated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "source": "SEC EDGAR (data.sec.gov)",
+        "source": "bitbo.io/treasuries/microstrategy (BitcoinTreasuries.com)",
         "entity": "Strategy Inc (MSTR)",
-        "cik": CIK,
+        "cik": "0001050446",
         "summary": {
-            "total_btc": cumulative_btc,
-            "total_cost_usd": cumulative_cost,
-            "avg_cost_per_btc": cumulative_cost / cumulative_btc if cumulative_btc > 0 else 0,
-            "total_purchase_events": len(results),
-            "total_shares_issued": cumulative_shares_sold,
-            "total_atm_proceeds": cumulative_proceeds
+            "total_btc": total_btc,
+            "total_cost_usd": total_cost,
+            "avg_cost_per_btc": round(avg_cost),
+            "total_purchase_events": len(purchases)
         },
-        "filings": results
+        "purchases": purchases
     }
 
-    # Write output
-    with open(OUTPUT_FILE, 'w') as f:
-        json.dump(output, f, indent=2)
+    with open(OUTPUT, "w") as f:
+        json.dump(output, f, indent=2, ensure_ascii=False)
 
-    print(f"\n{'=' * 60}")
-    print(f"Output written to {OUTPUT_FILE}")
-    print(f"Total BTC purchases tracked: {cumulative_btc:,.0f} BTC")
-    print(f"Total cost basis: ${cumulative_cost:,.0f}")
-    if cumulative_btc > 0:
-        print(f"Average cost: ${cumulative_cost/cumulative_btc:,.2f}/BTC")
-    print(f"Total stock shares issued: {cumulative_shares_sold:,.0f}")
-    print(f"Total ATM proceeds: ${cumulative_proceeds:,.0f}")
-    print(f"{'=' * 60}")
+    print(f"\n✅ Parsed {len(purchases)} purchases")
+    print(f"   Total BTC: {total_btc:,}")
+    print(f"   Total cost: ${total_cost:,.0f}")
+    print(f"   Avg cost: ${avg_cost:,.0f}/BTC")
+    print(f"   Output: {OUTPUT}")
+    print("=" * 55)
 
 
 if __name__ == "__main__":
