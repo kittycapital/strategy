@@ -73,9 +73,9 @@ tbody tr:hover{background:rgba(0,212,170,.04)}
 
 }
 .share-bar{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:12px 16px;border-top:1px solid var(--card-border);background:var(--card);border-radius:0 0 12px 12px;margin-bottom:20px}
-.share-bar-preview{font-size:.75rem;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:50%;line-height:1.4;font-family:'JetBrains Mono',monospace}
+.share-bar-preview{text-align:center;font-size:.75rem;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;line-height:1.4;font-family:'JetBrains Mono',monospace}
 .share-bar-preview span{color:var(--text);font-weight:500}
-.share-bar-buttons{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.share-bar-buttons{display:flex;align-items:center;justify-content:center;gap:6px;flex-shrink:0;flex-wrap:wrap}
 .share-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:.75rem;font-weight:600;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;border:1px solid var(--card-border);background:var(--card);color:#999;white-space:nowrap}
 .share-btn:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.3);color:var(--text-bright)}
 .share-btn svg{flex-shrink:0}
@@ -194,9 +194,32 @@ function normalizeData(raw){
 }
 
 /* ═══ FETCH ═══ */
-async function fetchBtcPrice(){
- try{const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');const d=await r.json();currentBtcPrice=d.bitcoin.usd;const c=d.bitcoin.usd_24h_change;document.getElementById('kpiBtcPrice').textContent=fmt(currentBtcPrice);const e=document.getElementById('kpiBtcChange');e.textContent=(c>=0?'+':'')+c.toFixed(1)+'% (24h)';e.style.color=c>=0?'var(--green)':'var(--red)';}catch(e){console.warn('CoinGecko:',e)}
+let _totalBtc=0,_totalCost=0;
+function updateBtcKpis(){
+  if(!currentBtcPrice||!_totalBtc)return;
+  document.getElementById('kpiMarketValue').textContent=fmt(_totalBtc*currentBtcPrice);
+  const pnl=_totalBtc*currentBtcPrice-_totalCost,pct=_totalCost>0?(pnl/_totalCost*100):0;
+  const e=document.getElementById('kpiPnl');
+  e.textContent=`${pnl>=0?'+':''}${fmt(pnl)} (${pnl>=0?'+':''}${pct.toFixed(1)}%)`;
+  e.style.color=pnl>=0?'var(--green)':'var(--red)';
 }
+
+function connectBinanceWs(){
+  const ws=new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@ticker');
+  ws.onmessage=function(evt){
+    const d=JSON.parse(evt.data);
+    currentBtcPrice=parseFloat(d.c);
+    const change=parseFloat(d.P);
+    document.getElementById('kpiBtcPrice').textContent=fmt(currentBtcPrice);
+    const el=document.getElementById('kpiBtcChange');
+    el.textContent=(change>=0?'+':'')+change.toFixed(2)+'% (24h)';
+    el.style.color=change>=0?'var(--green)':'var(--red)';
+    updateBtcKpis();
+  };
+  ws.onclose=function(){setTimeout(connectBinanceWs,5000)};
+  ws.onerror=function(){ws.close()};
+}
+connectBinanceWs();
 
 async function fetchData(){
  for(const url of DATA_URLS){
@@ -207,7 +230,6 @@ async function fetchData(){
 
 /* ═══ INIT ═══ */
 async function init(){
- fetchBtcPrice();
  const raw=await fetchData();
  if(!raw){document.getElementById('lastUpdated').textContent=' 데이터를 불러올 수 없습니다';return}
 
@@ -235,13 +257,8 @@ async function init(){
  document.getElementById('kpiFirstPurchase').textContent=purchaseData[0].date+' 시작';
  document.getElementById('kpiBtcPerShare').textContent=(totalBtc/268000000).toFixed(6);
 
- // Wait for BTC price
- await new Promise(r=>setTimeout(r,1500));
- if(currentBtcPrice){
- const mv=totalBtc*currentBtcPrice,pnl=mv-totalCost,pct=totalCost>0?(pnl/totalCost*100):0;
- document.getElementById('kpiMarketValue').textContent=fmt(mv);
- const e=document.getElementById('kpiPnl');e.textContent=`${pnl>=0?'+':''}${fmt(pnl)} (${pnl>=0?'+':''}${pct.toFixed(1)}%)`;e.style.color=pnl>=0?'var(--green)':'var(--red)';
- }
+ _totalBtc=totalBtc;_totalCost=totalCost;
+ updateBtcKpis();
 
  renderChart1();renderChart2('btc');renderChart3();renderChart4();renderTable();
 
