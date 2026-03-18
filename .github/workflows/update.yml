@@ -2,17 +2,16 @@ name: Update Strategy BTC Data from SEC EDGAR
 
 on:
   schedule:
-    # Run daily at 08:00 UTC (한국시간 17:00) — SEC filings are typically filed during US business hours
-    - cron: '0 8 * * *'
-    # Also run at 22:00 UTC to catch late-day filings
-    - cron: '0 22 * * 1-5'
-  workflow_dispatch:  # Manual trigger
+    - cron: '0 8 * * 1-5'
+  workflow_dispatch:
   push:
     paths:
       - 'collect_data.py'
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   update-data:
