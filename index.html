@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategy (MSTR) 비트코인 매입 & 주식 발행 트래커 | HerdVibe</title>
+<meta name="description" content="SEC EDGAR 공시 기반 Strategy(MSTR) 비트코인 매수 이력, ATM 주식 발행, BTC 보유량 실시간 대시보드">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<!-- Chart.js + plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --card: #111111;
+    --card-border: #1a1a1a;
+    --accent: #00d4aa;
+    --accent2: #f7931a; /* BTC orange */
+    --accent3: #627eea; /* MSTR blue */
+    --accent4: #ff4757; /* red for dilution */
+    --text: #e0e0e0;
+    --text-dim: #888888;
+    --text-bright: #ffffff;
+    --green: #00d4aa;
+    --red: #ff4757;
+    --orange: #f7931a;
+    --blue: #627eea;
+    --purple: #a855f7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  /* ── Header ──────────────────────────────────── */
+  .header {
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .header h1 {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--text-bright);
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+
+  .header h1 .btc-icon { color: var(--orange); }
+  .header h1 .mstr-icon { color: var(--blue); }
+
+  .header .subtitle {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .header .subtitle a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .last-updated {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 8px;
+  }
+
+  /* ── KPI Cards ───────────────────────────────── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+
+  .kpi-card:hover {
+    border-color: var(--accent);
+  }
+
+  .kpi-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .kpi-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.2;
+  }
+
+  .kpi-value.orange { color: var(--orange); }
+  .kpi-value.green { color: var(--green); }
+  .kpi-value.blue { color: var(--blue); }
+  .kpi-value.red { color: var(--red); }
+  .kpi-value.purple { color: var(--purple); }
+
+  .kpi-sub {
+    font-size: 10px;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 4px;
+  }
+
+  /* ── Chart Sections ──────────────────────────── */
+  .chart-section {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .chart-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 4px;
+  }
+
+  .chart-desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 360px;
+  }
+
+  .chart-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .reset-zoom {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    display: none;
+    z-index: 10;
+  }
+
+  .reset-zoom:hover { opacity: 0.8; }
+
+  /* ── Tab controls ────────────────────────────── */
+  .tab-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    color: var(--text-dim);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .tab-btn:hover:not(.active) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── Purchase History Table ──────────────────── */
+  .table-wrap {
+    overflow-x: auto;
+    margin-top: 12px;
+    max-height: 420px;
+    overflow-y: auto;
+  }
+
+  .table-wrap::-webkit-scrollbar { width: 6px; height: 6px; }
+  .table-wrap::-webkit-scrollbar-track { background: var(--bg); }
+  .table-wrap::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background: var(--card);
+    color: var(--text-dim);
+    font-weight: 500;
+    text-align: right;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  thead th:first-child { text-align: left; }
+
+  tbody td {
+    padding: 7px 10px;
+    text-align: right;
+    border-bottom: 1px solid #151515;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  tbody td:first-child {
+    text-align: left;
+    color: var(--text-dim);
+  }
+
+  tbody tr:hover { background: rgba(0, 212, 170, 0.04); }
+
+  .funding-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .funding-atm { background: rgba(98, 126, 234, 0.15); color: var(--blue); }
+  .funding-cash { background: rgba(0, 212, 170, 0.15); color: var(--green); }
+  .funding-notes { background: rgba(168, 85, 247, 0.15); color: var(--purple); }
+  .funding-loan { background: rgba(255, 71, 87, 0.15); color: var(--red); }
+  .funding-preferred { background: rgba(247, 147, 26, 0.15); color: var(--orange); }
+
+  /* ── Share Bar ───────────────────────────────── */
+  .share-bar {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    padding: 16px 0;
+    flex-wrap: wrap;
+  }
+
+  .share-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .share-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── Guide Text (SEO) ───────────────────────── */
+  .guide-text {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-dim);
+  }
+
+  .guide-text h2 {
+    color: var(--text-bright);
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .guide-text h3 {
+    color: var(--text);
+    font-size: 14px;
+    margin: 16px 0 8px;
+  }
+
+  /* ── Footer ──────────────────────────────────── */
+  .footer {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 11px;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 768px) {
+    .container { padding: 12px; }
+    .header h1 { font-size: 18px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .kpi-value { font-size: 16px; }
+    .chart-wrap { height: 280px; }
+  }
+
+  @media (max-width: 480px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .kpi-value { font-size: 14px; }
+    .chart-wrap { height: 240px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1><span class="btc-icon">₿</span> Strategy(MSTR) 비트코인 매입 트래커 <span class="mstr-icon">📊</span></h1>
+    <div class="subtitle">SEC EDGAR 8-K 공시 기반 자동 업데이트 · <a href="https://data.sec.gov/submissions/CIK0001050446.json" target="_blank">data source</a></div>
+    <div class="last-updated" id="lastUpdated">Loading...</div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid" id="kpiGrid">
+    <div class="kpi-card">
+      <div class="kpi-label">총 BTC 보유량</div>
+      <div class="kpi-value orange" id="kpiTotalBtc">--</div>
+      <div class="kpi-sub" id="kpiSupplyPct">--</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">총 매입 비용</div>
+      <div class="kpi-value green" id="kpiTotalCost">--</div>
+      <div class="kpi-sub" id="kpiAvgCost">평균단가: --</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">BTC 시가평가</div>
+      <div class="kpi-value blue" id="kpiMarketValue">--</div>
+      <div class="kpi-sub" id="kpiPnl">--</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">총 매입 횟수</div>
+      <div class="kpi-value purple" id="kpiPurchaseCount">--</div>
+      <div class="kpi-sub" id="kpiFirstPurchase">--</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">BTC/주당</div>
+      <div class="kpi-value orange" id="kpiBtcPerShare">--</div>
+      <div class="kpi-sub">BTC Yield</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">현재 BTC 가격</div>
+      <div class="kpi-value green" id="kpiBtcPrice">--</div>
+      <div class="kpi-sub" id="kpiBtcChange">--</div>
+    </div>
+  </div>
+
+  <!-- Chart 1: Cumulative BTC Holdings + BTC Price -->
+  <div class="chart-section">
+    <div class="chart-title">📈 누적 BTC 보유량 & 매입 단가</div>
+    <div class="chart-desc">각 8-K 공시 기준 누적 보유량(바) + 매입 평균단가(라인)</div>
+    <button class="reset-zoom" id="resetZoom1" onclick="resetChart(chart1)">🔄 리셋</button>
+    <div class="chart-wrap">
+      <canvas id="chart1"></canvas>
+    </div>
+  </div>
+
+  <!-- Chart 2: Individual Purchase Events -->
+  <div class="chart-section">
+    <div class="chart-title">💰 개별 매입 이벤트</div>
+    <div class="chart-desc">각 8-K 공시별 BTC 매입 수량 및 자금 조달 방식</div>
+    <div class="tab-bar" id="chart2Tabs">
+      <button class="tab-btn active" data-view="btc">BTC 수량</button>
+      <button class="tab-btn" data-view="usd">매입 금액(USD)</button>
+    </div>
+    <button class="reset-zoom" id="resetZoom2" onclick="resetChart(chart2)">🔄 리셋</button>
+    <div class="chart-wrap">
+      <canvas id="chart2"></canvas>
+    </div>
+  </div>
+
+  <!-- Chart 3: Avg Cost Basis vs BTC Price -->
+  <div class="chart-section">
+    <div class="chart-title">⚖️ 평균 매입단가 vs BTC 시세</div>
+    <div class="chart-desc">누적 평균 매입단가 추이와 BTC 시장가 비교 — 손익 구간 시각화</div>
+    <button class="reset-zoom" id="resetZoom3" onclick="resetChart(chart3)">🔄 리셋</button>
+    <div class="chart-wrap">
+      <canvas id="chart3"></canvas>
+    </div>
+  </div>
+
+  <!-- Chart 4: Funding Source Breakdown -->
+  <div class="chart-section">
+    <div class="chart-title">🏦 자금 조달 방식 분석</div>
+    <div class="chart-desc">ATM 주식 발행 / 전환사채 / 현금 / 대출별 BTC 매입 비중</div>
+    <div class="chart-wrap" style="height: 300px;">
+      <canvas id="chart4"></canvas>
+    </div>
+  </div>
+
+  <!-- Purchase History Table -->
+  <div class="chart-section">
+    <div class="chart-title">📋 전체 매입 이력</div>
+    <div class="chart-desc">SEC EDGAR 8-K 공시 기반 — 최신순 정렬</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>날짜</th>
+            <th>BTC 수량</th>
+            <th>평균 단가</th>
+            <th>매입 금액</th>
+            <th>누적 BTC</th>
+            <th>자금원</th>
+          </tr>
+        </thead>
+        <tbody id="purchaseTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Share Bar -->
+  <div class="share-bar">
+    <button class="share-btn" onclick="shareX()">𝕏 공유</button>
+    <button class="share-btn" onclick="shareKakao()">💬 카카오톡</button>
+    <button class="share-btn" onclick="shareTelegram()">✈️ 텔레그램</button>
+    <button class="share-btn" onclick="copyLink()">🔗 링크복사</button>
+  </div>
+
+  <!-- SEO Guide Text -->
+  <div class="guide-text">
+    <h2>Strategy(MSTR) 비트코인 매입 대시보드 안내</h2>
+    <p>
+      이 대시보드는 SEC EDGAR의 무료 API를 활용하여 Strategy Inc(구 MicroStrategy, 티커: MSTR)의
+      비트코인 매입 이력을 자동으로 추적합니다. Strategy는 2020년 8월부터 기업 재무전략으로
+      비트코인을 매입하기 시작했으며, 현재 세계 최대의 기업 비트코인 보유자입니다.
+    </p>
+
+    <h3>데이터 소스</h3>
+    <p>
+      모든 데이터는 SEC EDGAR의 8-K(임시보고서) 공시에서 추출됩니다. Strategy는 비트코인 매입 시
+      Item 8.01 또는 Item 7.01을 통해 매입 수량, 총 매입가, 평균 단가를 공개합니다.
+      SEC EDGAR Submissions API(data.sec.gov)는 무료이며 API 키가 필요하지 않습니다.
+    </p>
+
+    <h3>자금 조달 방식</h3>
+    <p>
+      Strategy는 다양한 방식으로 비트코인 매입 자금을 조달합니다: ATM(At-The-Market) 프로그램을 통한
+      보통주 발행, 전환사채(Convertible Notes) 발행, 우선주(STRK, STRF, STRD, STRC) 발행,
+      기존 보유 현금, 담보 대출 등이 있습니다. 2024년 하반기부터는 ATM 주식 발행이 주요 자금원이 되었습니다.
+    </p>
+
+    <h3>주요 지표</h3>
+    <p>
+      BTC Yield(주당 BTC)는 주식 희석 대비 BTC 보유량 증가율을 나타내는 Strategy의 핵심 KPI입니다.
+      mNAV(Market-value NAV)는 기업가치 대비 비트코인 가치 비율을 보여줍니다.
+      이 대시보드는 GitHub Actions를 통해 매일 자동 업데이트됩니다.
+    </p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Herdvibe.com · Data: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001050446&type=8-K" target="_blank">SEC EDGAR</a> · BTC Price: CoinGecko</p>
+    <p style="margin-top: 4px;">본 자료는 투자 권유가 아닙니다. 투자의 책임은 본인에게 있습니다.</p>
+  </div>
+</div>
+
+<!-- Kakao SDK -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// DATA & CONFIG
+// ═══════════════════════════════════════════════════════════════
+
+// Try loading from GitHub Pages JSON, fall back to embedded seed data
+const DATA_URL = 'strategy_btc_seed.json';  // Change to your GitHub Pages URL
+// e.g. 'https://kittycapital.github.io/strategy-btc-tracker/strategy_btc_data.json'
+
+let chart1, chart2, chart3, chart4;
+let purchaseData = [];
+let currentBtcPrice = null;
+
+// Chart.js Watermark Plugin
+const watermarkPlugin = {
+  id: 'watermark',
+  afterDraw(chart) {
+    const { ctx, chartArea } = chart;
+    if (!chartArea) return;
+    ctx.save();
+    ctx.globalAlpha = 0.06;
+    ctx.font = 'bold 28px JetBrains Mono';
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.fillText('Herdvibe.com', chartArea.left + chartArea.width / 2, chartArea.top + chartArea.height / 2);
+    ctx.restore();
+  }
+};
+
+Chart.register(watermarkPlugin);
+
+// Chart.js defaults
+Chart.defaults.color = '#888888';
+Chart.defaults.font.family = "'JetBrains Mono', monospace";
+Chart.defaults.font.size = 11;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyleWidth = 8;
+
+// ═══════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════
+
+function fmt(n, decimals = 0) {
+  if (n == null) return '--';
+  if (n >= 1e9) return '$' + (n / 1e9).toFixed(1) + 'B';
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+  return '$' + n.toLocaleString('en-US', { maximumFractionDigits: decimals });
+}
+
+function fmtBtc(n) {
+  if (n == null) return '--';
+  return n.toLocaleString('en-US', { maximumFractionDigits: 0 }) + ' BTC';
+}
+
+function fmtNum(n) {
+  if (n == null) return '--';
+  return n.toLocaleString('en-US', { maximumFractionDigits: 0 });
+}
+
+function getFundingColor(funding) {
+  const map = {
+    'atm': 'rgba(98, 126, 234, 0.8)',
+    'atm_preferred': 'rgba(247, 147, 26, 0.8)',
+    'cash': 'rgba(0, 212, 170, 0.8)',
+    'convertible_notes': 'rgba(168, 85, 247, 0.8)',
+    'notes': 'rgba(168, 85, 247, 0.8)',
+    'loan': 'rgba(255, 71, 87, 0.8)'
+  };
+  return map[funding] || 'rgba(136, 136, 136, 0.8)';
+}
+
+function getFundingLabel(funding) {
+  const map = {
+    'atm': 'ATM 주식발행',
+    'atm_preferred': '우선주 ATM',
+    'cash': '보유 현금',
+    'convertible_notes': '전환사채',
+    'notes': '채권',
+    'loan': '담보대출'
+  };
+  return map[funding] || funding;
+}
+
+function getFundingBadgeClass(funding) {
+  if (funding.includes('preferred')) return 'funding-preferred';
+  if (funding.includes('atm')) return 'funding-atm';
+  if (funding === 'cash') return 'funding-cash';
+  if (funding.includes('note') || funding.includes('convertible')) return 'funding-notes';
+  if (funding === 'loan') return 'funding-loan';
+  return 'funding-cash';
+}
+
+function resetChart(chart) {
+  if (chart) chart.resetZoom();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FETCH DATA
+// ═══════════════════════════════════════════════════════════════
+
+async function fetchBtcPrice() {
+  try {
+    const resp = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
+    const data = await resp.json();
+    currentBtcPrice = data.bitcoin.usd;
+    const change24h = data.bitcoin.usd_24h_change;
+    document.getElementById('kpiBtcPrice').textContent = fmt(currentBtcPrice);
+    const changeEl = document.getElementById('kpiBtcChange');
+    changeEl.textContent = (change24h >= 0 ? '+' : '') + change24h.toFixed(1) + '% (24h)';
+    changeEl.style.color = change24h >= 0 ? 'var(--green)' : 'var(--red)';
+  } catch (e) {
+    console.warn('CoinGecko API error:', e);
+  }
+}
+
+async function fetchData() {
+  try {
+    // Try remote JSON first
+    const resp = await fetch(DATA_URL);
+    if (!resp.ok) throw new Error('Fetch failed');
+    return await resp.json();
+  } catch (e) {
+    console.warn('Could not load remote data, using embedded seed');
+    return null;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER DASHBOARD
+// ═══════════════════════════════════════════════════════════════
+
+async function init() {
+  await fetchBtcPrice();
+
+  const data = await fetchData();
+  if (!data) return;
+
+  purchaseData = data.purchases || [];
+  const summary = data.summary || {};
+
+  // Update timestamp
+  document.getElementById('lastUpdated').textContent =
+    `마지막 업데이트: ${data.last_updated || 'N/A'} · 출처: SEC EDGAR`;
+
+  // ── KPIs ──
+  const totalBtc = purchaseData.length > 0
+    ? purchaseData[purchaseData.length - 1].cumulative_btc
+    : summary.total_btc || 0;
+
+  const totalCost = purchaseData.reduce((s, p) => s + (p.total_usd || 0), 0);
+  const avgCost = totalBtc > 0 ? totalCost / totalBtc : 0;
+
+  document.getElementById('kpiTotalBtc').textContent = fmtBtc(totalBtc);
+  document.getElementById('kpiSupplyPct').textContent =
+    `총 공급량의 ${(totalBtc / 21000000 * 100).toFixed(3)}%`;
+
+  document.getElementById('kpiTotalCost').textContent = fmt(totalCost);
+  document.getElementById('kpiAvgCost').textContent = `평균단가: ${fmt(avgCost)}`;
+
+  if (currentBtcPrice) {
+    const marketVal = totalBtc * currentBtcPrice;
+    const pnl = marketVal - totalCost;
+    const pnlPct = totalCost > 0 ? (pnl / totalCost * 100) : 0;
+    document.getElementById('kpiMarketValue').textContent = fmt(marketVal);
+    const pnlEl = document.getElementById('kpiPnl');
+    pnlEl.textContent = `${pnl >= 0 ? '+' : ''}${fmt(pnl)} (${pnl >= 0 ? '+' : ''}${pnlPct.toFixed(1)}%)`;
+    pnlEl.style.color = pnl >= 0 ? 'var(--green)' : 'var(--red)';
+  }
+
+  document.getElementById('kpiPurchaseCount').textContent = purchaseData.length + '회';
+  document.getElementById('kpiFirstPurchase').textContent =
+    purchaseData.length > 0 ? `${purchaseData[0].date} 시작` : '--';
+
+  // Approximate shares outstanding (latest known ~268M class A)
+  const sharesOut = 268000000;
+  const btcPerShare = totalBtc / sharesOut;
+  document.getElementById('kpiBtcPerShare').textContent = btcPerShare.toFixed(6);
+
+  // ── Charts ──
+  renderChart1();
+  renderChart2('btc');
+  renderChart3();
+  renderChart4();
+  renderTable();
+
+  // Tab handlers
+  document.querySelectorAll('#chart2Tabs .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#chart2Tabs .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderChart2(btn.dataset.view);
+    });
+  });
+}
+
+// ─── Chart 1: Cumulative BTC + Avg Price ──────────────────────
+function renderChart1() {
+  const ctx = document.getElementById('chart1').getContext('2d');
+  const labels = purchaseData.map(p => p.date);
+  const cumBtc = purchaseData.map(p => p.cumulative_btc);
+  const avgPrices = purchaseData.map(p => p.avg_price);
+
+  if (chart1) chart1.destroy();
+  chart1 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '누적 BTC 보유량',
+          data: cumBtc,
+          backgroundColor: 'rgba(247, 147, 26, 0.5)',
+          borderColor: 'rgba(247, 147, 26, 0.8)',
+          borderWidth: 1,
+          yAxisID: 'y',
+          order: 2,
+          barPercentage: 0.7
+        },
+        {
+          label: '매입 평균단가 (USD)',
+          data: avgPrices,
+          type: 'line',
+          borderColor: 'rgba(0, 212, 170, 1)',
+          backgroundColor: 'rgba(0, 212, 170, 0.1)',
+          pointRadius: 3,
+          pointBackgroundColor: 'rgba(0, 212, 170, 1)',
+          borderWidth: 2,
+          fill: false,
+          yAxisID: 'y1',
+          order: 1,
+          tension: 0.1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.03)' },
+          ticks: { maxRotation: 45, maxTicksLimit: 15, font: { size: 9 } }
+        },
+        y: {
+          position: 'left',
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          title: { display: true, text: 'BTC 보유량', color: '#f7931a' },
+          ticks: { callback: v => (v / 1000).toFixed(0) + 'K' }
+        },
+        y1: {
+          position: 'right',
+          grid: { display: false },
+          title: { display: true, text: '매입 단가 (USD)', color: '#00d4aa' },
+          ticks: { callback: v => '$' + (v / 1000).toFixed(0) + 'K' }
+        }
+      },
+      plugins: {
+        zoom: {
+          zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x',
+            onZoom: () => { document.getElementById('resetZoom1').style.display = 'block'; }
+          },
+          pan: { enabled: true, mode: 'x' }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              if (ctx.dataset.label.includes('BTC')) return `보유: ${fmtNum(ctx.raw)} BTC`;
+              return `단가: ${fmt(ctx.raw)}`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// ─── Chart 2: Individual Purchases ────────────────────────────
+function renderChart2(view) {
+  const ctx = document.getElementById('chart2').getContext('2d');
+  const labels = purchaseData.map(p => p.date);
+
+  const values = view === 'btc'
+    ? purchaseData.map(p => p.btc)
+    : purchaseData.map(p => p.total_usd);
+
+  const colors = purchaseData.map(p => getFundingColor(p.funding));
+
+  if (chart2) chart2.destroy();
+  chart2 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: view === 'btc' ? 'BTC 매입량' : '매입 금액 (USD)',
+        data: values,
+        backgroundColor: colors,
+        borderColor: colors.map(c => c.replace('0.8', '1')),
+        borderWidth: 1,
+        barPercentage: 0.8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.03)' },
+          ticks: { maxRotation: 45, maxTicksLimit: 15, font: { size: 9 } }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          ticks: {
+            callback: v => {
+              if (view === 'btc') return fmtNum(v);
+              return fmt(v);
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        zoom: {
+          zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x',
+            onZoom: () => { document.getElementById('resetZoom2').style.display = 'block'; }
+          },
+          pan: { enabled: true, mode: 'x' }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const p = purchaseData[ctx.dataIndex];
+              const lines = [];
+              if (view === 'btc') {
+                lines.push(`매입: ${fmtNum(p.btc)} BTC`);
+                lines.push(`단가: ${fmt(p.avg_price)}`);
+              } else {
+                lines.push(`금액: ${fmt(p.total_usd)}`);
+                lines.push(`수량: ${fmtNum(p.btc)} BTC`);
+              }
+              lines.push(`자금: ${getFundingLabel(p.funding)}`);
+              return lines;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// ─── Chart 3: Cost Basis vs BTC Price ─────────────────────────
+function renderChart3() {
+  const ctx = document.getElementById('chart3').getContext('2d');
+
+  // Calculate running average cost basis
+  let runningCost = 0;
+  let runningBtc = 0;
+  const costBasis = purchaseData.map(p => {
+    runningCost += p.total_usd || 0;
+    runningBtc += p.btc || 0;
+    return runningBtc > 0 ? runningCost / runningBtc : 0;
+  });
+
+  const spotPrices = purchaseData.map(p => p.avg_price);
+  const labels = purchaseData.map(p => p.date);
+
+  if (chart3) chart3.destroy();
+  chart3 = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '누적 평균 매입단가',
+          data: costBasis,
+          borderColor: 'rgba(0, 212, 170, 1)',
+          backgroundColor: 'rgba(0, 212, 170, 0.05)',
+          borderWidth: 2.5,
+          fill: true,
+          tension: 0.2,
+          pointRadius: 2
+        },
+        {
+          label: '매입시 BTC 가격',
+          data: spotPrices,
+          borderColor: 'rgba(247, 147, 26, 1)',
+          backgroundColor: 'rgba(247, 147, 26, 0.05)',
+          borderWidth: 2,
+          borderDash: [5, 3],
+          fill: false,
+          tension: 0.1,
+          pointRadius: 3,
+          pointBackgroundColor: 'rgba(247, 147, 26, 1)'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.03)' },
+          ticks: { maxRotation: 45, maxTicksLimit: 15, font: { size: 9 } }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { callback: v => '$' + (v / 1000).toFixed(0) + 'K' }
+        }
+      },
+      plugins: {
+        zoom: {
+          zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x',
+            onZoom: () => { document.getElementById('resetZoom3').style.display = 'block'; }
+          },
+          pan: { enabled: true, mode: 'x' }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.dataset.label}: ${fmt(ctx.raw)}`
+          }
+        }
+      }
+    }
+  });
+}
+
+// ─── Chart 4: Funding Source Pie ──────────────────────────────
+function renderChart4() {
+  const ctx = document.getElementById('chart4').getContext('2d');
+
+  const fundingMap = {};
+  purchaseData.forEach(p => {
+    const key = p.funding || 'unknown';
+    fundingMap[key] = (fundingMap[key] || 0) + (p.btc || 0);
+  });
+
+  const entries = Object.entries(fundingMap).sort((a, b) => b[1] - a[1]);
+
+  if (chart4) chart4.destroy();
+  chart4 = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: entries.map(e => getFundingLabel(e[0])),
+      datasets: [{
+        data: entries.map(e => e[1]),
+        backgroundColor: entries.map(e => getFundingColor(e[0])),
+        borderColor: '#111111',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '55%',
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: { padding: 12, font: { size: 11 } }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+              const pct = (ctx.raw / total * 100).toFixed(1);
+              return `${ctx.label}: ${fmtNum(ctx.raw)} BTC (${pct}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// ─── Table ────────────────────────────────────────────────────
+function renderTable() {
+  const tbody = document.getElementById('purchaseTable');
+  const sorted = [...purchaseData].reverse(); // newest first
+
+  tbody.innerHTML = sorted.map(p => `
+    <tr>
+      <td>${p.date}</td>
+      <td style="color:var(--orange)">${fmtNum(p.btc)}</td>
+      <td>${fmt(p.avg_price)}</td>
+      <td>${fmt(p.total_usd)}</td>
+      <td style="color:var(--text-bright)">${fmtNum(p.cumulative_btc)}</td>
+      <td><span class="funding-badge ${getFundingBadgeClass(p.funding)}">${getFundingLabel(p.funding)}</span></td>
+    </tr>
+  `).join('');
+}
+
+// ─── Share Functions ──────────────────────────────────────────
+function shareX() {
+  const text = `📊 Strategy(MSTR) 비트코인 매입 현황\n₿ 보유: ${document.getElementById('kpiTotalBtc').textContent}\n💰 총 투자: ${document.getElementById('kpiTotalCost').textContent}\n\n📈 SEC EDGAR 실시간 트래커 👇`;
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(location.href)}`, '_blank');
+}
+
+function shareKakao() {
+  try {
+    if (!Kakao.isInitialized()) Kakao.init('a43ed7b39fac35458f4f9df925a279b5');
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: 'Strategy(MSTR) 비트코인 매입 트래커',
+        description: 'SEC EDGAR 8-K 공시 기반 자동 업데이트 대시보드',
+        imageUrl: 'https://herdvibe.com/images/og-strategy-btc.png',
+        link: { mobileWebUrl: location.href, webUrl: location.href }
+      }
+    });
+  } catch (e) { copyLink(); }
+}
+
+function shareTelegram() {
+  const text = `Strategy(MSTR) 비트코인 매입 트래커 - SEC EDGAR 기반`;
+  window.open(`https://t.me/share/url?url=${encodeURIComponent(location.href)}&text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function copyLink() {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(location.href).then(() => alert('링크가 복사되었습니다!'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = location.href;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('링크가 복사되었습니다!');
+  }
+}
+
+// ─── iframe height (HerdVibe standard) ────────────────────────
+const WEB_HEIGHT = 3200;
+const TABLET_HEIGHT = 3400;
+const MOBILE_HEIGHT = 3600;
+
+function postHeight() {
+  const w = window.innerWidth;
+  let h = w > 1024 ? WEB_HEIGHT : w > 768 ? TABLET_HEIGHT : MOBILE_HEIGHT;
+  h = Math.max(h, document.body.scrollHeight);
+  window.parent.postMessage({ type: 'herdvibe-height', height: h }, '*');
+}
+
+if (window.ResizeObserver) {
+  let debounceTimer;
+  new ResizeObserver(() => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(postHeight, 150);
+  }).observe(document.body);
+}
+
+// ─── Init ─────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
