@@ -439,7 +439,42 @@ document.getElementById('kpiStrdShares').textContent=`잔여: $${(atmCapacity.ST
 document.getElementById('kpiTotal').textContent=fmt(totAll);
 document.getElementById('kpiTotalBtc').textContent=`→ ${fmtNum(totBtc)} BTC 매입`;
 
-const zoomOpts=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById(rzId).style.display='block'}},pan:{enabled:true,mode:'x'}});
+const syncCharts = ['chartM1','chartM2','chart1'];
+let syncing = false;
+
+function syncZoom(sourceChart, rzId) {
+  if (syncing) return;
+  syncing = true;
+  document.getElementById(rzId).style.display = 'block';
+  
+  const {min, max} = sourceChart.scales.x;
+  
+  // Sync other charts
+  [chartM1, chartM2, chart1].forEach(c => {
+    if (c && c !== sourceChart && c.scales && c.scales.x) {
+      c.zoomScale('x', {min, max}, 'none');
+      c.update('none');
+    }
+  });
+  
+  // Show all reset buttons
+  ['rzM1','rzM2','rz1'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'block';
+  });
+  
+  syncing = false;
+}
+
+function resetAllCharts() {
+  [chartM1, chartM2, chart1].forEach(c => { if (c) c.resetZoom() });
+  ['rzM1','rzM2','rz1'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
+
+const zoomOpts=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:({chart})=>syncZoom(chart,rzId)},pan:{enabled:true,mode:'x',onPan:({chart})=>syncZoom(chart,rzId)}});
 
 // ═══ CHART 1: Stacked Bar ═══
 chart1=new Chart(document.getElementById('chart1'),{
