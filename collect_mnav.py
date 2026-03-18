@@ -110,11 +110,12 @@ SHARES_OUTSTANDING = [
 
 
 def get_stepped_value(history, date_str):
-    """Get the most recent value from a stepped history list."""
-    val = history[0][1]
-    for d, v in history:
-        if date_str >= d:
-            val = v
+    """Get the most recent value from a stepped history list.
+    Works with (date, val) and (date, v1, v2, v3) tuples."""
+    val = history[0][1] if len(history[0]) == 2 else history[0][1:]
+    for item in history:
+        if date_str >= item[0]:
+            val = item[1] if len(item) == 2 else item[1:]
         else:
             break
     return val
@@ -216,11 +217,8 @@ def main():
         shares = get_stepped_value(SHARES_OUTSTANDING, ds)
         
         cap = get_stepped_value(CAPITAL_STRUCTURE, ds)
-        debt_m = cap if isinstance(cap, (int, float)) else 0
-        # Re-fetch from tuple
-        for d, debt, pref, cash in CAPITAL_STRUCTURE:
-            if ds >= d:
-                debt_m, pref_m, cash_m = debt, pref, cash
+        # cap is a tuple (debt_m, pref_m, cash_m)
+        debt_m, pref_m, cash_m = cap[0], cap[1], cap[2]
         
         mnav = None
         if btc_price and mstr_price:
