@@ -231,6 +231,29 @@ def main():
 
         cur += timedelta(days=1)
 
+    # Always include the most recent available data point
+    latest_date = max(set(btc_prices.keys()) & set(mstr_prices.keys()))
+    if weekly and latest_date > weekly[-1]['date']:
+        bp = btc_prices[latest_date]
+        mp = mstr_prices[latest_date]
+        bh = get_stepped(BTC_HOLDINGS, latest_date)
+        sh = get_stepped(SHARES_OUTSTANDING, latest_date)
+        cap = get_stepped(CAPITAL_STRUCTURE, latest_date)
+        debt, pref, cash = cap[0], cap[1], cap[2]
+        mcap = mp * sh
+        ev = mcap + debt * 1e6 + pref * 1e6 - cash * 1e6
+        bval = bh * bp
+        mnav = ev / bval if bval > 0 else None
+        if mnav and mnav > 0:
+            weekly.append({
+                "date": latest_date,
+                "btc_price": round(bp, 2),
+                "mstr_price": round(mp, 2),
+                "mnav": round(mnav, 3),
+                "btc_held": bh,
+                "shares": sh,
+            })
+
     # Output
     output = {
         "last_updated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
