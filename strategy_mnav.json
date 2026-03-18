@@ -1,11 +1,11 @@
 {
-  "last_updated": "2026-03-18T07:35:58Z",
+  "last_updated": "2026-03-18T07:46:33Z",
   "source": "BTC & MSTR prices: yfinance (CSV cached), mNAV: calculated",
   "current": {
-    "date": "2026-03-16",
-    "btc_price": 74861.09,
-    "mstr_price": 147.52,
-    "mnav": 1.007,
+    "date": "2026-03-17",
+    "btc_price": 73922.48,
+    "mstr_price": 150.28,
+    "mnav": 1.036,
     "btc_held": 761068,
     "shares": 325000000
   },
@@ -14,7 +14,7 @@
       "date": "2020-08-11",
       "btc_price": 11410.53,
       "mstr_price": 13.49,
-      "mnav": 3.026,
+      "mnav": 3.027,
       "btc_held": 21454,
       "shares": 99400000
     },
@@ -22,7 +22,7 @@
       "date": "2020-08-17",
       "btc_price": 12254.4,
       "mstr_price": 14.38,
-      "mnav": 3.156,
+      "mnav": 3.155,
       "btc_held": 21454,
       "shares": 99400000
     },
@@ -30,7 +30,7 @@
       "date": "2020-08-24",
       "btc_price": 11774.6,
       "mstr_price": 14.86,
-      "mnav": 3.471,
+      "mnav": 3.472,
       "btc_held": 21454,
       "shares": 99400000
     },
@@ -38,7 +38,7 @@
       "date": "2020-08-31",
       "btc_price": 11680.82,
       "mstr_price": 14.44,
-      "mnav": 3.335,
+      "mnav": 3.333,
       "btc_held": 21454,
       "shares": 99400000
     },
@@ -46,7 +46,7 @@
       "date": "2020-09-07",
       "btc_price": 10369.56,
       "mstr_price": 13.88,
-      "mnav": 3.506,
+      "mnav": 3.505,
       "btc_held": 21454,
       "shares": 99400000
     },
@@ -62,7 +62,7 @@
       "date": "2020-09-21",
       "btc_price": 10462.26,
       "mstr_price": 15.22,
-      "mnav": 2.28,
+      "mnav": 2.281,
       "btc_held": 38250,
       "shares": 99400000
     },
@@ -70,7 +70,7 @@
       "date": "2020-09-28",
       "btc_price": 10709.65,
       "mstr_price": 15.15,
-      "mnav": 2.21,
+      "mnav": 2.211,
       "btc_held": 38250,
       "shares": 99400000
     },
@@ -86,7 +86,7 @@
       "date": "2020-10-12",
       "btc_price": 11555.36,
       "mstr_price": 16.65,
-      "mnav": 2.386,
+      "mnav": 2.387,
       "btc_held": 38250,
       "shares": 99400000
     },
@@ -94,7 +94,7 @@
       "date": "2020-10-19",
       "btc_price": 11742.04,
       "mstr_price": 16.41,
-      "mnav": 2.297,
+      "mnav": 2.296,
       "btc_held": 38250,
       "shares": 99400000
     },
@@ -126,7 +126,7 @@
       "date": "2020-11-16",
       "btc_price": 16716.11,
       "mstr_price": 20.39,
-      "mnav": 2.232,
+      "mnav": 2.231,
       "btc_held": 38250,
       "shares": 99400000
     },
@@ -142,7 +142,7 @@
       "date": "2020-11-30",
       "btc_price": 19625.84,
       "mstr_price": 34.28,
-      "mnav": 3.739,
+      "mnav": 3.74,
       "btc_held": 38250,
       "shares": 99400000
     },
@@ -158,7 +158,7 @@
       "date": "2020-12-14",
       "btc_price": 19246.64,
       "mstr_price": 27.95,
-      "mnav": 2.773,
+      "mnav": 2.772,
       "btc_held": 40824,
       "shares": 99400000
     },
@@ -614,7 +614,7 @@
       "date": "2022-01-03",
       "btc_price": 46458.12,
       "mstr_price": 55.83,
-      "mnav": 1.474,
+      "mnav": 1.475,
       "btc_held": 124391,
       "shares": 114300000
     },
@@ -790,7 +790,7 @@
       "date": "2022-06-06",
       "btc_price": 31370.67,
       "mstr_price": 23.54,
-      "mnav": 1.244,
+      "mnav": 1.243,
       "btc_held": 129218,
       "shares": 114300000
     },
@@ -990,7 +990,7 @@
       "date": "2022-11-28",
       "btc_price": 16217.32,
       "mstr_price": 17.67,
-      "mnav": 2.072,
+      "mnav": 2.073,
       "btc_held": 130000,
       "shares": 114300000
     },
@@ -998,7 +998,7 @@
       "date": "2022-12-05",
       "btc_price": 16974.83,
       "mstr_price": 19.57,
-      "mnav": 2.078,
+      "mnav": 2.079,
       "btc_held": 130000,
       "shares": 114300000
     },
@@ -1078,7 +1078,7 @@
       "date": "2023-02-06",
       "btc_price": 22760.11,
       "mstr_price": 28.2,
-      "mnav": 1.801,
+      "mnav": 1.8,
       "btc_held": 132500,
       "shares": 116300000
     },
@@ -1206,7 +1206,7 @@
       "date": "2023-05-29",
       "btc_price": 27745.88,
       "mstr_price": 29.93,
-      "mnav": 1.46,
+      "mnav": 1.461,
       "btc_held": 138955,
       "shares": 116300000
     },
@@ -1334,7 +1334,7 @@
       "date": "2023-09-18",
       "btc_price": 26754.28,
       "mstr_price": 34.06,
-      "mnav": 1.5,
+      "mnav": 1.499,
       "btc_held": 152333,
       "shares": 116300000
     },
@@ -1614,7 +1614,7 @@
       "date": "2024-05-20",
       "btc_price": 71448.2,
       "mstr_price": 172.72,
-      "mnav": 1.825,
+      "mnav": 1.824,
       "btc_held": 214246,
       "shares": 142300000
     },
@@ -2391,6 +2391,14 @@
       "btc_price": 74861.09,
       "mstr_price": 147.52,
       "mnav": 1.007,
+      "btc_held": 761068,
+      "shares": 325000000
+    },
+    {
+      "date": "2026-03-17",
+      "btc_price": 73922.48,
+      "mstr_price": 150.28,
+      "mnav": 1.036,
       "btc_held": 761068,
       "shares": 325000000
     }
