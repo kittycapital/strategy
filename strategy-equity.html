@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Strategy (MSTR) 주식 발행 & 자본 조달 트래커 | HerdVibe</title>
-<meta name="description" content="Strategy(MSTR) ATM 주식 발행 현황 - MSTR 보통주, STRC, STRK, STRF, STRD 우선주 발행 이력 대시보드">
+<title>Strategy (MSTR)   &    | HerdVibe</title>
+<meta name="description" content="Strategy(MSTR) ATM    - MSTR , STRC, STRK, STRF, STRD    ">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -28,8 +28,8 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .kpi-value{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;line-height:1.2}
 .kpi-sub{font-size:9px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;margin-top:3px}
 .chart-section{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:20px;margin-bottom:20px;position:relative}
-.chart-title{font-size:15px;font-weight:700;color:var(--text-bright);margin-bottom:4px}
-.chart-desc{font-size:12px;color:var(--text-dim);margin-bottom:16px}
+.chart-title{text-align:center;font-size:15px;font-weight:700;color:var(--text-bright);margin-bottom:4px}
+.chart-desc{text-align:center;font-size:12px;color:var(--text-dim);margin-bottom:16px}
 .chart-wrap{position:relative;width:100%;height:380px}
 .chart-wrap canvas{width:100%!important;height:100%!important}
 .reset-zoom{position:absolute;top:12px;right:12px;background:var(--accent);color:#000;border:none;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono',monospace;display:none;z-index:10}
@@ -45,57 +45,66 @@ tbody td{padding:6px 8px;text-align:right;border-bottom:1px solid #151515;font-f
 tbody td:first-child{text-align:left;color:var(--text-dim)}
 tbody tr:hover{background:rgba(0,212,170,.04)}
 .ticker-badge{display:inline-block;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700}
-.share-bar{display:flex;gap:8px;justify-content:center;padding:16px 0;flex-wrap:wrap}
-.share-btn{display:flex;align-items:center;gap:4px;padding:6px 14px;border-radius:20px;border:1px solid var(--card-border);background:transparent;color:var(--text-dim);font-size:12px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s}
-.share-btn:hover{border-color:var(--accent);color:var(--accent)}
-.guide-text{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:20px;margin-top:20px;font-size:13px;line-height:1.8;color:var(--text-dim)}
-.guide-text h2{color:var(--text-bright);font-size:16px;margin-bottom:12px}
-.guide-text h3{color:var(--text);font-size:14px;margin:16px 0 8px}
+
 .footer{text-align:center;padding:20px 0;font-size:11px;color:var(--text-dim);font-family:'JetBrains Mono',monospace}
 .footer a{color:var(--accent);text-decoration:none}
-@media(max-width:768px){.header h1{font-size:17px}.kpi-grid{grid-template-columns:repeat(2,1fr);gap:8px}.kpi-value{font-size:15px}.chart-wrap{height:300px}}
+@media(max-width:768px){.share-bar{flex-direction:column;gap:10px;align-items:stretch}.share-bar-preview{max-width:100%}.share-bar-buttons{justify-content:center;flex-wrap:wrap}.share-btn span.label-text{display:none}.share-btn{padding:8px 10px}.header h1{font-size:17px}.kpi-grid{grid-template-columns:repeat(2,1fr);gap:8px}.kpi-value{font-size:15px}.chart-wrap{height:300px}}
 @media(max-width:480px){.kpi-value{font-size:13px}.chart-wrap{height:250px}}
+.share-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--card-border);background:var(--card);border-radius:0 0 12px 12px;margin-bottom:20px}
+.share-bar-preview{font-size:.75rem;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:50%;line-height:1.4;font-family:'JetBrains Mono',monospace}
+.share-bar-preview span{color:var(--text);font-weight:500}
+.share-bar-buttons{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:.75rem;font-weight:600;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;border:1px solid var(--card-border);background:var(--card);color:#999;white-space:nowrap}
+.share-btn:hover{transform:translateY(-1px);color:var(--text-bright)}
+.share-btn svg{flex-shrink:0}
+.share-btn--x:hover{border-color:#fff;color:#fff;background:#111}
+.share-btn--kakao:hover{border-color:#FEE500;color:#191919;background:#FEE500}
+.share-btn--tg:hover{border-color:#26A5E4;color:#fff;background:rgba(38,165,228,.15)}
+.share-btn--copy:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,212,170,.08)}
+.toast-wrap{position:fixed;bottom:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--card);border:1px solid var(--card-border);border-radius:8px;padding:10px 18px;font-size:.788rem;color:var(--text-bright);box-shadow:0 4px 12px rgba(0,0,0,.4);animation:toastIn .3s ease;border-left:3px solid var(--accent)}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <h1>🏦 Strategy(MSTR) 주식 발행 & 자본 조달 트래커</h1>
-    <div class="subtitle">SEC 8-K 공시 기반 · MSTR + STRC + STRK + STRF + STRD ATM 발행 현황</div>
+    <h1> Strategy(MSTR)   &   </h1>
+    <div class="subtitle">SEC 8-K   · MSTR + STRC + STRK + STRF + STRD ATM  </div>
     <div class="last-updated" id="lastUpdated">Source: SEC EDGAR 8-K filings</div>
   </div>
 
   <!-- KPI -->
   <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-label">MSTR 보통주 발행</div><div class="kpi-value" style="color:var(--mstr)" id="kpiMstr">--</div><div class="kpi-sub" id="kpiMstrShares">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">STRC 우선주 (Stretch)</div><div class="kpi-value" style="color:var(--strc)" id="kpiStrc">--</div><div class="kpi-sub" id="kpiStrcShares">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">STRK 우선주 (Strike)</div><div class="kpi-value" style="color:var(--strk)" id="kpiStrk">--</div><div class="kpi-sub" id="kpiStrkShares">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">STRF 우선주 (Strife)</div><div class="kpi-value" style="color:var(--strf)" id="kpiStrf">--</div><div class="kpi-sub" id="kpiStrfShares">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">STRD 우선주 (Stride)</div><div class="kpi-value" style="color:var(--strd)" id="kpiStrd">--</div><div class="kpi-sub" id="kpiStrdShares">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">총 자본 조달</div><div class="kpi-value" style="color:var(--text-bright)" id="kpiTotal">--</div><div class="kpi-sub" id="kpiTotalBtc">→ BTC 매입 연결</div></div>
-    <div class="kpi-card"><div class="kpi-label">현재 mNAV</div><div class="kpi-value" style="color:var(--yellow)" id="kpiMnav">--</div><div class="kpi-sub" id="kpiMnavStatus">--</div></div>
+    <div class="kpi-card"><div class="kpi-label">MSTR  </div><div class="kpi-value" style="color:var(--mstr)" id="kpiMstr">--</div><div class="kpi-sub" id="kpiMstrShares">--</div></div>
+    <div class="kpi-card"><div class="kpi-label">STRC  (Stretch)</div><div class="kpi-value" style="color:var(--strc)" id="kpiStrc">--</div><div class="kpi-sub" id="kpiStrcShares">--</div></div>
+    <div class="kpi-card"><div class="kpi-label">STRK  (Strike)</div><div class="kpi-value" style="color:var(--strk)" id="kpiStrk">--</div><div class="kpi-sub" id="kpiStrkShares">--</div></div>
+    <div class="kpi-card"><div class="kpi-label">STRF  (Strife)</div><div class="kpi-value" style="color:var(--strf)" id="kpiStrf">--</div><div class="kpi-sub" id="kpiStrfShares">--</div></div>
+    <div class="kpi-card"><div class="kpi-label">STRD  (Stride)</div><div class="kpi-value" style="color:var(--strd)" id="kpiStrd">--</div><div class="kpi-sub" id="kpiStrdShares">--</div></div>
+    <div class="kpi-card"><div class="kpi-label">  </div><div class="kpi-value" style="color:var(--text-bright)" id="kpiTotal">--</div><div class="kpi-sub" id="kpiTotalBtc">→ BTC  </div></div>
+    <div class="kpi-card"><div class="kpi-label"> mNAV</div><div class="kpi-value" style="color:var(--yellow)" id="kpiMnav">--</div><div class="kpi-sub" id="kpiMnavStatus">--</div></div>
   </div>
 
   <!-- Chart M1: mNAV History -->
   <div class="chart-section">
-    <div class="chart-title">⚡ mNAV 멀티플 추이 (프리미엄 / 디스카운트)</div>
-    <div class="chart-desc">mNAV = Enterprise Value ÷ BTC 보유가치 · 1.0x = NAV 패리티 · 1.0 이상 프리미엄 · 이하 디스카운트</div>
-    <button class="reset-zoom" id="rzM1" onclick="chartM1.resetZoom()">🔄 리셋</button>
+    <div class="chart-title"> mNAV   ( / )</div>
+    <div class="chart-desc">mNAV = Enterprise Value ÷ BTC  · 1.0x = NAV  · 1.0   ·  </div>
+    <button class="reset-zoom" id="rzM1" onclick="chartM1.resetZoom()"> </button>
     <div class="chart-wrap"><canvas id="chartMnav"></canvas></div>
   </div>
 
   <!-- Chart M2: BTC vs MSTR dual axis -->
   <div class="chart-section">
-    <div class="chart-title">📉 BTC 가격 vs MSTR 주가</div>
-    <div class="chart-desc">듀얼 Y축 — BTC(주황, 좌) / MSTR(파랑, 우) · 괴리 = mNAV 변동 구간</div>
-    <button class="reset-zoom" id="rzM2" onclick="chartM2.resetZoom()">🔄 리셋</button>
+    <div class="chart-title"> BTC  vs MSTR </div>
+    <div class="chart-desc"> Y — BTC(, ) / MSTR(, ) ·  = mNAV  </div>
+    <button class="reset-zoom" id="rzM2" onclick="chartM2.resetZoom()"> </button>
     <div class="chart-wrap"><canvas id="chartBtcMstr"></canvas></div>
   </div>
 
   <!-- Chart 1: Stacked bar - weekly ATM proceeds by ticker -->
   <div class="chart-section">
-    <div class="chart-title">📊 주간 ATM 자본 조달 (티커별)</div>
-    <div class="chart-desc">매주 8-K 공시 기준 각 티커별 발행 수익금 (Stacked Bar)</div>
+    <div class="chart-title">  ATM   ()</div>
+    <div class="chart-desc"> 8-K       (Stacked Bar)</div>
     <div class="legend-row">
       <div class="legend-item"><div class="legend-dot" style="background:var(--mstr)"></div>MSTR</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--strc)"></div>STRC</div>
@@ -103,74 +112,62 @@ tbody tr:hover{background:rgba(0,212,170,.04)}
       <div class="legend-item"><div class="legend-dot" style="background:var(--strf)"></div>STRF</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--strd)"></div>STRD</div>
     </div>
-    <button class="reset-zoom" id="rz1" onclick="chart1.resetZoom()">🔄 리셋</button>
+    <button class="reset-zoom" id="rz1" onclick="chart1.resetZoom()"> </button>
     <div class="chart-wrap"><canvas id="chart1"></canvas></div>
   </div>
 
   <!-- Chart 2: Cumulative proceeds line -->
   <div class="chart-section">
-    <div class="chart-title">📈 누적 자본 조달 추이</div>
-    <div class="chart-desc">총 자본 조달 누적액 + 티커별 누적 비중</div>
-    <button class="reset-zoom" id="rz2" onclick="chart2.resetZoom()">🔄 리셋</button>
+    <div class="chart-title">    </div>
+    <div class="chart-desc">    +   </div>
+    <button class="reset-zoom" id="rz2" onclick="chart2.resetZoom()"> </button>
     <div class="chart-wrap"><canvas id="chart2"></canvas></div>
   </div>
 
   <!-- Chart 3: Pie - total proceeds by ticker -->
   <div class="chart-section">
-    <div class="chart-title">🍩 티커별 자본 조달 비중</div>
-    <div class="chart-desc">전체 ATM 발행 수익금 중 각 티커 비중</div>
+    <div class="chart-title">    </div>
+    <div class="chart-desc"> ATM      </div>
     <div class="chart-wrap" style="height:320px"><canvas id="chart3"></canvas></div>
   </div>
 
   <!-- Chart 4: ATM remaining capacity -->
   <div class="chart-section">
-    <div class="chart-title">📦 ATM 프로그램 잔여 한도</div>
-    <div class="chart-desc">2026년 3월 15일 기준 각 ATM 프로그램의 남은 발행 가능 금액</div>
+    <div class="chart-title"> ATM   </div>
+    <div class="chart-desc">2026 3 15   ATM     </div>
     <div class="chart-wrap" style="height:280px"><canvas id="chart4"></canvas></div>
   </div>
 
   <!-- Table -->
   <div class="chart-section">
-    <div class="chart-title">📋 주간 ATM 발행 이력</div>
-    <div class="chart-desc">SEC 8-K 공시 기반 — 최신순</div>
+    <div class="chart-title">  ATM  </div>
+    <div class="chart-desc">SEC 8-K   — </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>기간</th><th>MSTR ($M)</th><th>STRC ($M)</th><th>STRK ($M)</th><th>STRF ($M)</th><th>STRD ($M)</th><th>합계 ($M)</th><th>BTC 매입</th></tr></thead>
+        <thead><tr><th></th><th>MSTR ($M)</th><th>STRC ($M)</th><th>STRK ($M)</th><th>STRF ($M)</th><th>STRD ($M)</th><th> ($M)</th><th>BTC </th></tr></thead>
         <tbody id="issuanceTable"></tbody>
       </table>
     </div>
   </div>
 
-  <div class="share-bar">
-    <button class="share-btn" onclick="shareX()">𝕏 공유</button>
-    <button class="share-btn" onclick="shareKakao()">💬 카카오톡</button>
-    <button class="share-btn" onclick="shareTelegram()">✈️ 텔레그램</button>
-    <button class="share-btn" onclick="copyLink()">🔗 링크복사</button>
+    <div class="share-bar" style="border-top:none">
+    <div class="share-bar-preview"><span>Strategy — BTC & 자본조달 트래커</span> — herdvibe.com</div>
+    <div class="share-bar-buttons">
+      <button class="share-btn share-btn--x" onclick="doShare('twitter')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="label-text">트위터</span></button>
+      <button class="share-btn share-btn--kakao" onclick="doShare('kakao')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.463 2 10.691c0 2.724 1.8 5.112 4.508 6.458l-1.148 4.265a.5.5 0 0 0 .764.533l4.94-3.26c.304.02.612.03.936.03 5.523 0 10-3.462 10-7.735C22 6.463 17.523 3 12 3z"/></svg><span class="label-text">카카오톡</span></button>
+      <button class="share-btn share-btn--tg" onclick="doShare('telegram')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg><span class="label-text">텔레그램</span></button>
+      <button class="share-btn share-btn--copy" onclick="doShare('link',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span class="label-text">링크 복사</span></button>
+    </div>
   </div>
-
-  <div class="guide-text">
-    <h2>Strategy 자본 조달 대시보드 안내</h2>
-    <p>Strategy(MSTR)는 비트코인 매입을 위해 다양한 증권을 ATM(At-The-Market) 방식으로 발행합니다. 이 대시보드는 매주 공시되는 8-K 파일링에서 각 티커별 발행량과 수익금을 추적합니다.</p>
-    <h3>증권 구조</h3>
-    <p>MSTR: Class A 보통주 (Nasdaq). STRC(Stretch): 변동금리 우선주, 월배당, $100 액면가 근처 유지 설계, 현재 연 11.5% 배당. STRK(Strike): 전환형 우선주, 연 8% 비누적 배당. STRF(Strife): 비전환 우선주, 연 10% 누적 배당, 가장 보수적. STRD(Stride): 비전환 우선주, 연 10% 비누적 배당. STRE(Stream): 유로화 우선주, 연 10% 누적 배당.</p>
-    <h3>42/42 플랜</h3>
-    <p>Strategy는 2027년까지 총 $84B(840억 달러)를 주식 발행 + 전환사채로 조달하여 비트코인을 매입하는 "42/42 Plan"을 추진 중입니다. ATM 프로그램: STRK $21B, STRD $4.2B, STRF $2.1B, STRC $4.2B.</p>
-  </div>
-
-  <div class="footer">
-    <p>Herdvibe.com · Data: SEC EDGAR 8-K · <a href="https://www.strategy.com/purchases" target="_blank">strategy.com</a></p>
-    <p style="margin-top:4px">본 자료는 투자 권유가 아닙니다.</p>
-  </div>
-</div>
 
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
 <script>
-// ═══ WATERMARK ═══
+//  WATERMARK 
 Chart.register({id:'wm',afterDraw(c){const{ctx,chartArea:a}=c;if(!a)return;ctx.save();ctx.globalAlpha=.06;ctx.font='bold 24px JetBrains Mono';ctx.fillStyle='#fff';ctx.textAlign='center';ctx.fillText('Herdvibe.com',a.left+a.width/2,a.top+a.height/2);ctx.restore()}});
 Chart.defaults.color='#888';Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=10;
 Chart.defaults.plugins.legend.labels.usePointStyle=true;
 
-// ═══ DATA: Weekly ATM issuance from 8-K filings ═══
+//  DATA: Weekly ATM issuance from 8-K filings 
 // Each entry: {week, mstr_proceeds, strc_proceeds, strk_proceeds, strf_proceeds, strd_proceeds, btc_bought}
 // All proceeds in $M
 const issuanceData = [
@@ -241,7 +238,7 @@ const issuanceData = [
   {week:"2026-03-16",mstr:396,strc:1180,strk:0,strf:0,strd:0,btc:22337},
 ];
 
-// ═══ ATM Remaining Capacity as of Mar 15, 2026 ($M) ═══
+//  ATM Remaining Capacity as of Mar 15, 2026 ($M) 
 const atmCapacity = {
   MSTR: {total:21000,remaining:6317,color:'var(--mstr)'},
   STRC: {total:4200,remaining:1976,color:'var(--strc)'},
@@ -253,7 +250,7 @@ const atmCapacity = {
 let chart1,chart2,chart3,chart4;
 let chartM1,chartM2;
 
-// ═══ LOAD mNAV DATA ═══
+//  LOAD mNAV DATA 
 async function loadMnavData(){
   try{
     const r=await fetch('strategy_mnav.json');
@@ -275,11 +272,11 @@ async function renderMnavCharts(){
     const m=data.current.mnav;
     document.getElementById('kpiMnav').textContent=m.toFixed(2)+'x';
     const el=document.getElementById('kpiMnavStatus');
-    if(m>=1){el.textContent='프리미엄';el.style.color='var(--red)'}
-    else{el.textContent='디스카운트';el.style.color='var(--green)'}
+    if(m>=1){el.textContent='';el.style.color='var(--red)'}
+    else{el.textContent='';el.style.color='var(--green)'}
   }
 
-  // ═══ CHART M1: mNAV with premium/discount zones ═══
+  //  CHART M1: mNAV with premium/discount zones 
   const mnavCtx=document.getElementById('chartMnav').getContext('2d');
   
   // Background gradient plugin for premium/discount zones
@@ -349,8 +346,8 @@ async function renderMnavCharts(){
               `mNAV: ${d.mnav.toFixed(3)}x`,
               `BTC: $${d.btc_price?.toLocaleString()}`,
               `MSTR: $${d.mstr_price?.toLocaleString()}`,
-              `BTC 보유: ${d.btc_held?.toLocaleString()}`,
-              d.mnav>=1?'⬆ 프리미엄':'⬇ 디스카운트'
+              `BTC : ${d.btc_held?.toLocaleString()}`,
+              d.mnav>=1?' ':' '
             ];
           }
         }}
@@ -358,7 +355,7 @@ async function renderMnavCharts(){
     }
   });
 
-  // ═══ CHART M2: BTC vs MSTR dual axis ═══
+  //  CHART M2: BTC vs MSTR dual axis 
   const btcMstrCtx=document.getElementById('chartBtcMstr').getContext('2d');
   chartM2=new Chart(btcMstrCtx,{
     type:'line',
@@ -366,7 +363,7 @@ async function renderMnavCharts(){
       labels:w.map(d=>d.date),
       datasets:[
         {
-          label:'BTC 가격 (USD)',
+          label:'BTC  (USD)',
           data:w.map(d=>d.btc_price),
           borderColor:'rgba(247,147,26,1)',
           backgroundColor:'rgba(247,147,26,0.05)',
@@ -377,7 +374,7 @@ async function renderMnavCharts(){
           yAxisID:'yBtc',
         },
         {
-          label:'MSTR 주가 (USD)',
+          label:'MSTR  (USD)',
           data:w.map(d=>d.mstr_price),
           borderColor:'rgba(98,126,234,1)',
           backgroundColor:'rgba(98,126,234,0.05)',
@@ -413,31 +410,31 @@ async function renderMnavCharts(){
 
 renderMnavCharts();
 
-// ═══ HELPERS ═══
+//  HELPERS 
 function fmt(n){if(n==null||isNaN(n))return'--';if(Math.abs(n)>=1e3)return'$'+(n/1e3).toFixed(1)+'B';return'$'+n.toFixed(0)+'M'}
 function fmtM(n){if(n==null||isNaN(n))return'--';return'$'+n.toLocaleString('en-US',{maximumFractionDigits:0})+'M'}
 function fmtShares(n){if(n==null)return'--';if(n>=1e6)return(n/1e6).toFixed(1)+'M shares';return n.toLocaleString()+'shares'}
 function fmtNum(n){return n==null?'--':n.toLocaleString('en-US',{maximumFractionDigits:0})}
 
-// ═══ COMPUTE ═══
+//  COMPUTE 
 let totMstr=0,totStrc=0,totStrk=0,totStrf=0,totStrd=0;
 issuanceData.forEach(d=>{totMstr+=d.mstr;totStrc+=d.strc;totStrk+=d.strk;totStrf+=d.strf;totStrd+=d.strd});
 const totAll=totMstr+totStrc+totStrk+totStrf+totStrd;
 const totBtc=issuanceData.reduce((s,d)=>s+d.btc,0);
 
-// ═══ KPIs ═══
+//  KPIs 
 document.getElementById('kpiMstr').textContent=fmt(totMstr);
-document.getElementById('kpiMstrShares').textContent=`잔여: $${(atmCapacity.MSTR.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiMstrShares').textContent=`: $${(atmCapacity.MSTR.remaining/1e3).toFixed(1)}B`;
 document.getElementById('kpiStrc').textContent=fmt(totStrc);
-document.getElementById('kpiStrcShares').textContent=`잔여: $${(atmCapacity.STRC.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrcShares').textContent=`: $${(atmCapacity.STRC.remaining/1e3).toFixed(1)}B`;
 document.getElementById('kpiStrk').textContent=fmt(totStrk);
-document.getElementById('kpiStrkShares').textContent=`잔여: $${(atmCapacity.STRK.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrkShares').textContent=`: $${(atmCapacity.STRK.remaining/1e3).toFixed(1)}B`;
 document.getElementById('kpiStrf').textContent=fmt(totStrf);
-document.getElementById('kpiStrfShares').textContent=`잔여: $${(atmCapacity.STRF.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrfShares').textContent=`: $${(atmCapacity.STRF.remaining/1e3).toFixed(1)}B`;
 document.getElementById('kpiStrd').textContent=fmt(totStrd);
-document.getElementById('kpiStrdShares').textContent=`잔여: $${(atmCapacity.STRD.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrdShares').textContent=`: $${(atmCapacity.STRD.remaining/1e3).toFixed(1)}B`;
 document.getElementById('kpiTotal').textContent=fmt(totAll);
-document.getElementById('kpiTotalBtc').textContent=`→ ${fmtNum(totBtc)} BTC 매입`;
+document.getElementById('kpiTotalBtc').textContent=`→ ${fmtNum(totBtc)} BTC `;
 
 const syncCharts = ['chartM1','chartM2'];
 let syncing = false;
@@ -478,7 +475,7 @@ const zoomOpts=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x
 // Standalone zoom for ATM charts (no sync)
 const zoomAlone=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById(rzId).style.display='block'}},pan:{enabled:true,mode:'x'}});
 
-// ═══ CHART 1: Stacked Bar ═══
+//  CHART 1: Stacked Bar 
 chart1=new Chart(document.getElementById('chart1'),{
   type:'bar',
   data:{
@@ -497,7 +494,7 @@ chart1=new Chart(document.getElementById('chart1'),{
   },plugins:{zoom:zoomAlone('rz1'),tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.raw.toLocaleString()+'M'}}}}
 });
 
-// ═══ CHART 2: Cumulative Line ═══
+//  CHART 2: Cumulative Line 
 let cumM=0,cumS=0,cumK=0,cumF=0,cumD=0;
 const cumData=issuanceData.map(d=>{cumM+=d.mstr;cumS+=d.strc;cumK+=d.strk;cumF+=d.strf;cumD+=d.strd;return{t:cumM+cumS+cumK+cumF+cumD,m:cumM,s:cumS,k:cumK,f:cumF,d:cumD}});
 chart2=new Chart(document.getElementById('chart2'),{
@@ -505,7 +502,7 @@ chart2=new Chart(document.getElementById('chart2'),{
   data:{
     labels:issuanceData.map(d=>d.week),
     datasets:[
-      {label:'총 누적',data:cumData.map(d=>d.t),borderColor:'#fff',borderWidth:2.5,fill:false,tension:.2,pointRadius:2},
+      {label:' ',data:cumData.map(d=>d.t),borderColor:'#fff',borderWidth:2.5,fill:false,tension:.2,pointRadius:2},
       {label:'MSTR',data:cumData.map(d=>d.m),borderColor:'var(--mstr)',borderWidth:1.5,fill:false,tension:.2,pointRadius:0,borderDash:[4,2]},
       {label:'STRC',data:cumData.map(d=>d.s),borderColor:'var(--strc)',borderWidth:1.5,fill:false,tension:.2,pointRadius:0,borderDash:[4,2]},
     ]
@@ -516,7 +513,7 @@ chart2=new Chart(document.getElementById('chart2'),{
   },plugins:{zoom:zoomAlone('rz2'),tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.raw/1000).toFixed(2)+'B'}}}}
 });
 
-// ═══ CHART 3: Doughnut ═══
+//  CHART 3: Doughnut 
 chart3=new Chart(document.getElementById('chart3'),{
   type:'doughnut',
   data:{
@@ -527,7 +524,7 @@ chart3=new Chart(document.getElementById('chart3'),{
     tooltip:{callbacks:{label:c=>{const p=(c.raw/totAll*100).toFixed(1);return`${c.label}: $${(c.raw/1000).toFixed(1)}B (${p}%)`}}}}}
 });
 
-// ═══ CHART 4: Horizontal Bar - ATM Capacity ═══
+//  CHART 4: Horizontal Bar - ATM Capacity 
 const capLabels=Object.keys(atmCapacity);
 const capUsed=capLabels.map(k=>atmCapacity[k].total-atmCapacity[k].remaining);
 const capRemain=capLabels.map(k=>atmCapacity[k].remaining);
@@ -536,8 +533,8 @@ chart4=new Chart(document.getElementById('chart4'),{
   data:{
     labels:capLabels,
     datasets:[
-      {label:'사용됨',data:capUsed,backgroundColor:'rgba(255,255,255,.15)'},
-      {label:'잔여 한도',data:capRemain,backgroundColor:capLabels.map(k=>atmCapacity[k].color.replace('var(--','rgba(').replace(')',',.6)'))}
+      {label:'',data:capUsed,backgroundColor:'rgba(255,255,255,.15)'},
+      {label:' ',data:capRemain,backgroundColor:capLabels.map(k=>atmCapacity[k].color.replace('var(--','rgba(').replace(')',',.6)'))}
     ]
   },
   options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{
@@ -550,19 +547,28 @@ chart4=new Chart(document.getElementById('chart4'),{
 chart4.data.datasets[1].backgroundColor=['rgba(98,126,234,.6)','rgba(0,212,170,.6)','rgba(247,147,26,.6)','rgba(255,71,87,.6)','rgba(168,85,247,.6)'];
 chart4.update();
 
-// ═══ TABLE ═══
+//  TABLE 
 document.getElementById('issuanceTable').innerHTML=[...issuanceData].reverse().map(d=>{
   const tot=d.mstr+d.strc+d.strk+d.strf+d.strd;
   return`<tr><td>${d.week}</td><td style="color:var(--mstr)">${d.mstr?'$'+d.mstr.toLocaleString():'-'}</td><td style="color:var(--strc)">${d.strc?'$'+d.strc.toLocaleString():'-'}</td><td style="color:var(--strk)">${d.strk?'$'+d.strk.toLocaleString():'-'}</td><td style="color:var(--strf)">${d.strf?'$'+d.strf.toLocaleString():'-'}</td><td style="color:var(--strd)">${d.strd?'$'+d.strd.toLocaleString():'-'}</td><td style="color:var(--text-bright)">$${tot.toLocaleString()}</td><td style="color:var(--orange)">${d.btc.toLocaleString()}</td></tr>`;
 }).join('');
 
-// ═══ SHARE ═══
-function shareX(){window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent('📊 Strategy(MSTR) 자본조달 현황\n💰 총 '+fmt(totAll)+'\n🏦 MSTR: '+fmt(totMstr)+' | STRC: '+fmt(totStrc))}&url=${encodeURIComponent(location.href)}`,'_blank')}
-function shareKakao(){try{if(!Kakao.isInitialized())Kakao.init('a43ed7b39fac35458f4f9df925a279b5');Kakao.Share.sendDefault({objectType:'feed',content:{title:'Strategy 자본조달 트래커',description:'MSTR+STRC+STRK+STRF+STRD ATM 발행 현황',imageUrl:'https://herdvibe.com/images/og-strategy-equity.png',link:{mobileWebUrl:location.href,webUrl:location.href}}})}catch(e){copyLink()}}
-function shareTelegram(){window.open(`https://t.me/share/url?url=${encodeURIComponent(location.href)}&text=${encodeURIComponent('Strategy 자본조달 트래커')}`,'_blank')}
-function copyLink(){navigator.clipboard?navigator.clipboard.writeText(location.href).then(()=>alert('복사완료!')):alert(location.href)}
+//  SHARE 
+&url=${encodeURIComponent('https://herdvibe.com/131')}`,'_blank')}
+}})}catch(e){copyLink()}}
+&text=${encodeURIComponent('Strategy  ')}`,'_blank')}
 
-// ═══ IFRAME ═══
+//  IFRAME 
+
+var SHARE_URL='https://herdvibe.com/131';
+function ensureKakao(){try{if(typeof Kakao!=='undefined'&&!Kakao.isInitialized())Kakao.init('a43ed7b39fac35458f4f9df925a279b5');return typeof Kakao!=='undefined'&&Kakao.isInitialized();}catch(e){return false;}}
+ensureKakao();
+function kakaoShare(title,desc){if(!ensureKakao()){copyToClipboard(SHARE_URL);toast('링크 복사완료!');return;}try{Kakao.Share.sendDefault({objectType:'feed',content:{title:title||'Strategy BTC & 자본조달 트래커',description:desc||'MSTR mNAV, BTC매입, ATM 발행 현황',imageUrl:'https://raw.githubusercontent.com/kittycapital/kittycapital.github.io/main/assets/herdvibe-og.png',link:{mobileWebUrl:SHARE_URL,webUrl:SHARE_URL}},buttons:[{title:'대시보드 보기',link:{mobileWebUrl:SHARE_URL,webUrl:SHARE_URL}}]});}catch(e){copyToClipboard(SHARE_URL);toast('링크 복사완료!');}}
+function copyToClipboard(text){try{window.parent.postMessage({type:'clipboard',text:text},'*');}catch(e){}}
+function flashCopied(btn){if(!btn)return;var orig=btn.innerHTML;btn.style.background='#22c55e';btn.style.color='#fff';btn.style.borderColor='#22c55e';btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg><span class="label-text" style="color:#fff">복사됨!</span>';setTimeout(function(){btn.style.background='';btn.style.color='';btn.style.borderColor='';btn.innerHTML=orig;},2000);}
+function doShare(p,btn){var u=SHARE_URL;var t=encodeURIComponent('Strategy BTC & 자본조달 트래커 | herdvibe.com');var eu=encodeURIComponent(u);switch(p){case'twitter':window.open('https://twitter.com/intent/tweet?text='+t+'&url='+eu,'_blank');break;case'telegram':window.open('https://t.me/share/url?url='+eu+'&text='+t,'_blank');break;case'kakao':kakaoShare();break;case'link':copyToClipboard(u);flashCopied(btn);toast('링크가 복사되었습니다');break;}}
+function toast(msg){var c=document.querySelector('.toast-wrap');if(!c){c=document.createElement('div');c.className='toast-wrap';document.body.appendChild(c)}var t=document.createElement('div');t.className='toast';t.textContent=msg;c.appendChild(t);setTimeout(function(){t.style.opacity='0';t.style.transform='translateY(12px)';t.style.transition='.3s';setTimeout(function(){t.remove()},300)},3000)}
+
 function postHeight(){const w=window.innerWidth,h=Math.max(w>1024?4800:w>768?5000:5200,document.body.scrollHeight);window.parent.postMessage({type:'herdvibe-height',height:h},'*')}
 if(window.ResizeObserver){let t;new ResizeObserver(()=>{clearTimeout(t);t=setTimeout(postHeight,150)}).observe(document.body)}
 </script>
