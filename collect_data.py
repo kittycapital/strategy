@@ -173,6 +173,12 @@ def main():
 
         avg_price = amount / btc if btc > 0 and amount > 0 else 0
 
+        # Sanity check: BTC never traded above $150K, cap unreasonable values
+        if avg_price > 150000:
+            print(f"  ⚠️  {date}: avg ${avg_price:,.0f}/BTC looks wrong, capping to previous avg")
+            avg_price = 0  # Will be interpolated below
+            amount = 0     # Mark as suspect
+
         purchases.append({
             "date": date,
             "btc": int(btc),
@@ -184,6 +190,17 @@ def main():
 
     # Sort oldest first
     purchases.sort(key=lambda x: x["date"])
+
+    # Interpolate any zeroed-out avg_prices from sanity check
+    for i, p in enumerate(purchases):
+        if p["avg_price"] == 0 and p["btc"] > 0:
+            # Use nearest valid avg_price
+            prev = next((purchases[j]["avg_price"] for j in range(i-1, -1, -1) if purchases[j]["avg_price"] > 0), 0)
+            nxt = next((purchases[j]["avg_price"] for j in range(i+1, len(purchases)) if purchases[j]["avg_price"] > 0), 0)
+            p["avg_price"] = prev or nxt
+            p["total_usd"] = int(p["avg_price"] * p["btc"])
+            if prev or nxt:
+                print(f"  → Interpolated {p['date']}: ${p['avg_price']:,}/BTC")
 
     # Fix funding type for known early purchases
     funding_map = {
