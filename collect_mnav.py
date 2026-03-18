@@ -182,32 +182,21 @@ def main():
     if not mstr_prices:
         print("ERROR: No MSTR prices"); sys.exit(1)
 
-    # Generate weekly mNAV
-    print("\nCalculating mNAV...")
+    # Generate daily mNAV
+    print("\nCalculating daily mNAV...")
     start = datetime(2020, 8, 11)
     end = datetime.utcnow()
     
-    weekly = []
+    daily = []
     cur = start
-    last_week = None
 
     while cur <= end:
         ds = cur.strftime("%Y-%m-%d")
         
         bp = btc_prices.get(ds)
         mp = mstr_prices.get(ds)
-        
-        # Try nearby days if market closed
-        if not bp or not mp:
-            for off in [1, -1, 2, -2]:
-                alt = (cur + timedelta(days=off)).strftime("%Y-%m-%d")
-                if not bp and alt in btc_prices:
-                    bp = btc_prices[alt]
-                if not mp and alt in mstr_prices:
-                    mp = mstr_prices[alt]
 
-        week_key = cur.strftime("%Y-W%W")
-        if bp and mp and week_key != last_week:
+        if bp and mp:
             bh = get_stepped(BTC_HOLDINGS, ds)
             sh = get_stepped(SHARES_OUTSTANDING, ds)
             cap = get_stepped(CAPITAL_STRUCTURE, ds)
@@ -219,7 +208,7 @@ def main():
             mnav = ev / bval if bval > 0 else None
 
             if mnav and mnav > 0:
-                weekly.append({
+                daily.append({
                     "date": ds,
                     "btc_price": round(bp, 2),
                     "mstr_price": round(mp, 2),
@@ -227,49 +216,25 @@ def main():
                     "btc_held": bh,
                     "shares": sh,
                 })
-                last_week = week_key
 
         cur += timedelta(days=1)
-
-    # Always include the most recent available data point
-    latest_date = max(set(btc_prices.keys()) & set(mstr_prices.keys()))
-    if weekly and latest_date > weekly[-1]['date']:
-        bp = btc_prices[latest_date]
-        mp = mstr_prices[latest_date]
-        bh = get_stepped(BTC_HOLDINGS, latest_date)
-        sh = get_stepped(SHARES_OUTSTANDING, latest_date)
-        cap = get_stepped(CAPITAL_STRUCTURE, latest_date)
-        debt, pref, cash = cap[0], cap[1], cap[2]
-        mcap = mp * sh
-        ev = mcap + debt * 1e6 + pref * 1e6 - cash * 1e6
-        bval = bh * bp
-        mnav = ev / bval if bval > 0 else None
-        if mnav and mnav > 0:
-            weekly.append({
-                "date": latest_date,
-                "btc_price": round(bp, 2),
-                "mstr_price": round(mp, 2),
-                "mnav": round(mnav, 3),
-                "btc_held": bh,
-                "shares": sh,
-            })
 
     # Output
     output = {
         "last_updated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
         "source": "BTC & MSTR prices: yfinance (CSV cached), mNAV: calculated",
-        "current": weekly[-1] if weekly else None,
-        "weekly": weekly,
+        "current": daily[-1] if daily else None,
+        "weekly": daily,
     }
 
     with open(OUTPUT, "w") as f:
         json.dump(output, f, indent=2)
 
-    mnav_vals = [w['mnav'] for w in weekly]
-    print(f"\n✅ {len(weekly)} weekly entries")
-    if weekly:
+    mnav_vals = [w['mnav'] for w in daily]
+    print(f"\n✅ {len(daily)} daily entries")
+    if daily:
         print(f"   mNAV range: {min(mnav_vals):.2f}x - {max(mnav_vals):.2f}x")
-        l = weekly[-1]
+        l = daily[-1]
         print(f"   Latest: {l['date']} mNAV={l['mnav']}x BTC=${l['btc_price']:,.0f} MSTR=${l['mstr_price']:,.2f}")
     print(f"   Output: {OUTPUT}")
     print("=" * 55)
