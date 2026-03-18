@@ -1,8 +1,8 @@
-name: Update Strategy BTC Data
+name: Update Strategy BTC + mNAV Data
 
 on:
   schedule:
-    - cron: '0 8 * * 1-5'  # 평일 08:00 UTC (한국 17:00)
+    - cron: '0 8 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -24,8 +24,14 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Scrape bitbo.io
+      - name: Install yfinance
+        run: pip install yfinance
+
+      - name: Scrape BTC purchase data (bitbo.io)
         run: python collect_data.py
+
+      - name: Calculate mNAV (BTC CSV + yfinance)
+        run: python collect_mnav.py
 
       - name: Commit if changed
         run: |
@@ -35,7 +41,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes"
           else
-            git commit -m "📊 Update Strategy BTC data [$(date -u +%Y-%m-%d)]"
+            git commit -m "📊 Update Strategy data [$(date -u +%Y-%m-%d)]"
             git pull --rebase
             git push
           fi
