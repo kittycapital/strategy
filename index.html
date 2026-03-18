@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Strategy (MSTR)   &    | HerdVibe</title>
-<meta name="description" content="SEC EDGAR   Strategy(MSTR)   , ATM  , BTC   ">
+<title>Strategy (MSTR) 비트코인 매입 & 주식 발행 트래커 | HerdVibe</title>
+<meta name="description" content="SEC EDGAR 공시 기반 Strategy(MSTR) 비트코인 매수 이력, ATM 주식 발행, BTC 보유량 실시간 대시보드">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -76,65 +76,67 @@ tbody tr:hover{background:rgba(0,212,170,.04)}
 </head>
 <body>
 <div class="container">
-  <div class="header">
-    <h1><span class="btc-icon"></span> Strategy(MSTR)    <span class="mstr-icon"></span></h1>
-    <div class="subtitle">SEC EDGAR 8-K     · <a href="https://data.sec.gov/submissions/CIK0001050446.json" target="_blank">data source</a></div>
-    <div class="last-updated" id="lastUpdated">Loading...</div>
-  </div>
-  <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-label"> BTC </div><div class="kpi-value orange" id="kpiTotalBtc">--</div><div class="kpi-sub" id="kpiSupplyPct">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">  </div><div class="kpi-value green" id="kpiTotalCost">--</div><div class="kpi-sub" id="kpiAvgCost">: --</div></div>
-    <div class="kpi-card"><div class="kpi-label">BTC </div><div class="kpi-value blue" id="kpiMarketValue">--</div><div class="kpi-sub" id="kpiPnl">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">  </div><div class="kpi-value purple" id="kpiPurchaseCount">--</div><div class="kpi-sub" id="kpiFirstPurchase">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">BTC/</div><div class="kpi-value orange" id="kpiBtcPerShare">--</div><div class="kpi-sub">BTC Yield</div></div>
-    <div class="kpi-card"><div class="kpi-label"> BTC </div><div class="kpi-value green" id="kpiBtcPrice">--</div><div class="kpi-sub" id="kpiBtcChange">--</div></div>
-  </div>
-  <div class="chart-section">
-    <div class="chart-title">  BTC  &  </div>
-    <div class="chart-desc"> 8-K    () +  ()</div>
-    <button class="reset-zoom" id="resetZoom1" onclick="resetChart(chart1)"> </button>
-    <div class="chart-wrap"><canvas id="chart1"></canvas></div>
-  </div>
-  <div class="chart-section">
-    <div class="chart-title">   </div>
-    <div class="chart-desc"> 8-K  BTC      </div>
-    <div class="tab-bar" id="chart2Tabs">
-      <button class="tab-btn active" data-view="btc">BTC </button>
-      <button class="tab-btn" data-view="usd"> (USD)</button>
-    </div>
-    <button class="reset-zoom" id="resetZoom2" onclick="resetChart(chart2)"> </button>
-    <div class="chart-wrap"><canvas id="chart2"></canvas></div>
-  </div>
-  <div class="chart-section">
-    <div class="chart-title">   vs BTC </div>
-    <div class="chart-desc">    BTC  </div>
-    <button class="reset-zoom" id="resetZoom3" onclick="resetChart(chart3)"> </button>
-    <div class="chart-wrap"><canvas id="chart3"></canvas></div>
-  </div>
-  <div class="chart-section">
-    <div class="chart-title">    </div>
-    <div class="chart-desc"> BTC  </div>
-    <div class="chart-wrap" style="height:300px"><canvas id="chart4"></canvas></div>
-  </div>
-  <div class="chart-section">
-    <div class="chart-title">   </div>
-    <div class="chart-desc">SEC EDGAR 8-K   — </div>
-    <div class="table-wrap">
-      <table><thead><tr><th></th><th>BTC </th><th> </th><th> </th><th> BTC</th><th></th></tr></thead><tbody id="purchaseTable"></tbody></table>
-    </div>
-  </div>
-    <div class="share-bar" style="border-top:none">
-    <div class="share-bar-preview"><span>Strategy — BTC & 자본조달 트래커</span> — herdvibe.com</div>
-    <div class="share-bar-buttons">
-      <button class="share-btn share-btn--x" onclick="doShare('twitter')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="label-text">트위터</span></button>
-      <button class="share-btn share-btn--kakao" onclick="doShare('kakao')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.463 2 10.691c0 2.724 1.8 5.112 4.508 6.458l-1.148 4.265a.5.5 0 0 0 .764.533l4.94-3.26c.304.02.612.03.936.03 5.523 0 10-3.462 10-7.735C22 6.463 17.523 3 12 3z"/></svg><span class="label-text">카카오톡</span></button>
-      <button class="share-btn share-btn--tg" onclick="doShare('telegram')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg><span class="label-text">텔레그램</span></button>
-      <button class="share-btn share-btn--copy" onclick="doShare('link',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span class="label-text">링크 복사</span></button>
-    </div>
-  </div>
+ <div class="header">
+ <h1><span class="btc-icon"></span> Strategy(MSTR) 비트코인 매입 트래커 <span class="mstr-icon"></span></h1>
+ <div class="subtitle">SEC EDGAR 8-K 공시 기반 자동 업데이트 · <a href="https://data.sec.gov/submissions/CIK0001050446.json" target="_blank">data source</a></div>
+ <div class="last-updated" id="lastUpdated">Loading...</div>
+ </div>
+ <div class="kpi-grid">
+ <div class="kpi-card"><div class="kpi-label">총 BTC 보유량</div><div class="kpi-value orange" id="kpiTotalBtc">--</div><div class="kpi-sub" id="kpiSupplyPct">--</div></div>
+ <div class="kpi-card"><div class="kpi-label">총 매입 비용</div><div class="kpi-value green" id="kpiTotalCost">--</div><div class="kpi-sub" id="kpiAvgCost">평균단가: --</div></div>
+ <div class="kpi-card"><div class="kpi-label">BTC 시가평가</div><div class="kpi-value blue" id="kpiMarketValue">--</div><div class="kpi-sub" id="kpiPnl">--</div></div>
+ <div class="kpi-card"><div class="kpi-label">총 매입 횟수</div><div class="kpi-value purple" id="kpiPurchaseCount">--</div><div class="kpi-sub" id="kpiFirstPurchase">--</div></div>
+ <div class="kpi-card"><div class="kpi-label">BTC/주당</div><div class="kpi-value orange" id="kpiBtcPerShare">--</div><div class="kpi-sub">BTC Yield</div></div>
+ <div class="kpi-card"><div class="kpi-label">현재 BTC 가격</div><div class="kpi-value green" id="kpiBtcPrice">--</div><div class="kpi-sub" id="kpiBtcChange">--</div></div>
+ </div>
+ <div class="chart-section">
+ <div class="chart-title"> 누적 BTC 보유량 & 매입 단가</div>
+ <div class="chart-desc">각 8-K 공시 기준 누적 보유량(바) + 매입 평균단가(라인)</div>
+ <button class="reset-zoom" id="resetZoom1" onclick="resetChart(chart1)"> 리셋</button>
+ <div class="chart-wrap"><canvas id="chart1"></canvas></div>
+ </div>
+ <div class="chart-section">
+ <div class="chart-title"> 개별 매입 이벤트</div>
+ <div class="chart-desc">각 8-K 공시별 BTC 매입 수량 및 자금 조달 방식</div>
+ <div class="tab-bar" id="chart2Tabs">
+ <button class="tab-btn active" data-view="btc">BTC 수량</button>
+ <button class="tab-btn" data-view="usd">매입 금액(USD)</button>
+ </div>
+ <button class="reset-zoom" id="resetZoom2" onclick="resetChart(chart2)"> 리셋</button>
+ <div class="chart-wrap"><canvas id="chart2"></canvas></div>
+ </div>
+ <div class="chart-section">
+ <div class="chart-title">️ 평균 매입단가 vs BTC 시세</div>
+ <div class="chart-desc">누적 평균 매입단가 추이와 BTC 시장가 비교</div>
+ <button class="reset-zoom" id="resetZoom3" onclick="resetChart(chart3)"> 리셋</button>
+ <div class="chart-wrap"><canvas id="chart3"></canvas></div>
+ </div>
+ <div class="chart-section">
+ <div class="chart-title"> 자금 조달 방식 분석</div>
+ <div class="chart-desc">자금원별 BTC 매입 비중</div>
+ <div class="chart-wrap" style="height:300px"><canvas id="chart4"></canvas></div>
+ </div>
+ <div class="chart-section">
+ <div class="chart-title"> 전체 매입 이력</div>
+ <div class="chart-desc">SEC EDGAR 8-K 공시 기반 — 최신순</div>
+ <div class="table-wrap">
+ <table><thead><tr><th>날짜</th><th>BTC 수량</th><th>평균 단가</th><th>매입 금액</th><th>누적 BTC</th><th>자금원</th></tr></thead><tbody id="purchaseTable"></tbody></table>
+ </div>
+ </div>
+ <div class="share-bar">
+ <button class="share-btn" onclick="shareX()">𝕏 공유</button>
+ <button class="share-btn" onclick="shareKakao()"> 카카오톡</button>
+ <button class="share-btn" onclick="shareTelegram()">️ 텔레그램</button>
+ <button class="share-btn" onclick="copyLink()"> 링크복사</button>
+ </div>
+  <div class="footer">
+ <p>Herdvibe.com · Data: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001050446&type=8-K" target="_blank">SEC EDGAR</a> · BTC Price: CoinGecko</p>
+ <p style="margin-top:4px">본 자료는 투자 권유가 아닙니다. 투자의 책임은 본인에게 있습니다.</p>
+ </div>
+</div>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
 <script>
-/*  CONFIG  */
+/* ═══ CONFIG ═══ */
 const DATA_URLS = ['strategy_btc_seed.json'];
 let chart1,chart2,chart3,chart4;
 let purchaseData=[];
@@ -146,148 +148,148 @@ Chart.register({id:'watermark',afterDraw(c){const{ctx,chartArea:a}=c;if(!a)retur
 Chart.defaults.color='#888';Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=11;
 Chart.defaults.plugins.legend.labels.usePointStyle=true;Chart.defaults.plugins.legend.labels.pointStyleWidth=8;
 
-/*  HELPERS  */
+/* ═══ HELPERS ═══ */
 function fmt(n,d=0){if(n==null||isNaN(n))return'--';if(Math.abs(n)>=1e12)return'$'+(n/1e12).toFixed(1)+'T';if(Math.abs(n)>=1e9)return'$'+(n/1e9).toFixed(1)+'B';if(Math.abs(n)>=1e6)return'$'+(n/1e6).toFixed(1)+'M';return'$'+n.toLocaleString('en-US',{maximumFractionDigits:d})}
 function fmtBtc(n){if(n==null||isNaN(n))return'--';return n.toLocaleString('en-US',{maximumFractionDigits:0})+' BTC'}
 function fmtNum(n){if(n==null||isNaN(n))return'--';return n.toLocaleString('en-US',{maximumFractionDigits:0})}
 function getFundingColor(f){if(!f)return'rgba(136,136,136,.8)';if(f.includes('preferred'))return'rgba(247,147,26,.8)';if(f.includes('atm')||f.includes('sec'))return'rgba(98,126,234,.8)';if(f==='cash')return'rgba(0,212,170,.8)';if(f.includes('note')||f.includes('convertible'))return'rgba(168,85,247,.8)';if(f==='loan')return'rgba(255,71,87,.8)';return'rgba(136,136,136,.8)'}
-function getFundingLabel(f){if(!f)return'SEC 8-K';const m={'atm':'ATM ','atm_preferred':' ATM','cash':' ','convertible_notes':'','notes':'','loan':'','sec_8k':'SEC 8-K'};return m[f]||f}
+function getFundingLabel(f){if(!f)return'SEC 8-K';const m={'atm':'ATM 주식발행','atm_preferred':'우선주 ATM','cash':'보유 현금','convertible_notes':'전환사채','notes':'채권','loan':'담보대출','sec_8k':'SEC 8-K'};return m[f]||f}
 function getFundingBadgeClass(f){if(!f)return'funding-atm';if(f.includes('preferred'))return'funding-preferred';if(f.includes('atm')||f.includes('sec'))return'funding-atm';if(f==='cash')return'funding-cash';if(f.includes('note')||f.includes('convertible'))return'funding-notes';if(f==='loan')return'funding-loan';return'funding-atm'}
 function resetChart(c){if(c)c.resetZoom()}
 
-/*  DATA NORMALIZE — handles BOTH scraper + seed format  */
+/* ═══ DATA NORMALIZE — handles BOTH scraper + seed format ═══ */
 function normalizeData(raw){
-  // SEED format: { purchases: [{date, btc, avg_price, total_usd, cumulative_btc, funding}] }
-  if(raw.purchases && Array.isArray(raw.purchases)){
-    console.log(' SEED format, entries:', raw.purchases.length);
-    dataSource='seed';
-    return raw.purchases.map(p=>({date:p.date, btc:p.btc||0, avg_price:p.avg_price||0, total_usd:p.total_usd||0, cumulative_btc:p.cumulative_btc||0, funding:p.funding||'unknown'}));
-  }
-  // SCRAPER format: { filings: [{date, btc_purchases:[{btc_amount, aggregate_price_usd, avg_price_per_btc}], cumulative_btc}] }
-  if(raw.filings && Array.isArray(raw.filings)){
-    console.log(' SCRAPER format, entries:', raw.filings.length);
-    dataSource='scraper';
-    return raw.filings.filter(f=>f.btc_purchases&&f.btc_purchases.length>0).map(f=>{
-      let tBtc=0,tUsd=0,aPrice=0;
-      f.btc_purchases.forEach(p=>{tBtc+=p.btc_amount||0;tUsd+=p.aggregate_price_usd||0;if(p.avg_price_per_btc)aPrice=p.avg_price_per_btc});
-      if(!aPrice&&tBtc>0&&tUsd>0)aPrice=tUsd/tBtc;
-      return{date:f.date, btc:tBtc, avg_price:aPrice, total_usd:tUsd, cumulative_btc:f.cumulative_btc||0, funding:'sec_8k'};
-    });
-  }
-  console.warn(' Unknown format');
-  return[];
+ // SEED format: { purchases: [{date, btc, avg_price, total_usd, cumulative_btc, funding}] }
+ if(raw.purchases && Array.isArray(raw.purchases)){
+ console.log(' SEED format, entries:', raw.purchases.length);
+ dataSource='seed';
+ return raw.purchases.map(p=>({date:p.date, btc:p.btc||0, avg_price:p.avg_price||0, total_usd:p.total_usd||0, cumulative_btc:p.cumulative_btc||0, funding:p.funding||'unknown'}));
+ }
+ // SCRAPER format: { filings: [{date, btc_purchases:[{btc_amount, aggregate_price_usd, avg_price_per_btc}], cumulative_btc}] }
+ if(raw.filings && Array.isArray(raw.filings)){
+ console.log(' SCRAPER format, entries:', raw.filings.length);
+ dataSource='scraper';
+ return raw.filings.filter(f=>f.btc_purchases&&f.btc_purchases.length>0).map(f=>{
+ let tBtc=0,tUsd=0,aPrice=0;
+ f.btc_purchases.forEach(p=>{tBtc+=p.btc_amount||0;tUsd+=p.aggregate_price_usd||0;if(p.avg_price_per_btc)aPrice=p.avg_price_per_btc});
+ if(!aPrice&&tBtc>0&&tUsd>0)aPrice=tUsd/tBtc;
+ return{date:f.date, btc:tBtc, avg_price:aPrice, total_usd:tUsd, cumulative_btc:f.cumulative_btc||0, funding:'sec_8k'};
+ });
+ }
+ console.warn(' Unknown format');
+ return[];
 }
 
-/*  FETCH  */
+/* ═══ FETCH ═══ */
 async function fetchBtcPrice(){
-  try{const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');const d=await r.json();currentBtcPrice=d.bitcoin.usd;const c=d.bitcoin.usd_24h_change;document.getElementById('kpiBtcPrice').textContent=fmt(currentBtcPrice);const e=document.getElementById('kpiBtcChange');e.textContent=(c>=0?'+':'')+c.toFixed(1)+'% (24h)';e.style.color=c>=0?'var(--green)':'var(--red)';}catch(e){console.warn('CoinGecko:',e)}
+ try{const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');const d=await r.json();currentBtcPrice=d.bitcoin.usd;const c=d.bitcoin.usd_24h_change;document.getElementById('kpiBtcPrice').textContent=fmt(currentBtcPrice);const e=document.getElementById('kpiBtcChange');e.textContent=(c>=0?'+':'')+c.toFixed(1)+'% (24h)';e.style.color=c>=0?'var(--green)':'var(--red)';}catch(e){console.warn('CoinGecko:',e)}
 }
 
 async function fetchData(){
-  for(const url of DATA_URLS){
-    try{console.log('Trying:',url);const r=await fetch(url);if(!r.ok)continue;const d=await r.json();console.log('Loaded:',url,'keys:',Object.keys(d));return d}catch(e){console.warn('Failed:',url,e.message)}
-  }
-  return null;
+ for(const url of DATA_URLS){
+ try{console.log('Trying:',url);const r=await fetch(url);if(!r.ok)continue;const d=await r.json();console.log('Loaded:',url,'keys:',Object.keys(d));return d}catch(e){console.warn('Failed:',url,e.message)}
+ }
+ return null;
 }
 
-/*  INIT  */
+/* ═══ INIT ═══ */
 async function init(){
-  fetchBtcPrice();
-  const raw=await fetchData();
-  if(!raw){document.getElementById('lastUpdated').textContent='    ';return}
+ fetchBtcPrice();
+ const raw=await fetchData();
+ if(!raw){document.getElementById('lastUpdated').textContent=' 데이터를 불러올 수 없습니다';return}
 
-  purchaseData=normalizeData(raw);
-  console.log('Normalized:', purchaseData.length, 'entries');
-  if(!purchaseData.length){document.getElementById('lastUpdated').textContent='    (format: '+Object.keys(raw).join(',')+')';return}
+ purchaseData=normalizeData(raw);
+ console.log('Normalized:', purchaseData.length, 'entries');
+ if(!purchaseData.length){document.getElementById('lastUpdated').textContent=' 매입 데이터가 비어있습니다 (format: '+Object.keys(raw).join(',')+')';return}
 
-  purchaseData.sort((a,b)=>a.date.localeCompare(b.date));
+ purchaseData.sort((a,b)=>a.date.localeCompare(b.date));
 
-  // Recalc cumulative if needed
-  if(!purchaseData[purchaseData.length-1].cumulative_btc){let c=0;purchaseData.forEach(p=>{c+=p.btc;p.cumulative_btc=c})}
+ // Recalc cumulative if needed
+ if(!purchaseData[purchaseData.length-1].cumulative_btc){let c=0;purchaseData.forEach(p=>{c+=p.btc;p.cumulative_btc=c})}
 
-  document.getElementById('lastUpdated').textContent=` : ${raw.last_updated||'N/A'} · : SEC EDGAR · ${dataSource==='scraper'?' ':' '}`;
+ document.getElementById('lastUpdated').textContent=`마지막 업데이트: ${raw.last_updated||'N/A'} · 출처: SEC EDGAR · ${dataSource==='scraper'?'자동 스크래핑':'시드 데이터'}`;
 
-  const last=purchaseData[purchaseData.length-1];
-  const totalBtc=last.cumulative_btc||(raw.summary?.total_btc)||0;
-  const totalCost=purchaseData.reduce((s,p)=>s+(p.total_usd||0),0);
-  const avgCost=totalBtc>0?totalCost/totalBtc:0;
+ const last=purchaseData[purchaseData.length-1];
+ const totalBtc=last.cumulative_btc||(raw.summary?.total_btc)||0;
+ const totalCost=purchaseData.reduce((s,p)=>s+(p.total_usd||0),0);
+ const avgCost=totalBtc>0?totalCost/totalBtc:0;
 
-  document.getElementById('kpiTotalBtc').textContent=fmtBtc(totalBtc);
-  document.getElementById('kpiSupplyPct').textContent=`  ${(totalBtc/21000000*100).toFixed(3)}%`;
-  document.getElementById('kpiTotalCost').textContent=fmt(totalCost);
-  document.getElementById('kpiAvgCost').textContent=`: ${fmt(avgCost)}`;
-  document.getElementById('kpiPurchaseCount').textContent=purchaseData.length+'';
-  document.getElementById('kpiFirstPurchase').textContent=purchaseData[0].date+' ';
-  document.getElementById('kpiBtcPerShare').textContent=(totalBtc/268000000).toFixed(6);
+ document.getElementById('kpiTotalBtc').textContent=fmtBtc(totalBtc);
+ document.getElementById('kpiSupplyPct').textContent=`총 공급량의 ${(totalBtc/21000000*100).toFixed(3)}%`;
+ document.getElementById('kpiTotalCost').textContent=fmt(totalCost);
+ document.getElementById('kpiAvgCost').textContent=`평균단가: ${fmt(avgCost)}`;
+ document.getElementById('kpiPurchaseCount').textContent=purchaseData.length+'회';
+ document.getElementById('kpiFirstPurchase').textContent=purchaseData[0].date+' 시작';
+ document.getElementById('kpiBtcPerShare').textContent=(totalBtc/268000000).toFixed(6);
 
-  // Wait for BTC price
-  await new Promise(r=>setTimeout(r,1500));
-  if(currentBtcPrice){
-    const mv=totalBtc*currentBtcPrice,pnl=mv-totalCost,pct=totalCost>0?(pnl/totalCost*100):0;
-    document.getElementById('kpiMarketValue').textContent=fmt(mv);
-    const e=document.getElementById('kpiPnl');e.textContent=`${pnl>=0?'+':''}${fmt(pnl)} (${pnl>=0?'+':''}${pct.toFixed(1)}%)`;e.style.color=pnl>=0?'var(--green)':'var(--red)';
-  }
+ // Wait for BTC price
+ await new Promise(r=>setTimeout(r,1500));
+ if(currentBtcPrice){
+ const mv=totalBtc*currentBtcPrice,pnl=mv-totalCost,pct=totalCost>0?(pnl/totalCost*100):0;
+ document.getElementById('kpiMarketValue').textContent=fmt(mv);
+ const e=document.getElementById('kpiPnl');e.textContent=`${pnl>=0?'+':''}${fmt(pnl)} (${pnl>=0?'+':''}${pct.toFixed(1)}%)`;e.style.color=pnl>=0?'var(--green)':'var(--red)';
+ }
 
-  renderChart1();renderChart2('btc');renderChart3();renderChart4();renderTable();
+ renderChart1();renderChart2('btc');renderChart3();renderChart4();renderTable();
 
-  document.querySelectorAll('#chart2Tabs .tab-btn').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('#chart2Tabs .tab-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderChart2(b.dataset.view)})});
+ document.querySelectorAll('#chart2Tabs .tab-btn').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('#chart2Tabs .tab-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderChart2(b.dataset.view)})});
 }
 
-/*  CHARTS  */
+/* ═══ CHARTS ═══ */
 function renderChart1(){
-  const ctx=document.getElementById('chart1').getContext('2d');
-  if(chart1)chart1.destroy();
-  chart1=new Chart(ctx,{type:'bar',data:{labels:purchaseData.map(p=>p.date),datasets:[
-    {label:' BTC ',data:purchaseData.map(p=>p.cumulative_btc),backgroundColor:'rgba(247,147,26,.5)',borderColor:'rgba(247,147,26,.8)',borderWidth:1,yAxisID:'y',order:2,barPercentage:.7},
-    {label:'  (USD)',data:purchaseData.map(p=>p.avg_price||null),type:'line',borderColor:'rgba(0,212,170,1)',pointRadius:3,pointBackgroundColor:'rgba(0,212,170,1)',borderWidth:2,fill:false,yAxisID:'y1',order:1,tension:.1,spanGaps:true}
-  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    scales:{x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},y:{position:'left',grid:{color:'rgba(255,255,255,.05)'},title:{display:true,text:'BTC ',color:'#f7931a'},ticks:{callback:v=>(v/1000).toFixed(0)+'K'}},y1:{position:'right',grid:{display:false},title:{display:true,text:'  (USD)',color:'#00d4aa'},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}},
-    plugins:{zoom:{zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById('resetZoom1').style.display='block'}},pan:{enabled:true,mode:'x'}},tooltip:{callbacks:{label:c=>c.dataset.label.includes('BTC')?`: ${fmtNum(c.raw)} BTC`:`: ${fmt(c.raw)}`}}}}});
+ const ctx=document.getElementById('chart1').getContext('2d');
+ if(chart1)chart1.destroy();
+ chart1=new Chart(ctx,{type:'bar',data:{labels:purchaseData.map(p=>p.date),datasets:[
+ {label:'누적 BTC 보유량',data:purchaseData.map(p=>p.cumulative_btc),backgroundColor:'rgba(247,147,26,.5)',borderColor:'rgba(247,147,26,.8)',borderWidth:1,yAxisID:'y',order:2,barPercentage:.7},
+ {label:'매입 평균단가 (USD)',data:purchaseData.map(p=>p.avg_price||null),type:'line',borderColor:'rgba(0,212,170,1)',pointRadius:3,pointBackgroundColor:'rgba(0,212,170,1)',borderWidth:2,fill:false,yAxisID:'y1',order:1,tension:.1,spanGaps:true}
+ ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+ scales:{x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},y:{position:'left',grid:{color:'rgba(255,255,255,.05)'},title:{display:true,text:'BTC 보유량',color:'#f7931a'},ticks:{callback:v=>(v/1000).toFixed(0)+'K'}},y1:{position:'right',grid:{display:false},title:{display:true,text:'매입 단가 (USD)',color:'#00d4aa'},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}},
+ plugins:{zoom:{zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById('resetZoom1').style.display='block'}},pan:{enabled:true,mode:'x'}},tooltip:{callbacks:{label:c=>c.dataset.label.includes('BTC')?`보유: ${fmtNum(c.raw)} BTC`:`단가: ${fmt(c.raw)}`}}}}});
 }
 
 function renderChart2(view){
-  const ctx=document.getElementById('chart2').getContext('2d');
-  const vals=view==='btc'?purchaseData.map(p=>p.btc):purchaseData.map(p=>p.total_usd);
-  if(chart2)chart2.destroy();
-  chart2=new Chart(ctx,{type:'bar',data:{labels:purchaseData.map(p=>p.date),datasets:[{label:view==='btc'?'BTC ':'  (USD)',data:vals,backgroundColor:purchaseData.map(p=>getFundingColor(p.funding)),borderWidth:1,barPercentage:.8}]},
-    options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>view==='btc'?fmtNum(v):fmt(v)}}},
-    plugins:{legend:{display:false},zoom:{zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById('resetZoom2').style.display='block'}},pan:{enabled:true,mode:'x'}},
-    tooltip:{callbacks:{label:c=>{const p=purchaseData[c.dataIndex];return view==='btc'?[`: ${fmtNum(p.btc)} BTC`,`: ${fmt(p.avg_price)}`,`: ${getFundingLabel(p.funding)}`]:[`: ${fmt(p.total_usd)}`,`: ${fmtNum(p.btc)} BTC`]}}}}}});
+ const ctx=document.getElementById('chart2').getContext('2d');
+ const vals=view==='btc'?purchaseData.map(p=>p.btc):purchaseData.map(p=>p.total_usd);
+ if(chart2)chart2.destroy();
+ chart2=new Chart(ctx,{type:'bar',data:{labels:purchaseData.map(p=>p.date),datasets:[{label:view==='btc'?'BTC 매입량':'매입 금액 (USD)',data:vals,backgroundColor:purchaseData.map(p=>getFundingColor(p.funding)),borderWidth:1,barPercentage:.8}]},
+ options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>view==='btc'?fmtNum(v):fmt(v)}}},
+ plugins:{legend:{display:false},zoom:{zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById('resetZoom2').style.display='block'}},pan:{enabled:true,mode:'x'}},
+ tooltip:{callbacks:{label:c=>{const p=purchaseData[c.dataIndex];return view==='btc'?[`매입: ${fmtNum(p.btc)} BTC`,`단가: ${fmt(p.avg_price)}`,`자금: ${getFundingLabel(p.funding)}`]:[`금액: ${fmt(p.total_usd)}`,`수량: ${fmtNum(p.btc)} BTC`]}}}}}});
 }
 
 function renderChart3(){
-  const ctx=document.getElementById('chart3').getContext('2d');
-  let rc=0,rb=0;
-  const cb=purchaseData.map(p=>{rc+=p.total_usd||0;rb+=p.btc||0;return rb>0?rc/rb:null});
-  if(chart3)chart3.destroy();
-  chart3=new Chart(ctx,{type:'line',data:{labels:purchaseData.map(p=>p.date),datasets:[
-    {label:'  ',data:cb,borderColor:'rgba(0,212,170,1)',backgroundColor:'rgba(0,212,170,.05)',borderWidth:2.5,fill:true,tension:.2,pointRadius:2,spanGaps:true},
-    {label:' BTC ',data:purchaseData.map(p=>p.avg_price||null),borderColor:'rgba(247,147,26,1)',borderWidth:2,borderDash:[5,3],fill:false,tension:.1,pointRadius:3,pointBackgroundColor:'rgba(247,147,26,1)',spanGaps:true}
-  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    scales:{x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}},
-    plugins:{zoom:{zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById('resetZoom3').style.display='block'}},pan:{enabled:true,mode:'x'}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.raw)}`}}}}});
+ const ctx=document.getElementById('chart3').getContext('2d');
+ let rc=0,rb=0;
+ const cb=purchaseData.map(p=>{rc+=p.total_usd||0;rb+=p.btc||0;return rb>0?rc/rb:null});
+ if(chart3)chart3.destroy();
+ chart3=new Chart(ctx,{type:'line',data:{labels:purchaseData.map(p=>p.date),datasets:[
+ {label:'누적 평균 매입단가',data:cb,borderColor:'rgba(0,212,170,1)',backgroundColor:'rgba(0,212,170,.05)',borderWidth:2.5,fill:true,tension:.2,pointRadius:2,spanGaps:true},
+ {label:'매입시 BTC 가격',data:purchaseData.map(p=>p.avg_price||null),borderColor:'rgba(247,147,26,1)',borderWidth:2,borderDash:[5,3],fill:false,tension:.1,pointRadius:3,pointBackgroundColor:'rgba(247,147,26,1)',spanGaps:true}
+ ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+ scales:{x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}},
+ plugins:{zoom:{zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById('resetZoom3').style.display='block'}},pan:{enabled:true,mode:'x'}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.raw)}`}}}}});
 }
 
 function renderChart4(){
-  const ctx=document.getElementById('chart4').getContext('2d');
-  const m={};purchaseData.forEach(p=>{const k=p.funding||'unknown';m[k]=(m[k]||0)+(p.btc||0)});
-  const e=Object.entries(m).sort((a,b)=>b[1]-a[1]);
-  if(chart4)chart4.destroy();
-  chart4=new Chart(ctx,{type:'doughnut',data:{labels:e.map(x=>getFundingLabel(x[0])),datasets:[{data:e.map(x=>x[1]),backgroundColor:e.map(x=>getFundingColor(x[0])),borderColor:'#111',borderWidth:2}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:12,font:{size:11}}},tooltip:{callbacks:{label:c=>{const t=c.dataset.data.reduce((a,b)=>a+b,0);return`${c.label}: ${fmtNum(c.raw)} BTC (${(c.raw/t*100).toFixed(1)}%)`}}}}}});
+ const ctx=document.getElementById('chart4').getContext('2d');
+ const m={};purchaseData.forEach(p=>{const k=p.funding||'unknown';m[k]=(m[k]||0)+(p.btc||0)});
+ const e=Object.entries(m).sort((a,b)=>b[1]-a[1]);
+ if(chart4)chart4.destroy();
+ chart4=new Chart(ctx,{type:'doughnut',data:{labels:e.map(x=>getFundingLabel(x[0])),datasets:[{data:e.map(x=>x[1]),backgroundColor:e.map(x=>getFundingColor(x[0])),borderColor:'#111',borderWidth:2}]},
+ options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:12,font:{size:11}}},tooltip:{callbacks:{label:c=>{const t=c.dataset.data.reduce((a,b)=>a+b,0);return`${c.label}: ${fmtNum(c.raw)} BTC (${(c.raw/t*100).toFixed(1)}%)`}}}}}});
 }
 
 function renderTable(){
-  document.getElementById('purchaseTable').innerHTML=[...purchaseData].reverse().map(p=>`<tr><td>${p.date}</td><td style="color:var(--orange)">${fmtNum(p.btc)}</td><td>${fmt(p.avg_price)}</td><td>${fmt(p.total_usd)}</td><td style="color:var(--text-bright)">${fmtNum(p.cumulative_btc)}</td><td><span class="funding-badge ${getFundingBadgeClass(p.funding)}">${getFundingLabel(p.funding)}</span></td></tr>`).join('');
+ document.getElementById('purchaseTable').innerHTML=[...purchaseData].reverse().map(p=>`<tr><td>${p.date}</td><td style="color:var(--orange)">${fmtNum(p.btc)}</td><td>${fmt(p.avg_price)}</td><td>${fmt(p.total_usd)}</td><td style="color:var(--text-bright)">${fmtNum(p.cumulative_btc)}</td><td><span class="funding-badge ${getFundingBadgeClass(p.funding)}">${getFundingLabel(p.funding)}</span></td></tr>`).join('');
 }
 
-/*  SHARE  */
-\n ${document.getElementById('kpiTotalCost').textContent}`)}&url=${encodeURIComponent('https://herdvibe.com/131')}`,'_blank')}
+/* ═══ SHARE ═══ */
+\n ${document.getElementById('kpiTotalCost').textContent}`)}&url=${encodeURIComponent(location.href)}`,'_blank')}
 }})}catch(e){copyLink()}}
-&text=${encodeURIComponent('Strategy(MSTR) BTC ')}`,'_blank')}
-else{const t=document.createElement('textarea');t.value='https://herdvibe.com/131';document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);alert('!')}}
+&text=${encodeURIComponent('Strategy(MSTR) BTC 트래커')}`,'_blank')}
+else{const t=document.createElement('textarea');t.value=location.href;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);alert('복사완료!')}}
 
-/*  IFRAME HEIGHT  */
+/* ═══ IFRAME HEIGHT ═══ */
 
 var SHARE_URL='https://herdvibe.com/131';
 function ensureKakao(){try{if(typeof Kakao!=='undefined'&&!Kakao.isInitialized())Kakao.init('a43ed7b39fac35458f4f9df925a279b5');return typeof Kakao!=='undefined'&&Kakao.isInitialized();}catch(e){return false;}}
