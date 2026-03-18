@@ -1,56 +1,47 @@
 #!/usr/bin/env python3
 """
-Strategy (MSTR) mNAV Calculator + BTC/MSTR Price History
-Uses: BTC_USD.csv (local) + yfinance (MSTR price/shares)
-Outputs: strategy_mnav.json for dashboard charts.
-
-mNAV = Enterprise Value / BTC Value
-EV = Market Cap + Total Debt + Preferred Equity - Cash
-BTC Value = BTC Holdings × BTC Price
+Strategy (MSTR) mNAV Calculator
+- Updates BTC_USD.csv and MSTR_USD.csv from yfinance daily
+- Calculates mNAV from CSVs + capital structure
+- Outputs strategy_mnav.json
 """
 
-import json
-import csv
-import sys
-import os
+import json, csv, os, sys
 from datetime import datetime, timedelta
 
-# ─── Try importing yfinance ───
 try:
     import yfinance as yf
     HAS_YF = True
 except ImportError:
-    print("⚠️  yfinance not installed, using seed data only")
+    print("⚠️  yfinance not installed")
     HAS_YF = False
 
-# ─── Config ───
 BTC_CSV = "BTC_USD.csv"
+MSTR_CSV = "MSTR_USD.csv"
 OUTPUT = "strategy_mnav.json"
 
-# Strategy capital structure (updated periodically from 10-K/10-Q)
-# These are stepped values - update when new filings come out
+# ─── Capital Structure (date, debt_M, preferred_notional_M, cash_M) ───
 CAPITAL_STRUCTURE = [
-    # (from_date, debt_M, preferred_notional_M, cash_M)
     ("2020-08-01", 0, 0, 600),
-    ("2020-12-21", 650, 0, 60),       # First convertible notes
-    ("2021-02-24", 1700, 0, 60),      # More converts
+    ("2020-12-21", 650, 0, 60),
+    ("2021-02-24", 1700, 0, 60),
     ("2021-06-21", 2200, 0, 60),
-    ("2022-04-05", 2400, 0, 50),      # Silvergate loan
-    ("2023-01-01", 2200, 0, 50),      # Paid off Silvergate
+    ("2022-04-05", 2400, 0, 50),
+    ("2023-01-01", 2200, 0, 50),
     ("2024-03-01", 3400, 0, 50),
     ("2024-09-20", 4200, 0, 50),
-    ("2024-11-25", 7200, 0, 100),     # Massive converts
-    ("2025-01-01", 7200, 875, 100),   # STRK preferred added
-    ("2025-02-10", 7200, 1750, 200),  # STRK + STRF
-    ("2025-06-01", 7200, 2000, 500),  # STRD added
-    ("2025-07-01", 7200, 2200, 1000), # STRC added
+    ("2024-11-25", 7200, 0, 100),
+    ("2025-01-01", 7200, 875, 100),
+    ("2025-02-10", 7200, 1750, 200),
+    ("2025-06-01", 7200, 2000, 500),
+    ("2025-07-01", 7200, 2200, 1000),
     ("2025-10-01", 8200, 2200, 2000),
     ("2025-12-01", 8200, 2200, 2250),
-    ("2026-01-01", 8200, 2500, 2250), # More STRC
-    ("2026-03-01", 8200, 3500, 2250), # STRC ramp-up
+    ("2026-01-01", 8200, 2500, 2250),
+    ("2026-03-01", 8200, 3500, 2250),
 ]
 
-# BTC holdings history (from our seed data - cumulative at key dates)
+# ─── BTC Holdings (date, cumulative_btc) ───
 BTC_HOLDINGS = [
     ("2020-08-11", 21454), ("2020-09-14", 38250), ("2020-12-04", 40824),
     ("2020-12-21", 70470), ("2021-02-24", 90531), ("2021-06-21", 105085),
@@ -79,39 +70,38 @@ BTC_HOLDINGS = [
     ("2026-03-09", 738731), ("2026-03-16", 761068),
 ]
 
-# Shares outstanding history (approximate, from 10-Q/10-K)
+# ─── Shares Outstanding (ALL split-adjusted to post-Aug 2024 10:1 split) ───
+# yfinance returns split-adjusted prices, so shares must also be split-adjusted
 SHARES_OUTSTANDING = [
-    ("2020-08-01", 9940000),    # Pre-split era, class A + B
-    ("2021-01-01", 10340000),
-    ("2021-09-13", 11360000),   # After ATM sales
-    ("2022-01-01", 11430000),
-    ("2023-01-01", 11630000),
-    ("2024-01-01", 14230000),
-    ("2024-09-13", 16780000),   # ATM acceleration
-    ("2024-11-11", 198000000),  # Post 10:1 stock split Aug 2024 + massive ATM
-    ("2024-11-18", 210000000),
-    ("2024-11-25", 225000000),
-    ("2024-12-09", 240000000),
-    ("2024-12-31", 246000000),
-    ("2025-01-21", 256000000),
-    ("2025-02-01", 260000000),
-    ("2025-03-31", 268000000),
-    ("2025-05-12", 275000000),
-    ("2025-06-16", 279000000),
-    ("2025-07-29", 285000000),
-    ("2025-09-01", 288000000),
-    ("2025-12-01", 293000000),
-    ("2026-01-12", 303000000),
-    ("2026-01-20", 313000000),
-    ("2026-02-01", 316000000),
-    ("2026-03-01", 320000000),
-    ("2026-03-16", 325000000),
+    ("2020-08-01", 99_400_000),    # 9.94M × 10
+    ("2021-01-01", 103_400_000),   # 10.34M × 10
+    ("2021-09-13", 113_600_000),   # 11.36M × 10
+    ("2022-01-01", 114_300_000),   # 11.43M × 10
+    ("2023-01-01", 116_300_000),   # 11.63M × 10
+    ("2024-01-01", 142_300_000),   # 14.23M × 10
+    ("2024-08-08", 167_800_000),   # Post split (same number)
+    ("2024-09-13", 167_800_000),
+    ("2024-11-11", 198_000_000),
+    ("2024-11-18", 210_000_000),
+    ("2024-11-25", 225_000_000),
+    ("2024-12-09", 240_000_000),
+    ("2024-12-31", 246_000_000),
+    ("2025-01-21", 256_000_000),
+    ("2025-03-31", 268_000_000),
+    ("2025-05-12", 275_000_000),
+    ("2025-07-29", 285_000_000),
+    ("2025-09-01", 288_000_000),
+    ("2025-12-01", 293_000_000),
+    ("2026-01-12", 303_000_000),
+    ("2026-01-20", 313_000_000),
+    ("2026-02-01", 316_000_000),
+    ("2026-03-01", 320_000_000),
+    ("2026-03-16", 325_000_000),
 ]
 
 
-def get_stepped_value(history, date_str):
-    """Get the most recent value from a stepped history list.
-    Works with (date, val) and (date, v1, v2, v3) tuples."""
+def get_stepped(history, date_str):
+    """Get most recent value. Works with (date, val) and (date, v1, v2, v3)."""
     val = history[0][1] if len(history[0]) == 2 else history[0][1:]
     for item in history:
         if date_str >= item[0]:
@@ -121,12 +111,13 @@ def get_stepped_value(history, date_str):
     return val
 
 
-def load_btc_csv():
-    """Load BTC prices from CSV."""
+def load_csv(path):
+    """Load Date→Close from CSV."""
     prices = {}
-    with open(BTC_CSV, 'r') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
+    if not os.path.exists(path):
+        return prices
+    with open(path, 'r') as f:
+        for row in csv.DictReader(f):
             try:
                 prices[row['Date']] = float(row['Close'])
             except (ValueError, KeyError):
@@ -134,46 +125,46 @@ def load_btc_csv():
     return prices
 
 
-def fetch_mstr_yfinance(start_date="2020-08-01"):
-    """Fetch MSTR daily close prices from yfinance."""
+def save_csv(path, prices_dict):
+    """Save prices dict {date: close} to CSV."""
+    rows = sorted(prices_dict.items())
+    with open(path, 'w', newline='') as f:
+        w = csv.writer(f)
+        w.writerow(['Date', 'Close'])
+        for date, close in rows:
+            w.writerow([date, round(close, 2)])
+
+
+def update_csv_from_yfinance(ticker, csv_path):
+    """Fetch latest prices from yfinance and merge into CSV."""
     if not HAS_YF:
-        return {}
+        return load_csv(csv_path)
+
+    existing = load_csv(csv_path)
     
-    print("Fetching MSTR data from yfinance...")
+    # Find the last date in CSV, fetch from there
+    if existing:
+        last_date = max(existing.keys())
+        start = (datetime.strptime(last_date, "%Y-%m-%d") - timedelta(days=3)).strftime("%Y-%m-%d")
+        print(f"  {csv_path}: updating from {start} (had {len(existing)} days)")
+    else:
+        start = "2020-08-01"
+        print(f"  {csv_path}: fresh download from {start}")
+
     try:
-        mstr = yf.Ticker("MSTR")
-        hist = mstr.history(start=start_date, auto_adjust=True)
-        prices = {}
-        for idx, row in hist.iterrows():
-            date_str = idx.strftime("%Y-%m-%d")
-            prices[date_str] = float(row['Close'])
-        print(f"  Got {len(prices)} MSTR price points")
-        
-        # Also try to get current shares outstanding
-        info = mstr.info
-        shares = info.get('sharesOutstanding', None)
-        if shares:
-            print(f"  Current shares outstanding: {shares:,.0f}")
-        
-        return prices
+        data = yf.Ticker(ticker).history(start=start, auto_adjust=True)
+        new_count = 0
+        for idx, row in data.iterrows():
+            ds = idx.strftime("%Y-%m-%d")
+            if ds not in existing or ds >= last_date if existing else True:
+                existing[ds] = float(row['Close'])
+                new_count += 1
+        print(f"  {csv_path}: +{new_count} new days, total {len(existing)}")
     except Exception as e:
-        print(f"  yfinance error: {e}")
-        return {}
+        print(f"  yfinance error for {ticker}: {e}")
 
-
-def calculate_mnav(date_str, btc_price, mstr_price, btc_held, shares, debt_m, pref_m, cash_m):
-    """Calculate mNAV for a given date."""
-    if not btc_price or not mstr_price or not btc_held or not shares:
-        return None
-    
-    market_cap = mstr_price * shares
-    ev = market_cap + (debt_m * 1e6) + (pref_m * 1e6) - (cash_m * 1e6)
-    btc_value = btc_held * btc_price
-    
-    if btc_value <= 0:
-        return None
-    
-    return ev / btc_value
+    save_csv(csv_path, existing)
+    return existing
 
 
 def main():
@@ -181,96 +172,82 @@ def main():
     print("Strategy mNAV Calculator")
     print("=" * 55)
 
-    # Load BTC prices
-    btc_prices = load_btc_csv()
-    print(f"BTC prices loaded: {len(btc_prices)} days")
+    # Update CSVs from yfinance
+    print("\nUpdating price CSVs...")
+    btc_prices = update_csv_from_yfinance("BTC-USD", BTC_CSV)
+    mstr_prices = update_csv_from_yfinance("MSTR", MSTR_CSV)
 
-    # Fetch MSTR prices
-    mstr_prices = fetch_mstr_yfinance()
+    if not btc_prices:
+        print("ERROR: No BTC prices"); sys.exit(1)
+    if not mstr_prices:
+        print("ERROR: No MSTR prices"); sys.exit(1)
 
-    # If no yfinance, try loading existing output for MSTR prices
-    if not mstr_prices and os.path.exists(OUTPUT):
-        print("Loading existing mNAV data for MSTR prices...")
-        with open(OUTPUT) as f:
-            existing = json.load(f)
-        for pt in existing.get("daily", []):
-            if pt.get("mstr_price"):
-                mstr_prices[pt["date"]] = pt["mstr_price"]
-        print(f"  Recovered {len(mstr_prices)} MSTR prices from existing data")
-
-    # Generate daily mNAV from 2020-08-11 onwards
+    # Generate weekly mNAV
+    print("\nCalculating mNAV...")
     start = datetime(2020, 8, 11)
     end = datetime.utcnow()
     
-    daily = []
-    weekly = []  # Sampled weekly for lighter JSON
-    
-    current = start
+    weekly = []
+    cur = start
     last_week = None
-    
-    while current <= end:
-        ds = current.strftime("%Y-%m-%d")
-        
-        btc_price = btc_prices.get(ds)
-        mstr_price = mstr_prices.get(ds)
-        btc_held = get_stepped_value(BTC_HOLDINGS, ds)
-        shares = get_stepped_value(SHARES_OUTSTANDING, ds)
-        
-        cap = get_stepped_value(CAPITAL_STRUCTURE, ds)
-        # cap is a tuple (debt_m, pref_m, cash_m)
-        debt_m, pref_m, cash_m = cap[0], cap[1], cap[2]
-        
-        mnav = None
-        if btc_price and mstr_price:
-            mnav = calculate_mnav(ds, btc_price, mstr_price, btc_held, shares, debt_m, pref_m, cash_m)
-        
-        btc_per_share = btc_held / shares if shares else None
-        
-        entry = {
-            "date": ds,
-            "btc_price": round(btc_price, 2) if btc_price else None,
-            "mstr_price": round(mstr_price, 2) if mstr_price else None,
-            "mnav": round(mnav, 4) if mnav else None,
-            "btc_held": btc_held,
-            "shares": shares,
-            "btc_per_share": round(btc_per_share, 8) if btc_per_share else None,
-        }
-        
-        daily.append(entry)
-        
-        # Weekly sample (every Monday or first available)
-        week_key = current.strftime("%Y-W%W")
-        if week_key != last_week and (btc_price or mstr_price):
-            weekly.append(entry)
-            last_week = week_key
-        
-        current += timedelta(days=1)
 
-    # Filter to only entries with data
-    daily_with_data = [d for d in daily if d["btc_price"] or d["mstr_price"]]
-    weekly_with_data = [d for d in weekly if d["btc_price"]]
+    while cur <= end:
+        ds = cur.strftime("%Y-%m-%d")
+        
+        bp = btc_prices.get(ds)
+        mp = mstr_prices.get(ds)
+        
+        # Try nearby days if market closed
+        if not bp or not mp:
+            for off in [1, -1, 2, -2]:
+                alt = (cur + timedelta(days=off)).strftime("%Y-%m-%d")
+                if not bp and alt in btc_prices:
+                    bp = btc_prices[alt]
+                if not mp and alt in mstr_prices:
+                    mp = mstr_prices[alt]
 
+        week_key = cur.strftime("%Y-W%W")
+        if bp and mp and week_key != last_week:
+            bh = get_stepped(BTC_HOLDINGS, ds)
+            sh = get_stepped(SHARES_OUTSTANDING, ds)
+            cap = get_stepped(CAPITAL_STRUCTURE, ds)
+            debt, pref, cash = cap[0], cap[1], cap[2]
+
+            mcap = mp * sh
+            ev = mcap + debt * 1e6 + pref * 1e6 - cash * 1e6
+            bval = bh * bp
+            mnav = ev / bval if bval > 0 else None
+
+            if mnav and mnav > 0:
+                weekly.append({
+                    "date": ds,
+                    "btc_price": round(bp, 2),
+                    "mstr_price": round(mp, 2),
+                    "mnav": round(mnav, 3),
+                    "btc_held": bh,
+                    "shares": sh,
+                })
+                last_week = week_key
+
+        cur += timedelta(days=1)
+
+    # Output
     output = {
         "last_updated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "source": "BTC: CSV/CoinGecko, MSTR: yfinance, mNAV: calculated",
-        "current": daily_with_data[-1] if daily_with_data else None,
-        "weekly": weekly_with_data,
-        "daily": daily_with_data,
+        "source": "BTC & MSTR prices: yfinance (CSV cached), mNAV: calculated",
+        "current": weekly[-1] if weekly else None,
+        "weekly": weekly,
     }
 
     with open(OUTPUT, "w") as f:
         json.dump(output, f, indent=2)
 
-    # Stats
-    mnav_entries = [d for d in daily_with_data if d["mnav"]]
-    print(f"\n✅ Generated {len(daily_with_data)} daily entries")
-    print(f"   {len(mnav_entries)} entries with mNAV")
-    print(f"   {len(weekly_with_data)} weekly samples")
-    if mnav_entries:
-        latest = mnav_entries[-1]
-        print(f"   Latest mNAV: {latest['mnav']}x ({latest['date']})")
-        print(f"   Latest BTC: ${latest['btc_price']:,.0f}")
-        print(f"   Latest MSTR: ${latest['mstr_price']:,.2f}")
+    mnav_vals = [w['mnav'] for w in weekly]
+    print(f"\n✅ {len(weekly)} weekly entries")
+    if weekly:
+        print(f"   mNAV range: {min(mnav_vals):.2f}x - {max(mnav_vals):.2f}x")
+        l = weekly[-1]
+        print(f"   Latest: {l['date']} mNAV={l['mnav']}x BTC=${l['btc_price']:,.0f} MSTR=${l['mstr_price']:,.2f}")
     print(f"   Output: {OUTPUT}")
     print("=" * 55)
 
