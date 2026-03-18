@@ -1,117 +1,822 @@
 {
-  "last_updated": "2026-03-18T00:00:00Z",
-  "source": "SEC EDGAR 8-K filings via BitcoinTreasuries.com",
+  "last_updated": "2026-03-18T07:15:30Z",
+  "source": "bitbo.io/treasuries/microstrategy (BitcoinTreasuries.com)",
   "entity": "Strategy Inc (MSTR)",
   "cik": "0001050446",
   "summary": {
     "total_btc": 761068,
-    "total_cost_usd": 57610000000,
-    "avg_cost_per_btc": 75696,
-    "total_purchase_events": 87
+    "total_cost_usd": 56699454664,
+    "avg_cost_per_btc": 74500,
+    "total_purchase_events": 101
   },
   "purchases": [
-    {"date":"2020-08-11","btc":21454,"avg_price":11653,"total_usd":250000000,"cumulative_btc":21454,"funding":"cash"},
-    {"date":"2020-09-14","btc":16796,"avg_price":10419,"total_usd":175000000,"cumulative_btc":38250,"funding":"cash"},
-    {"date":"2020-12-04","btc":2574,"avg_price":19427,"total_usd":50000000,"cumulative_btc":40824,"funding":"cash"},
-    {"date":"2020-12-21","btc":29646,"avg_price":21925,"total_usd":650000000,"cumulative_btc":70470,"funding":"convertible_notes"},
-    {"date":"2021-01-22","btc":314,"avg_price":31847,"total_usd":10000000,"cumulative_btc":70784,"funding":"cash"},
-    {"date":"2021-02-02","btc":295,"avg_price":33898,"total_usd":10000000,"cumulative_btc":71079,"funding":"cash"},
-    {"date":"2021-02-24","btc":19452,"avg_price":52765,"total_usd":1026000000,"cumulative_btc":90531,"funding":"convertible_notes"},
-    {"date":"2021-03-01","btc":328,"avg_price":45732,"total_usd":15000000,"cumulative_btc":90859,"funding":"cash"},
-    {"date":"2021-03-05","btc":205,"avg_price":48780,"total_usd":10000000,"cumulative_btc":91064,"funding":"cash"},
-    {"date":"2021-03-12","btc":262,"avg_price":57252,"total_usd":15000000,"cumulative_btc":91326,"funding":"cash"},
-    {"date":"2021-04-05","btc":253,"avg_price":59289,"total_usd":15000000,"cumulative_btc":91579,"funding":"cash"},
-    {"date":"2021-05-13","btc":271,"avg_price":55387,"total_usd":15000000,"cumulative_btc":91850,"funding":"cash"},
-    {"date":"2021-05-18","btc":229,"avg_price":43663,"total_usd":10000000,"cumulative_btc":92079,"funding":"cash"},
-    {"date":"2021-06-21","btc":13005,"avg_price":19153,"total_usd":249000000,"cumulative_btc":105085,"funding":"notes"},
-    {"date":"2021-09-13","btc":8957,"avg_price":46779,"total_usd":419000000,"cumulative_btc":114042,"funding":"atm"},
-    {"date":"2021-11-28","btc":7002,"avg_price":59129,"total_usd":414000000,"cumulative_btc":121044,"funding":"atm"},
-    {"date":"2021-11-29","btc":1434,"avg_price":57461,"total_usd":82400000,"cumulative_btc":122478,"funding":"atm"},
-    {"date":"2021-12-30","btc":1914,"avg_price":49229,"total_usd":94200000,"cumulative_btc":124391,"funding":"atm"},
-    {"date":"2022-01-31","btc":660,"avg_price":37879,"total_usd":25000000,"cumulative_btc":125051,"funding":"cash"},
-    {"date":"2022-04-05","btc":4167,"avg_price":45594,"total_usd":190000000,"cumulative_btc":129218,"funding":"loan"},
-    {"date":"2022-06-28","btc":480,"avg_price":20833,"total_usd":10000000,"cumulative_btc":129699,"funding":"cash"},
-    {"date":"2022-09-20","btc":301,"avg_price":19934,"total_usd":6000000,"cumulative_btc":130000,"funding":"cash"},
-    {"date":"2022-12-21","btc":2395,"avg_price":17871,"total_usd":42800000,"cumulative_btc":132395,"funding":"atm"},
-    {"date":"2022-12-22","btc":-704,"avg_price":16761,"total_usd":11800000,"cumulative_btc":131690,"funding":"cash"},
-    {"date":"2022-12-24","btc":810,"avg_price":16852,"total_usd":13650000,"cumulative_btc":132500,"funding":"cash"},
-    {"date":"2023-03-27","btc":6455,"avg_price":23238,"total_usd":150000000,"cumulative_btc":138955,"funding":"cash"},
-    {"date":"2023-04-05","btc":1045,"avg_price":28038,"total_usd":29300000,"cumulative_btc":140000,"funding":"cash"},
-    {"date":"2023-06-27","btc":12333,"avg_price":28136,"total_usd":347000000,"cumulative_btc":152333,"funding":"atm"},
-    {"date":"2023-07-31","btc":467,"avg_price":30835,"total_usd":14400000,"cumulative_btc":152800,"funding":"cash"},
-    {"date":"2023-09-24","btc":5445,"avg_price":27051,"total_usd":147300000,"cumulative_btc":158245,"funding":"atm"},
-    {"date":"2023-11-01","btc":155,"avg_price":34194,"total_usd":5300000,"cumulative_btc":158400,"funding":"cash"},
-    {"date":"2023-11-30","btc":16130,"avg_price":36785,"total_usd":593300000,"cumulative_btc":174530,"funding":"atm"},
-    {"date":"2023-12-27","btc":14620,"avg_price":42113,"total_usd":615700000,"cumulative_btc":189150,"funding":"atm"},
-    {"date":"2024-02-06","btc":850,"avg_price":43765,"total_usd":37200000,"cumulative_btc":190000,"funding":"cash"},
-    {"date":"2024-02-26","btc":3000,"avg_price":51667,"total_usd":155000000,"cumulative_btc":193000,"funding":"atm"},
-    {"date":"2024-03-11","btc":12000,"avg_price":68475,"total_usd":821700000,"cumulative_btc":205000,"funding":"atm"},
-    {"date":"2024-03-19","btc":9245,"avg_price":67388,"total_usd":623000000,"cumulative_btc":214246,"funding":"atm"},
-    {"date":"2024-05-01","btc":164,"avg_price":47561,"total_usd":7800000,"cumulative_btc":214400,"funding":"cash"},
-    {"date":"2024-06-20","btc":11931,"avg_price":65883,"total_usd":786000000,"cumulative_btc":226331,"funding":"atm"},
-    {"date":"2024-08-01","btc":169,"avg_price":67456,"total_usd":11400000,"cumulative_btc":226500,"funding":"cash"},
-    {"date":"2024-09-13","btc":18300,"avg_price":60656,"total_usd":1110000000,"cumulative_btc":244800,"funding":"atm"},
-    {"date":"2024-09-20","btc":7420,"avg_price":61726,"total_usd":458200000,"cumulative_btc":252220,"funding":"notes"},
-    {"date":"2024-11-11","btc":27200,"avg_price":73529,"total_usd":2000000000,"cumulative_btc":279420,"funding":"atm"},
-    {"date":"2024-11-18","btc":51780,"avg_price":88868,"total_usd":4600000000,"cumulative_btc":331200,"funding":"atm"},
-    {"date":"2024-11-25","btc":55500,"avg_price":97297,"total_usd":5400000000,"cumulative_btc":386700,"funding":"atm"},
-    {"date":"2024-12-02","btc":15400,"avg_price":97403,"total_usd":1500000000,"cumulative_btc":402100,"funding":"atm"},
-    {"date":"2024-12-09","btc":21550,"avg_price":97448,"total_usd":2100000000,"cumulative_btc":423650,"funding":"atm"},
-    {"date":"2024-12-16","btc":15350,"avg_price":97720,"total_usd":1500000000,"cumulative_btc":439000,"funding":"atm"},
-    {"date":"2024-12-23","btc":5262,"avg_price":106608,"total_usd":561000000,"cumulative_btc":444262,"funding":"atm"},
-    {"date":"2024-12-30","btc":2138,"avg_price":97837,"total_usd":209000000,"cumulative_btc":446400,"funding":"atm"},
-    {"date":"2025-01-06","btc":1070,"avg_price":93458,"total_usd":100000000,"cumulative_btc":447470,"funding":"atm"},
-    {"date":"2025-01-13","btc":2530,"avg_price":96047,"total_usd":243000000,"cumulative_btc":450000,"funding":"atm"},
-    {"date":"2025-01-21","btc":11000,"avg_price":100000,"total_usd":1100000000,"cumulative_btc":461000,"funding":"atm"},
-    {"date":"2025-01-27","btc":10107,"avg_price":108835,"total_usd":1100000000,"cumulative_btc":471107,"funding":"atm"},
-    {"date":"2025-02-10","btc":7633,"avg_price":97262,"total_usd":742400000,"cumulative_btc":478740,"funding":"atm_preferred"},
-    {"date":"2025-02-24","btc":20356,"avg_price":97755,"total_usd":1990000000,"cumulative_btc":499096,"funding":"atm_preferred"},
-    {"date":"2025-03-17","btc":130,"avg_price":82308,"total_usd":10700000,"cumulative_btc":499226,"funding":"atm"},
-    {"date":"2025-03-24","btc":6911,"avg_price":84519,"total_usd":584100000,"cumulative_btc":506137,"funding":"atm"},
-    {"date":"2025-03-31","btc":22048,"avg_price":87067,"total_usd":1920000000,"cumulative_btc":528185,"funding":"atm"},
-    {"date":"2025-04-14","btc":3459,"avg_price":82607,"total_usd":285800000,"cumulative_btc":531644,"funding":"atm"},
-    {"date":"2025-04-21","btc":6556,"avg_price":84764,"total_usd":555800000,"cumulative_btc":538200,"funding":"atm"},
-    {"date":"2025-04-28","btc":15355,"avg_price":92476,"total_usd":1420000000,"cumulative_btc":553555,"funding":"atm"},
-    {"date":"2025-05-05","btc":1895,"avg_price":94987,"total_usd":180000000,"cumulative_btc":555450,"funding":"atm"},
-    {"date":"2025-05-12","btc":13390,"avg_price":100075,"total_usd":1340000000,"cumulative_btc":568840,"funding":"atm"},
-    {"date":"2025-05-19","btc":7390,"avg_price":103504,"total_usd":764900000,"cumulative_btc":576230,"funding":"atm"},
-    {"date":"2025-05-26","btc":4020,"avg_price":106244,"total_usd":427100000,"cumulative_btc":580250,"funding":"atm"},
-    {"date":"2025-06-02","btc":705,"avg_price":106383,"total_usd":75000000,"cumulative_btc":580955,"funding":"atm"},
-    {"date":"2025-06-16","btc":10100,"avg_price":104059,"total_usd":1051000000,"cumulative_btc":592100,"funding":"atm"},
-    {"date":"2025-06-23","btc":245,"avg_price":106122,"total_usd":26000000,"cumulative_btc":592345,"funding":"cash"},
-    {"date":"2025-06-30","btc":4980,"avg_price":106827,"total_usd":532000000,"cumulative_btc":597325,"funding":"atm"},
-    {"date":"2025-07-14","btc":4225,"avg_price":111775,"total_usd":472000000,"cumulative_btc":601550,"funding":"atm"},
-    {"date":"2025-07-21","btc":6220,"avg_price":118971,"total_usd":740000000,"cumulative_btc":607770,"funding":"atm"},
-    {"date":"2025-07-29","btc":21021,"avg_price":117263,"total_usd":2465000000,"cumulative_btc":628791,"funding":"atm"},
-    {"date":"2025-08-11","btc":155,"avg_price":116129,"total_usd":18000000,"cumulative_btc":629096,"funding":"cash"},
-    {"date":"2025-08-18","btc":430,"avg_price":118605,"total_usd":51000000,"cumulative_btc":629376,"funding":"atm"},
-    {"date":"2025-08-25","btc":3081,"avg_price":115871,"total_usd":357000000,"cumulative_btc":632457,"funding":"atm"},
-    {"date":"2025-09-02","btc":4048,"avg_price":110906,"total_usd":449000000,"cumulative_btc":636505,"funding":"atm"},
-    {"date":"2025-09-08","btc":1955,"avg_price":110998,"total_usd":217000000,"cumulative_btc":638460,"funding":"atm"},
-    {"date":"2025-09-15","btc":525,"avg_price":114286,"total_usd":60000000,"cumulative_btc":638985,"funding":"atm"},
-    {"date":"2025-09-22","btc":850,"avg_price":117647,"total_usd":100000000,"cumulative_btc":639835,"funding":"atm"},
-    {"date":"2025-09-29","btc":196,"avg_price":112245,"total_usd":22000000,"cumulative_btc":640031,"funding":"atm"},
-    {"date":"2025-10-13","btc":220,"avg_price":122727,"total_usd":27000000,"cumulative_btc":640250,"funding":"cash"},
-    {"date":"2025-10-20","btc":168,"avg_price":113095,"total_usd":19000000,"cumulative_btc":640418,"funding":"cash"},
-    {"date":"2025-10-27","btc":390,"avg_price":110256,"total_usd":43000000,"cumulative_btc":640808,"funding":"cash"},
-    {"date":"2025-11-03","btc":397,"avg_price":115869,"total_usd":46000000,"cumulative_btc":641205,"funding":"cash"},
-    {"date":"2025-11-10","btc":487,"avg_price":102669,"total_usd":50000000,"cumulative_btc":641692,"funding":"cash"},
-    {"date":"2025-11-17","btc":8178,"avg_price":102225,"total_usd":836000000,"cumulative_btc":649870,"funding":"atm"},
-    {"date":"2025-12-01","btc":130,"avg_price":92308,"total_usd":12000000,"cumulative_btc":650000,"funding":"cash"},
-    {"date":"2025-12-08","btc":10624,"avg_price":90658,"total_usd":963000000,"cumulative_btc":660624,"funding":"atm"},
-    {"date":"2025-12-15","btc":10645,"avg_price":92063,"total_usd":980000000,"cumulative_btc":671268,"funding":"atm"},
-    {"date":"2025-12-29","btc":1229,"avg_price":88690,"total_usd":109000000,"cumulative_btc":672497,"funding":"atm"},
-    {"date":"2025-12-31","btc":3,"avg_price":0,"total_usd":0,"cumulative_btc":672500,"funding":"cash"},
-    {"date":"2026-01-05","btc":1283,"avg_price":90413,"total_usd":116000000,"cumulative_btc":673783,"funding":"atm"},
-    {"date":"2026-01-12","btc":13627,"avg_price":91517,"total_usd":1247000000,"cumulative_btc":687410,"funding":"atm"},
-    {"date":"2026-01-20","btc":22305,"avg_price":95284,"total_usd":2125000000,"cumulative_btc":709715,"funding":"atm"},
-    {"date":"2026-01-26","btc":2932,"avg_price":90075,"total_usd":264000000,"cumulative_btc":712647,"funding":"atm"},
-    {"date":"2026-02-02","btc":855,"avg_price":87719,"total_usd":75000000,"cumulative_btc":713502,"funding":"atm"},
-    {"date":"2026-02-09","btc":1142,"avg_price":78809,"total_usd":90000000,"cumulative_btc":714644,"funding":"atm"},
-    {"date":"2026-02-17","btc":2486,"avg_price":67578,"total_usd":168000000,"cumulative_btc":717131,"funding":"atm"},
-    {"date":"2026-02-23","btc":592,"avg_price":67568,"total_usd":40000000,"cumulative_btc":717722,"funding":"atm"},
-    {"date":"2026-03-02","btc":3015,"avg_price":67661,"total_usd":204000000,"cumulative_btc":720737,"funding":"atm"},
-    {"date":"2026-03-09","btc":17994,"avg_price":70968,"total_usd":1277000000,"cumulative_btc":738731,"funding":"atm"},
-    {"date":"2026-03-16","btc":22337,"avg_price":70194,"total_usd":1568000000,"cumulative_btc":761068,"funding":"atm"}
+    {
+      "date": "2020-08-11",
+      "btc": 21454,
+      "avg_price": 11653,
+      "total_usd": 250000000,
+      "cumulative_btc": 21454,
+      "funding": "cash"
+    },
+    {
+      "date": "2020-09-14",
+      "btc": 16796,
+      "avg_price": 10419,
+      "total_usd": 175000000,
+      "cumulative_btc": 38250,
+      "funding": "cash"
+    },
+    {
+      "date": "2020-12-04",
+      "btc": 2574,
+      "avg_price": 19425,
+      "total_usd": 50000000,
+      "cumulative_btc": 40824,
+      "funding": "cash"
+    },
+    {
+      "date": "2020-12-21",
+      "btc": 29646,
+      "avg_price": 21925,
+      "total_usd": 650000000,
+      "cumulative_btc": 70470,
+      "funding": "convertible_notes"
+    },
+    {
+      "date": "2021-01-22",
+      "btc": 314,
+      "avg_price": 31847,
+      "total_usd": 10000000,
+      "cumulative_btc": 70784,
+      "funding": "cash"
+    },
+    {
+      "date": "2021-02-02",
+      "btc": 295,
+      "avg_price": 33898,
+      "total_usd": 10000000,
+      "cumulative_btc": 71079,
+      "funding": "cash"
+    },
+    {
+      "date": "2021-02-24",
+      "btc": 19452,
+      "avg_price": 52745,
+      "total_usd": 1026000000,
+      "cumulative_btc": 90531,
+      "funding": "convertible_notes"
+    },
+    {
+      "date": "2021-03-01",
+      "btc": 328,
+      "avg_price": 45732,
+      "total_usd": 15000000,
+      "cumulative_btc": 90859,
+      "funding": "cash"
+    },
+    {
+      "date": "2021-03-05",
+      "btc": 205,
+      "avg_price": 48780,
+      "total_usd": 10000000,
+      "cumulative_btc": 91064,
+      "funding": "cash"
+    },
+    {
+      "date": "2021-03-12",
+      "btc": 262,
+      "avg_price": 57252,
+      "total_usd": 15000000,
+      "cumulative_btc": 91326,
+      "funding": "cash"
+    },
+    {
+      "date": "2021-04-05",
+      "btc": 253,
+      "avg_price": 59289,
+      "total_usd": 15000000,
+      "cumulative_btc": 91579,
+      "funding": "cash"
+    },
+    {
+      "date": "2021-05-13",
+      "btc": 271,
+      "avg_price": 55351,
+      "total_usd": 15000000,
+      "cumulative_btc": 91850,
+      "funding": "cash"
+    },
+    {
+      "date": "2021-05-18",
+      "btc": 229,
+      "avg_price": 43668,
+      "total_usd": 10000000,
+      "cumulative_btc": 92079,
+      "funding": "cash"
+    },
+    {
+      "date": "2021-06-21",
+      "btc": 13005,
+      "avg_price": 19146,
+      "total_usd": 249000000,
+      "cumulative_btc": 105085,
+      "funding": "notes"
+    },
+    {
+      "date": "2021-11-28",
+      "btc": 7002,
+      "avg_price": 59126,
+      "total_usd": 414000000,
+      "cumulative_btc": 121044,
+      "funding": "atm"
+    },
+    {
+      "date": "2021-12-08",
+      "btc": 1434,
+      "avg_price": 57462,
+      "total_usd": 82400000,
+      "cumulative_btc": 122478,
+      "funding": "atm"
+    },
+    {
+      "date": "2021-12-30",
+      "btc": 1914,
+      "avg_price": 49216,
+      "total_usd": 94200000,
+      "cumulative_btc": 124391,
+      "funding": "atm"
+    },
+    {
+      "date": "2022-01-31",
+      "btc": 660,
+      "avg_price": 37879,
+      "total_usd": 25000000,
+      "cumulative_btc": 125051,
+      "funding": "cash"
+    },
+    {
+      "date": "2022-04-05",
+      "btc": 4167,
+      "avg_price": 45596,
+      "total_usd": 190000000,
+      "cumulative_btc": 129218,
+      "funding": "loan"
+    },
+    {
+      "date": "2022-06-28",
+      "btc": 480,
+      "avg_price": 20833,
+      "total_usd": 10000000,
+      "cumulative_btc": 129699,
+      "funding": "cash"
+    },
+    {
+      "date": "2022-09-20",
+      "btc": 301,
+      "avg_price": 19934,
+      "total_usd": 6000000,
+      "cumulative_btc": 130000,
+      "funding": "cash"
+    },
+    {
+      "date": "2022-12-21",
+      "btc": 2395,
+      "avg_price": 17871,
+      "total_usd": 42800000,
+      "cumulative_btc": 132395,
+      "funding": "atm"
+    },
+    {
+      "date": "2022-12-22",
+      "btc": -704,
+      "avg_price": 0,
+      "total_usd": 11800000,
+      "cumulative_btc": 131690,
+      "funding": "cash"
+    },
+    {
+      "date": "2022-12-24",
+      "btc": 810,
+      "avg_price": 16852,
+      "total_usd": 13650000,
+      "cumulative_btc": 132500,
+      "funding": "cash"
+    },
+    {
+      "date": "2023-04-05",
+      "btc": 1045,
+      "avg_price": 28038,
+      "total_usd": 29300000,
+      "cumulative_btc": 140000,
+      "funding": "cash"
+    },
+    {
+      "date": "2023-06-27",
+      "btc": 12333,
+      "avg_price": 28136,
+      "total_usd": 347000000,
+      "cumulative_btc": 152333,
+      "funding": "atm"
+    },
+    {
+      "date": "2023-07-31",
+      "btc": 467,
+      "avg_price": 30835,
+      "total_usd": 14400000,
+      "cumulative_btc": 152800,
+      "funding": "cash"
+    },
+    {
+      "date": "2023-09-24",
+      "btc": 5445,
+      "avg_price": 27052,
+      "total_usd": 147300000,
+      "cumulative_btc": 158245,
+      "funding": "atm"
+    },
+    {
+      "date": "2023-11-01",
+      "btc": 155,
+      "avg_price": 34194,
+      "total_usd": 5300000,
+      "cumulative_btc": 158400,
+      "funding": "cash"
+    },
+    {
+      "date": "2023-11-30",
+      "btc": 16130,
+      "avg_price": 36782,
+      "total_usd": 593300000,
+      "cumulative_btc": 174530,
+      "funding": "atm"
+    },
+    {
+      "date": "2023-12-27",
+      "btc": 14620,
+      "avg_price": 42114,
+      "total_usd": 615700000,
+      "cumulative_btc": 189150,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-02-06",
+      "btc": 850,
+      "avg_price": 43765,
+      "total_usd": 37200000,
+      "cumulative_btc": 190000,
+      "funding": "cash"
+    },
+    {
+      "date": "2024-02-26",
+      "btc": 3000,
+      "avg_price": 51667,
+      "total_usd": 155000000,
+      "cumulative_btc": 193000,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-03-11",
+      "btc": 12000,
+      "avg_price": 68475,
+      "total_usd": 821700000,
+      "cumulative_btc": 205000,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-03-19",
+      "btc": 9245,
+      "avg_price": 67388,
+      "total_usd": 623000000,
+      "cumulative_btc": 214246,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-05-01",
+      "btc": 164,
+      "avg_price": 47561,
+      "total_usd": 7800000,
+      "cumulative_btc": 214400,
+      "funding": "cash"
+    },
+    {
+      "date": "2024-06-20",
+      "btc": 11931,
+      "avg_price": 65879,
+      "total_usd": 786000000,
+      "cumulative_btc": 226331,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-08-01",
+      "btc": 169,
+      "avg_price": 67456,
+      "total_usd": 11400000,
+      "cumulative_btc": 226500,
+      "funding": "cash"
+    },
+    {
+      "date": "2024-09-13",
+      "btc": 18300,
+      "avg_price": 60656,
+      "total_usd": 1110000000,
+      "cumulative_btc": 244800,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-09-20",
+      "btc": 7420,
+      "avg_price": 61752,
+      "total_usd": 458200000,
+      "cumulative_btc": 252220,
+      "funding": "notes"
+    },
+    {
+      "date": "2024-11-11",
+      "btc": 27200,
+      "avg_price": 73529,
+      "total_usd": 2000000000,
+      "cumulative_btc": 279420,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-11-18",
+      "btc": 51780,
+      "avg_price": 88837,
+      "total_usd": 4600000000,
+      "cumulative_btc": 331200,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-11-25",
+      "btc": 55500,
+      "avg_price": 97297,
+      "total_usd": 5400000000,
+      "cumulative_btc": 386700,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-12-02",
+      "btc": 15400,
+      "avg_price": 97403,
+      "total_usd": 1500000000,
+      "cumulative_btc": 402100,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-12-09",
+      "btc": 21550,
+      "avg_price": 97448,
+      "total_usd": 2100000000,
+      "cumulative_btc": 423650,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-12-16",
+      "btc": 15350,
+      "avg_price": 97720,
+      "total_usd": 1500000000,
+      "cumulative_btc": 439000,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-12-23",
+      "btc": 5262,
+      "avg_price": 106613,
+      "total_usd": 561000000,
+      "cumulative_btc": 444262,
+      "funding": "atm"
+    },
+    {
+      "date": "2024-12-30",
+      "btc": 2138,
+      "avg_price": 106613,
+      "total_usd": 227938594,
+      "cumulative_btc": 446400,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-01-06",
+      "btc": 1070,
+      "avg_price": 93458,
+      "total_usd": 100000000,
+      "cumulative_btc": 447470,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-01-13",
+      "btc": 2530,
+      "avg_price": 96047,
+      "total_usd": 243000000,
+      "cumulative_btc": 450000,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-01-21",
+      "btc": 11000,
+      "avg_price": 100000,
+      "total_usd": 1100000000,
+      "cumulative_btc": 461000,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-01-27",
+      "btc": 10107,
+      "avg_price": 108835,
+      "total_usd": 1100000000,
+      "cumulative_btc": 471107,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-02-10",
+      "btc": 7633,
+      "avg_price": 97262,
+      "total_usd": 742400000,
+      "cumulative_btc": 478740,
+      "funding": "atm_preferred"
+    },
+    {
+      "date": "2025-02-24",
+      "btc": 20356,
+      "avg_price": 97760,
+      "total_usd": 1990000000,
+      "cumulative_btc": 499096,
+      "funding": "atm_preferred"
+    },
+    {
+      "date": "2025-03-17",
+      "btc": 130,
+      "avg_price": 82308,
+      "total_usd": 10700000,
+      "cumulative_btc": 499226,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-03-24",
+      "btc": 6911,
+      "avg_price": 84517,
+      "total_usd": 584100000,
+      "cumulative_btc": 506137,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-03-31",
+      "btc": 22048,
+      "avg_price": 87083,
+      "total_usd": 1920000000,
+      "cumulative_btc": 528185,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-04-14",
+      "btc": 3459,
+      "avg_price": 82625,
+      "total_usd": 285800000,
+      "cumulative_btc": 531644,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-04-21",
+      "btc": 6556,
+      "avg_price": 84777,
+      "total_usd": 555800000,
+      "cumulative_btc": 538200,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-04-28",
+      "btc": 15355,
+      "avg_price": 92478,
+      "total_usd": 1420000000,
+      "cumulative_btc": 553555,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-05-05",
+      "btc": 1895,
+      "avg_price": 94987,
+      "total_usd": 180000000,
+      "cumulative_btc": 555450,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-05-12",
+      "btc": 13390,
+      "avg_price": 100075,
+      "total_usd": 1340000000,
+      "cumulative_btc": 568840,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-05-19",
+      "btc": 7390,
+      "avg_price": 103505,
+      "total_usd": 764900000,
+      "cumulative_btc": 576230,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-05-26",
+      "btc": 4020,
+      "avg_price": 106244,
+      "total_usd": 427100000,
+      "cumulative_btc": 580250,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-06-02",
+      "btc": 705,
+      "avg_price": 106383,
+      "total_usd": 75000000,
+      "cumulative_btc": 580955,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-06-16",
+      "btc": 10100,
+      "avg_price": 104059,
+      "total_usd": 1051000000,
+      "cumulative_btc": 592100,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-06-23",
+      "btc": 245,
+      "avg_price": 106122,
+      "total_usd": 26000000,
+      "cumulative_btc": 592345,
+      "funding": "cash"
+    },
+    {
+      "date": "2025-06-30",
+      "btc": 4980,
+      "avg_price": 106827,
+      "total_usd": 532000000,
+      "cumulative_btc": 597325,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-07-14",
+      "btc": 4225,
+      "avg_price": 111716,
+      "total_usd": 472000000,
+      "cumulative_btc": 601550,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-07-21",
+      "btc": 6220,
+      "avg_price": 118971,
+      "total_usd": 740000000,
+      "cumulative_btc": 607770,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-07-29",
+      "btc": 21021,
+      "avg_price": 117264,
+      "total_usd": 2465000000,
+      "cumulative_btc": 628791,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-08-11",
+      "btc": 155,
+      "avg_price": 116129,
+      "total_usd": 18000000,
+      "cumulative_btc": 629096,
+      "funding": "cash"
+    },
+    {
+      "date": "2025-08-18",
+      "btc": 430,
+      "avg_price": 118605,
+      "total_usd": 51000000,
+      "cumulative_btc": 629376,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-08-25",
+      "btc": 3081,
+      "avg_price": 115871,
+      "total_usd": 357000000,
+      "cumulative_btc": 632457,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-09-02",
+      "btc": 4048,
+      "avg_price": 110919,
+      "total_usd": 449000000,
+      "cumulative_btc": 636505,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-09-08",
+      "btc": 1955,
+      "avg_price": 110997,
+      "total_usd": 217000000,
+      "cumulative_btc": 638460,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-09-15",
+      "btc": 525,
+      "avg_price": 114286,
+      "total_usd": 60000000,
+      "cumulative_btc": 638985,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-09-22",
+      "btc": 850,
+      "avg_price": 117647,
+      "total_usd": 100000000,
+      "cumulative_btc": 639835,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-09-29",
+      "btc": 196,
+      "avg_price": 112245,
+      "total_usd": 22000000,
+      "cumulative_btc": 640031,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-10-13",
+      "btc": 220,
+      "avg_price": 122727,
+      "total_usd": 27000000,
+      "cumulative_btc": 640250,
+      "funding": "cash"
+    },
+    {
+      "date": "2025-10-20",
+      "btc": 168,
+      "avg_price": 113095,
+      "total_usd": 19000000,
+      "cumulative_btc": 640418,
+      "funding": "cash"
+    },
+    {
+      "date": "2025-10-27",
+      "btc": 390,
+      "avg_price": 110256,
+      "total_usd": 43000000,
+      "cumulative_btc": 640808,
+      "funding": "cash"
+    },
+    {
+      "date": "2025-11-03",
+      "btc": 397,
+      "avg_price": 115869,
+      "total_usd": 46000000,
+      "cumulative_btc": 641205,
+      "funding": "cash"
+    },
+    {
+      "date": "2025-11-10",
+      "btc": 487,
+      "avg_price": 102669,
+      "total_usd": 50000000,
+      "cumulative_btc": 641692,
+      "funding": "cash"
+    },
+    {
+      "date": "2025-11-17",
+      "btc": 8178,
+      "avg_price": 102225,
+      "total_usd": 836000000,
+      "cumulative_btc": 649870,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-12-01",
+      "btc": 130,
+      "avg_price": 92308,
+      "total_usd": 12000000,
+      "cumulative_btc": 650000,
+      "funding": "cash"
+    },
+    {
+      "date": "2025-12-08",
+      "btc": 10624,
+      "avg_price": 90644,
+      "total_usd": 963000000,
+      "cumulative_btc": 660624,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-12-15",
+      "btc": 10645,
+      "avg_price": 92062,
+      "total_usd": 980000000,
+      "cumulative_btc": 671268,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-12-29",
+      "btc": 1229,
+      "avg_price": 88690,
+      "total_usd": 109000000,
+      "cumulative_btc": 672497,
+      "funding": "atm"
+    },
+    {
+      "date": "2025-12-31",
+      "btc": 3,
+      "avg_price": 88690,
+      "total_usd": 266070,
+      "cumulative_btc": 672500,
+      "funding": "cash"
+    },
+    {
+      "date": "2026-01-05",
+      "btc": 1283,
+      "avg_price": 90413,
+      "total_usd": 116000000,
+      "cumulative_btc": 673783,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-01-12",
+      "btc": 13627,
+      "avg_price": 91510,
+      "total_usd": 1247000000,
+      "cumulative_btc": 687410,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-01-20",
+      "btc": 22305,
+      "avg_price": 95270,
+      "total_usd": 2125000000,
+      "cumulative_btc": 709715,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-01-26",
+      "btc": 2932,
+      "avg_price": 90041,
+      "total_usd": 264000000,
+      "cumulative_btc": 712647,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-02-02",
+      "btc": 855,
+      "avg_price": 87719,
+      "total_usd": 75000000,
+      "cumulative_btc": 713502,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-02-09",
+      "btc": 1142,
+      "avg_price": 78809,
+      "total_usd": 90000000,
+      "cumulative_btc": 714644,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-02-17",
+      "btc": 2486,
+      "avg_price": 67578,
+      "total_usd": 168000000,
+      "cumulative_btc": 717131,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-02-23",
+      "btc": 592,
+      "avg_price": 67568,
+      "total_usd": 40000000,
+      "cumulative_btc": 717722,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-03-02",
+      "btc": 3015,
+      "avg_price": 67662,
+      "total_usd": 204000000,
+      "cumulative_btc": 720737,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-03-09",
+      "btc": 17994,
+      "avg_price": 70968,
+      "total_usd": 1277000000,
+      "cumulative_btc": 738731,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-03-16",
+      "btc": 22337,
+      "avg_price": 70197,
+      "total_usd": 1568000000,
+      "cumulative_btc": 761068,
+      "funding": "atm"
+    }
   ]
 }
