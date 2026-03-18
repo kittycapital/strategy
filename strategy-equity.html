@@ -189,84 +189,28 @@ Chart.defaults.color='#888';Chart.defaults.font.family="'JetBrains Mono',monospa
 Chart.defaults.plugins.legend.labels.usePointStyle=true;
 
 // ═══ DATA: Weekly ATM issuance from 8-K filings ═══
-// Each entry: {week, mstr_proceeds, strc_proceeds, strk_proceeds, strf_proceeds, strd_proceeds, btc_bought}
-// All proceeds in $M
-const issuanceData = [
- // 2024 Q4 - massive ATM era begins
- {week:"2024-11-11",mstr:2000,strc:0,strk:0,strf:0,strd:0,btc:27200},
- {week:"2024-11-18",mstr:4600,strc:0,strk:0,strf:0,strd:0,btc:51780},
- {week:"2024-11-25",mstr:5400,strc:0,strk:0,strf:0,strd:0,btc:55500},
- {week:"2024-12-02",mstr:1500,strc:0,strk:0,strf:0,strd:0,btc:15400},
- {week:"2024-12-09",mstr:2100,strc:0,strk:0,strf:0,strd:0,btc:21550},
- {week:"2024-12-16",mstr:1500,strc:0,strk:0,strf:0,strd:0,btc:15350},
- {week:"2024-12-23",mstr:561,strc:0,strk:0,strf:0,strd:0,btc:5262},
- {week:"2024-12-30",mstr:209,strc:0,strk:0,strf:0,strd:0,btc:2138},
- // 2025 Q1
- {week:"2025-01-06",mstr:100,strc:0,strk:0,strf:0,strd:0,btc:1070},
- {week:"2025-01-13",mstr:243,strc:0,strk:0,strf:0,strd:0,btc:2530},
- {week:"2025-01-21",mstr:1100,strc:0,strk:0,strf:0,strd:0,btc:11000},
- {week:"2025-01-27",mstr:1100,strc:0,strk:0,strf:0,strd:0,btc:10107},
- {week:"2025-02-10",mstr:0,strc:0,strk:563,strf:179,strd:0,btc:7633},
- {week:"2025-02-24",mstr:0,strc:0,strk:1278,strf:712,strd:0,btc:20356},
- {week:"2025-03-17",mstr:10.7,strc:0,strk:0,strf:0,strd:0,btc:130},
- {week:"2025-03-24",mstr:584,strc:0,strk:0,strf:0,strd:0,btc:6911},
- {week:"2025-03-31",mstr:1920,strc:0,strk:0,strf:0,strd:0,btc:22048},
- // 2025 Q2
- {week:"2025-04-14",mstr:285.8,strc:0,strk:0,strf:0,strd:0,btc:3459},
- {week:"2025-04-21",mstr:555.8,strc:0,strk:0,strf:0,strd:0,btc:6556},
- {week:"2025-04-28",mstr:1420,strc:0,strk:0,strf:0,strd:0,btc:15355},
- {week:"2025-05-05",mstr:180,strc:0,strk:0,strf:0,strd:0,btc:1895},
- {week:"2025-05-12",mstr:1340,strc:0,strk:0,strf:0,strd:0,btc:13390},
- {week:"2025-05-19",mstr:765,strc:0,strk:0,strf:0,strd:0,btc:7390},
- {week:"2025-05-26",mstr:427,strc:0,strk:0,strf:0,strd:0,btc:4020},
- {week:"2025-06-02",mstr:75,strc:0,strk:0,strf:0,strd:0,btc:705},
- {week:"2025-06-16",mstr:1051,strc:0,strk:0,strf:0,strd:0,btc:10100},
- {week:"2025-06-30",mstr:532,strc:0,strk:0,strf:0,strd:0,btc:4980},
- // 2025 Q3 - STRC debuts Jul 2025
- {week:"2025-07-14",mstr:420,strc:52,strk:0,strf:0,strd:0,btc:4225},
- {week:"2025-07-21",mstr:650,strc:90,strk:0,strf:0,strd:0,btc:6220},
- {week:"2025-07-29",mstr:2100,strc:365,strk:0,strf:0,strd:0,btc:21021},
- {week:"2025-08-11",mstr:12,strc:6,strk:0,strf:0,strd:0,btc:155},
- {week:"2025-08-18",mstr:35,strc:16,strk:0,strf:0,strd:0,btc:430},
- {week:"2025-08-25",mstr:280,strc:77,strk:0,strf:0,strd:0,btc:3081},
- {week:"2025-09-02",mstr:350,strc:99,strk:0,strf:0,strd:0,btc:4048},
- {week:"2025-09-08",mstr:170,strc:47,strk:0,strf:0,strd:0,btc:1955},
- {week:"2025-09-15",mstr:42,strc:18,strk:0,strf:0,strd:0,btc:525},
- {week:"2025-09-22",mstr:72,strc:28,strk:0,strf:0,strd:0,btc:850},
- {week:"2025-09-29",mstr:15,strc:7,strk:0,strf:0,strd:0,btc:196},
- // 2025 Q4
- {week:"2025-10-13",mstr:18,strc:9,strk:0,strf:0,strd:0,btc:220},
- {week:"2025-10-20",mstr:12,strc:7,strk:0,strf:0,strd:0,btc:168},
- {week:"2025-10-27",mstr:30,strc:13,strk:0,strf:0,strd:0,btc:390},
- {week:"2025-11-03",mstr:33,strc:13,strk:0,strf:0,strd:0,btc:397},
- {week:"2025-11-10",mstr:35,strc:15,strk:0,strf:0,strd:0,btc:487},
- {week:"2025-11-17",mstr:700,strc:136,strk:0,strf:0,strd:0,btc:8178},
- {week:"2025-12-01",mstr:8,strc:4,strk:0,strf:0,strd:0,btc:130},
- {week:"2025-12-08",mstr:928,strc:0,strk:0,strf:0,strd:35,btc:10624},
- {week:"2025-12-15",mstr:835,strc:0,strk:0,strf:0,strd:102,btc:10645},
- {week:"2025-12-29",mstr:109,strc:0,strk:0,strf:0,strd:0,btc:1229},
- // 2026 Q1 - STRC becomes major funding source
- {week:"2026-01-05",mstr:116,strc:0,strk:0,strf:0,strd:0,btc:1283},
- {week:"2026-01-12",mstr:1128,strc:119,strk:0,strf:0,strd:0,btc:13627},
- {week:"2026-01-20",mstr:1830,strc:294,strk:3.4,strf:0,strd:0,btc:22305},
- {week:"2026-01-26",mstr:180,strc:84,strk:0,strf:0,strd:0,btc:2932},
- {week:"2026-02-02",mstr:0,strc:421,strk:0,strf:0,strd:0,btc:855},
- {week:"2026-02-09",mstr:0,strc:90,strk:0,strf:0,strd:0,btc:1142},
- {week:"2026-02-17",mstr:62,strc:106,strk:0,strf:0,strd:0,btc:2486},
- {week:"2026-02-23",mstr:0,strc:40,strk:0,strf:0,strd:0,btc:592},
- {week:"2026-03-02",mstr:230,strc:7,strk:0,strf:0,strd:0,btc:3015},
- {week:"2026-03-09",mstr:900,strc:377,strk:0,strf:0,strd:0,btc:17994},
- {week:"2026-03-16",mstr:396,strc:1180,strk:0,strf:0,strd:0,btc:22337},
-];
+// ═══ DATA: Loaded from strategy_atm.json ═══
+let issuanceData = [];
+let atmCapacity = {};
 
-// ═══ ATM Remaining Capacity as of Mar 15, 2026 ($M) ═══
-const atmCapacity = {
- MSTR: {total:21000,remaining:6317,color:'var(--mstr)'},
- STRC: {total:4200,remaining:1976,color:'var(--strc)'},
- STRK: {total:21000,remaining:20332,color:'var(--strk)'},
- STRF: {total:2100,remaining:1619,color:'var(--strf)'},
- STRD: {total:4200,remaining:4015,color:'var(--strd)'},
-};
+async function loadAtmData(){
+  try{
+    const r=await fetch('strategy_atm.json');
+    if(!r.ok) throw new Error('ATM JSON not found');
+    const d=await r.json();
+    issuanceData=d.weekly||[];
+    const cap=d.capacity||{};
+    atmCapacity={
+      MSTR:{total:cap.MSTR?.total||21000,remaining:cap.MSTR?.remaining||0,color:'var(--mstr)'},
+      STRC:{total:cap.STRC?.total||4200,remaining:cap.STRC?.remaining||0,color:'var(--strc)'},
+      STRK:{total:cap.STRK?.total||21000,remaining:cap.STRK?.remaining||0,color:'var(--strk)'},
+      STRF:{total:cap.STRF?.total||2100,remaining:cap.STRF?.remaining||0,color:'var(--strf)'},
+      STRD:{total:cap.STRD?.total||4200,remaining:cap.STRD?.remaining||0,color:'var(--strd)'},
+    };
+    console.log('ATM data loaded:',issuanceData.length,'weeks');
+    return true;
+  }catch(e){console.warn('ATM JSON error:',e);return false;}
+}
 
 let chart1,chart2,chart3,chart4;
 let chartM1,chartM2;
@@ -437,25 +381,28 @@ function fmtM(n){if(n==null||isNaN(n))return'--';return'$'+n.toLocaleString('en-
 function fmtShares(n){if(n==null)return'--';if(n>=1e6)return(n/1e6).toFixed(1)+'M shares';return n.toLocaleString()+'shares'}
 function fmtNum(n){return n==null?'--':n.toLocaleString('en-US',{maximumFractionDigits:0})}
 
-// ═══ COMPUTE ═══
-let totMstr=0,totStrc=0,totStrk=0,totStrf=0,totStrd=0;
-issuanceData.forEach(d=>{totMstr+=d.mstr;totStrc+=d.strc;totStrk+=d.strk;totStrf+=d.strf;totStrd+=d.strd});
-const totAll=totMstr+totStrc+totStrk+totStrf+totStrd;
-const totBtc=issuanceData.reduce((s,d)=>s+d.btc,0);
+// ═══ COMPUTE & RENDER (after JSON load) ═══
+async function initAtmCharts(){
+  const ok = await loadAtmData();
+  if(!ok||!issuanceData.length){console.warn('No ATM data');return;}
 
-// ═══ KPIs ═══
-document.getElementById('kpiMstr').textContent=fmt(totMstr);
-document.getElementById('kpiMstrShares').textContent=`잔여: $${(atmCapacity.MSTR.remaining/1e3).toFixed(1)}B`;
-document.getElementById('kpiStrc').textContent=fmt(totStrc);
-document.getElementById('kpiStrcShares').textContent=`잔여: $${(atmCapacity.STRC.remaining/1e3).toFixed(1)}B`;
-document.getElementById('kpiStrk').textContent=fmt(totStrk);
-document.getElementById('kpiStrkShares').textContent=`잔여: $${(atmCapacity.STRK.remaining/1e3).toFixed(1)}B`;
-document.getElementById('kpiStrf').textContent=fmt(totStrf);
-document.getElementById('kpiStrfShares').textContent=`잔여: $${(atmCapacity.STRF.remaining/1e3).toFixed(1)}B`;
-document.getElementById('kpiStrd').textContent=fmt(totStrd);
-document.getElementById('kpiStrdShares').textContent=`잔여: $${(atmCapacity.STRD.remaining/1e3).toFixed(1)}B`;
-document.getElementById('kpiTotal').textContent=fmt(totAll);
-document.getElementById('kpiTotalBtc').textContent=`→ ${fmtNum(totBtc)} BTC 매입`;
+  let totMstr=0,totStrc=0,totStrk=0,totStrf=0,totStrd=0;
+  issuanceData.forEach(d=>{totMstr+=d.mstr;totStrc+=d.strc;totStrk+=d.strk;totStrf+=d.strf;totStrd+=d.strd});
+  const totAll=totMstr+totStrc+totStrk+totStrf+totStrd;
+  const totBtc=issuanceData.reduce((s,d)=>s+d.btc,0);
+
+  document.getElementById('kpiMstr').textContent=fmt(totMstr);
+  document.getElementById('kpiMstrShares').textContent=`잔여: $${(atmCapacity.MSTR.remaining/1e3).toFixed(1)}B`;
+  document.getElementById('kpiStrc').textContent=fmt(totStrc);
+  document.getElementById('kpiStrcShares').textContent=`잔여: $${(atmCapacity.STRC.remaining/1e3).toFixed(1)}B`;
+  document.getElementById('kpiStrk').textContent=fmt(totStrk);
+  document.getElementById('kpiStrkShares').textContent=`잔여: $${(atmCapacity.STRK.remaining/1e3).toFixed(1)}B`;
+  document.getElementById('kpiStrf').textContent=fmt(totStrf);
+  document.getElementById('kpiStrfShares').textContent=`잔여: $${(atmCapacity.STRF.remaining/1e3).toFixed(1)}B`;
+  document.getElementById('kpiStrd').textContent=fmt(totStrd);
+  document.getElementById('kpiStrdShares').textContent=`잔여: $${(atmCapacity.STRD.remaining/1e3).toFixed(1)}B`;
+  document.getElementById('kpiTotal').textContent=fmt(totAll);
+  document.getElementById('kpiTotalBtc').textContent=`→ ${fmtNum(totBtc)} BTC 매입`;
 
 const syncCharts = ['chartM1','chartM2'];
 let syncing = false;
@@ -573,6 +520,8 @@ document.getElementById('issuanceTable').innerHTML=[...issuanceData].reverse().m
  const tot=d.mstr+d.strc+d.strk+d.strf+d.strd;
  return`<tr><td>${d.week}</td><td style="color:var(--mstr)">${d.mstr?'$'+d.mstr.toLocaleString():'-'}</td><td style="color:var(--strc)">${d.strc?'$'+d.strc.toLocaleString():'-'}</td><td style="color:var(--strk)">${d.strk?'$'+d.strk.toLocaleString():'-'}</td><td style="color:var(--strf)">${d.strf?'$'+d.strf.toLocaleString():'-'}</td><td style="color:var(--strd)">${d.strd?'$'+d.strd.toLocaleString():'-'}</td><td style="color:var(--text-bright)">$${tot.toLocaleString()}</td><td style="color:var(--orange)">${d.btc.toLocaleString()}</td></tr>`;
 }).join('');
+} // end initAtmCharts
+initAtmCharts();
 
 // ═══ IFRAME ═══
 
