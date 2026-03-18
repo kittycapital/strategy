@@ -1,0 +1,2342 @@
+{
+  "last_updated": "2026-03-18T06:56:30Z",
+  "source": "BTC: CSV, MSTR: estimated seed (replaced by yfinance in Actions)",
+  "current": {
+    "date": "2026-03-03",
+    "btc_price": 68293.65,
+    "mstr_price": 140.0,
+    "mnav": 1.102,
+    "btc_held": 720737,
+    "shares": 320000000
+  },
+  "weekly": [
+    {
+      "date": "2020-08-11",
+      "btc_price": 11410.53,
+      "mstr_price": 152,
+      "mnav": 3.721,
+      "btc_held": 21454,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-08-18",
+      "btc_price": 11991.23,
+      "mstr_price": 148.5,
+      "mnav": 3.405,
+      "btc_held": 21454,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-08-25",
+      "btc_price": 11366.13,
+      "mstr_price": 145.0,
+      "mnav": 3.45,
+      "btc_held": 21454,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-09-01",
+      "btc_price": 11970.48,
+      "mstr_price": 141.5,
+      "mnav": 3.14,
+      "btc_held": 21454,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-09-08",
+      "btc_price": 10131.52,
+      "mstr_price": 138.0,
+      "mnav": 3.55,
+      "btc_held": 21454,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-09-15",
+      "btc_price": 10796.95,
+      "mstr_price": 137.41,
+      "mnav": 1.854,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-09-22",
+      "btc_price": 10538.46,
+      "mstr_price": 154.26,
+      "mnav": 2.315,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-09-29",
+      "btc_price": 10844.64,
+      "mstr_price": 171.11,
+      "mnav": 2.654,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-10-06",
+      "btc_price": 10604.41,
+      "mstr_price": 187.96,
+      "mnav": 3.127,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-10-13",
+      "btc_price": 11425.9,
+      "mstr_price": 204.81,
+      "mnav": 3.285,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-10-20",
+      "btc_price": 11916.33,
+      "mstr_price": 221.67,
+      "mnav": 3.518,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-10-27",
+      "btc_price": 13654.22,
+      "mstr_price": 238.52,
+      "mnav": 3.391,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-11-03",
+      "btc_price": 13950.3,
+      "mstr_price": 255.37,
+      "mnav": 3.633,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-11-10",
+      "btc_price": 15290.9,
+      "mstr_price": 272.22,
+      "mnav": 3.601,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-11-17",
+      "btc_price": 17645.41,
+      "mstr_price": 289.07,
+      "mnav": 3.368,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-11-24",
+      "btc_price": 19107.46,
+      "mstr_price": 305.93,
+      "mnav": 3.34,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-12-01",
+      "btc_price": 18803.0,
+      "mstr_price": 322.78,
+      "mnav": 3.627,
+      "btc_held": 38250,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-12-08",
+      "btc_price": 18321.14,
+      "mstr_price": 338.94,
+      "mnav": 3.702,
+      "btc_held": 40824,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-12-15",
+      "btc_price": 19417.08,
+      "mstr_price": 354.59,
+      "mnav": 3.69,
+      "btc_held": 40824,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-12-22",
+      "btc_price": 23783.03,
+      "mstr_price": 370.25,
+      "mnav": 2.548,
+      "btc_held": 70470,
+      "shares": 9940000
+    },
+    {
+      "date": "2020-12-29",
+      "btc_price": 27362.44,
+      "mstr_price": 386.0,
+      "mnav": 2.296,
+      "btc_held": 70470,
+      "shares": 9940000
+    },
+    {
+      "date": "2021-01-05",
+      "btc_price": 33992.43,
+      "mstr_price": 401.75,
+      "mnav": 1.98,
+      "btc_held": 70470,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-01-12",
+      "btc_price": 33922.96,
+      "mstr_price": 417.5,
+      "mnav": 2.053,
+      "btc_held": 70470,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-01-19",
+      "btc_price": 36069.8,
+      "mstr_price": 433.25,
+      "mnav": 1.995,
+      "btc_held": 70470,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-01-26",
+      "btc_price": 32569.85,
+      "mstr_price": 520.0,
+      "mnav": 2.6,
+      "btc_held": 70470,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-02-02",
+      "btc_price": 35510.29,
+      "mstr_price": 660.0,
+      "mnav": 2.963,
+      "btc_held": 70470,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-02-09",
+      "btc_price": 46481.11,
+      "mstr_price": 800,
+      "mnav": 2.706,
+      "btc_held": 70470,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-02-16",
+      "btc_price": 49199.87,
+      "mstr_price": 744.0,
+      "mnav": 2.389,
+      "btc_held": 70470,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-02-23",
+      "btc_price": 48824.43,
+      "mstr_price": 688.0,
+      "mnav": 2.239,
+      "btc_held": 70470,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-03-02",
+      "btc_price": 48378.99,
+      "mstr_price": 657.5,
+      "mnav": 1.927,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-03-09",
+      "btc_price": 54824.12,
+      "mstr_price": 631.25,
+      "mnav": 1.646,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-03-16",
+      "btc_price": 56804.9,
+      "mstr_price": 625.0,
+      "mnav": 1.576,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-03-23",
+      "btc_price": 54738.95,
+      "mstr_price": 633.75,
+      "mnav": 1.653,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-03-30",
+      "btc_price": 58917.69,
+      "mstr_price": 642.5,
+      "mnav": 1.553,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-04-06",
+      "btc_price": 58192.36,
+      "mstr_price": 645.35,
+      "mnav": 1.578,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-04-13",
+      "btc_price": 63503.46,
+      "mstr_price": 612.79,
+      "mnav": 1.387,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-04-20",
+      "btc_price": 56473.03,
+      "mstr_price": 580.23,
+      "mnav": 1.494,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-04-27",
+      "btc_price": 55033.12,
+      "mstr_price": 547.67,
+      "mnav": 1.466,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-05-04",
+      "btc_price": 53333.54,
+      "mstr_price": 515.12,
+      "mnav": 1.443,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-05-11",
+      "btc_price": 56704.57,
+      "mstr_price": 482.56,
+      "mnav": 1.291,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-05-18",
+      "btc_price": 42909.4,
+      "mstr_price": 450,
+      "mnav": 1.62,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-05-25",
+      "btc_price": 38402.22,
+      "mstr_price": 480.88,
+      "mnav": 1.902,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-06-01",
+      "btc_price": 36684.93,
+      "mstr_price": 511.76,
+      "mnav": 2.087,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-06-08",
+      "btc_price": 33472.63,
+      "mstr_price": 542.65,
+      "mnav": 2.393,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-06-15",
+      "btc_price": 40406.27,
+      "mstr_price": 573.53,
+      "mnav": 2.07,
+      "btc_held": 90531,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-06-22",
+      "btc_price": 32505.66,
+      "mstr_price": 600.6,
+      "mnav": 2.445,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-06-29",
+      "btc_price": 35867.78,
+      "mstr_price": 604.76,
+      "mnav": 2.227,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-07-06",
+      "btc_price": 34235.2,
+      "mstr_price": 608.93,
+      "mnav": 2.345,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-07-13",
+      "btc_price": 32702.03,
+      "mstr_price": 613.1,
+      "mnav": 2.467,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-07-20",
+      "btc_price": 29807.35,
+      "mstr_price": 617.26,
+      "mnav": 2.721,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-07-27",
+      "btc_price": 39406.94,
+      "mstr_price": 621.43,
+      "mnav": 2.068,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-08-03",
+      "btc_price": 38152.98,
+      "mstr_price": 625.6,
+      "mnav": 2.147,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-08-10",
+      "btc_price": 45585.03,
+      "mstr_price": 629.76,
+      "mnav": 1.806,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-08-17",
+      "btc_price": 44695.36,
+      "mstr_price": 633.93,
+      "mnav": 1.851,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-08-24",
+      "btc_price": 47706.12,
+      "mstr_price": 638.1,
+      "mnav": 1.743,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-08-31",
+      "btc_price": 47166.69,
+      "mstr_price": 642.26,
+      "mnav": 1.772,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-09-07",
+      "btc_price": 46811.13,
+      "mstr_price": 646.43,
+      "mnav": 1.794,
+      "btc_held": 105085,
+      "shares": 10340000
+    },
+    {
+      "date": "2021-09-14",
+      "btc_price": 47092.49,
+      "mstr_price": 650.39,
+      "mnav": 1.774,
+      "btc_held": 114042,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-09-21",
+      "btc_price": 40693.68,
+      "mstr_price": 653.16,
+      "mnav": 2.06,
+      "btc_held": 114042,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-09-28",
+      "btc_price": 41034.54,
+      "mstr_price": 655.92,
+      "mnav": 2.05,
+      "btc_held": 114042,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-10-05",
+      "btc_price": 51514.81,
+      "mstr_price": 658.68,
+      "mnav": 1.638,
+      "btc_held": 114042,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-10-12",
+      "btc_price": 56041.06,
+      "mstr_price": 661.45,
+      "mnav": 1.511,
+      "btc_held": 114042,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-10-19",
+      "btc_price": 64261.99,
+      "mstr_price": 664.21,
+      "mnav": 1.322,
+      "btc_held": 114042,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-10-26",
+      "btc_price": 60363.79,
+      "mstr_price": 666.97,
+      "mnav": 1.412,
+      "btc_held": 114042,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-11-02",
+      "btc_price": 63226.4,
+      "mstr_price": 669.74,
+      "mnav": 1.352,
+      "btc_held": 114042,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-11-09",
+      "btc_price": 66971.83,
+      "mstr_price": 672.5,
+      "mnav": 1.28,
+      "btc_held": 114042,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-11-16",
+      "btc_price": 60161.25,
+      "mstr_price": 675.26,
+      "mnav": 1.43,
+      "btc_held": 114042,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-11-23",
+      "btc_price": 57569.07,
+      "mstr_price": 678.03,
+      "mnav": 1.499,
+      "btc_held": 114042,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-11-30",
+      "btc_price": 57005.43,
+      "mstr_price": 671.88,
+      "mnav": 1.416,
+      "btc_held": 121044,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-12-07",
+      "btc_price": 50700.09,
+      "mstr_price": 643.44,
+      "mnav": 1.54,
+      "btc_held": 121044,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-12-14",
+      "btc_price": 46612.63,
+      "mstr_price": 615.0,
+      "mnav": 1.618,
+      "btc_held": 121044,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-12-21",
+      "btc_price": 48936.61,
+      "mstr_price": 586.56,
+      "mnav": 1.486,
+      "btc_held": 121044,
+      "shares": 11360000
+    },
+    {
+      "date": "2021-12-28",
+      "btc_price": 47588.86,
+      "mstr_price": 558.12,
+      "mnav": 1.472,
+      "btc_held": 121044,
+      "shares": 11360000
+    },
+    {
+      "date": "2022-01-04",
+      "btc_price": 45897.57,
+      "mstr_price": 523.44,
+      "mnav": 1.462,
+      "btc_held": 121044,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-01-11",
+      "btc_price": 42735.86,
+      "mstr_price": 486.25,
+      "mnav": 1.488,
+      "btc_held": 121044,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-01-18",
+      "btc_price": 42375.63,
+      "mstr_price": 449.06,
+      "mnav": 1.418,
+      "btc_held": 121044,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-01-25",
+      "btc_price": 36954.0,
+      "mstr_price": 411.88,
+      "mnav": 1.531,
+      "btc_held": 121044,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-02-01",
+      "btc_price": 38743.27,
+      "mstr_price": 380.62,
+      "mnav": 1.34,
+      "btc_held": 125051,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-02-08",
+      "btc_price": 44118.45,
+      "mstr_price": 385.0,
+      "mnav": 1.186,
+      "btc_held": 125051,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-02-15",
+      "btc_price": 44575.2,
+      "mstr_price": 389.38,
+      "mnav": 1.182,
+      "btc_held": 125051,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-02-22",
+      "btc_price": 38286.03,
+      "mstr_price": 393.75,
+      "mnav": 1.387,
+      "btc_held": 125051,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-03-01",
+      "btc_price": 44354.64,
+      "mstr_price": 398.12,
+      "mnav": 1.206,
+      "btc_held": 125051,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-03-08",
+      "btc_price": 38737.27,
+      "mstr_price": 402.5,
+      "mnav": 1.391,
+      "btc_held": 125051,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-03-15",
+      "btc_price": 39338.79,
+      "mstr_price": 406.88,
+      "mnav": 1.38,
+      "btc_held": 125051,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-03-22",
+      "btc_price": 42358.81,
+      "mstr_price": 411.25,
+      "mnav": 1.291,
+      "btc_held": 125051,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-03-29",
+      "btc_price": 47465.73,
+      "mstr_price": 415.62,
+      "mnav": 1.161,
+      "btc_held": 125051,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-04-05",
+      "btc_price": 45555.99,
+      "mstr_price": 420,
+      "mnav": 1.215,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-04-12",
+      "btc_price": 40127.18,
+      "mstr_price": 399.58,
+      "mnav": 1.334,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-04-19",
+      "btc_price": 41502.75,
+      "mstr_price": 379.17,
+      "mnav": 1.246,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-04-26",
+      "btc_price": 38117.46,
+      "mstr_price": 358.75,
+      "mnav": 1.31,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-05-03",
+      "btc_price": 37750.45,
+      "mstr_price": 338.33,
+      "mnav": 1.275,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-05-10",
+      "btc_price": 31022.91,
+      "mstr_price": 317.92,
+      "mnav": 1.493,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-05-17",
+      "btc_price": 30425.86,
+      "mstr_price": 297.5,
+      "mnav": 1.463,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-05-24",
+      "btc_price": 29655.59,
+      "mstr_price": 277.08,
+      "mnav": 1.44,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-05-31",
+      "btc_price": 31792.31,
+      "mstr_price": 256.67,
+      "mnav": 1.286,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-06-07",
+      "btc_price": 31155.48,
+      "mstr_price": 236.25,
+      "mnav": 1.254,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-06-14",
+      "btc_price": 22206.79,
+      "mstr_price": 215.83,
+      "mnav": 1.679,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-06-21",
+      "btc_price": 20710.6,
+      "mstr_price": 195.42,
+      "mnav": 1.713,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-06-28",
+      "btc_price": 20280.63,
+      "mstr_price": 175,
+      "mnav": 1.66,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-07-05",
+      "btc_price": 20190.12,
+      "mstr_price": 178.75,
+      "mnav": 1.684,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-07-12",
+      "btc_price": 19323.91,
+      "mstr_price": 182.5,
+      "mnav": 1.777,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-07-19",
+      "btc_price": 23389.43,
+      "mstr_price": 186.25,
+      "mnav": 1.482,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-07-26",
+      "btc_price": 21239.75,
+      "mstr_price": 190.0,
+      "mnav": 1.648,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-08-02",
+      "btc_price": 22978.12,
+      "mstr_price": 193.75,
+      "mnav": 1.537,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-08-09",
+      "btc_price": 23164.32,
+      "mstr_price": 197.5,
+      "mnav": 1.539,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-08-16",
+      "btc_price": 23883.29,
+      "mstr_price": 201.25,
+      "mnav": 1.507,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-08-23",
+      "btc_price": 21528.09,
+      "mstr_price": 205.0,
+      "mnav": 1.687,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-08-30",
+      "btc_price": 19796.81,
+      "mstr_price": 208.75,
+      "mnav": 1.851,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-09-06",
+      "btc_price": 18837.67,
+      "mstr_price": 212.5,
+      "mnav": 1.963,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-09-13",
+      "btc_price": 20296.71,
+      "mstr_price": 216.25,
+      "mnav": 1.838,
+      "btc_held": 129218,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-09-20",
+      "btc_price": 18890.79,
+      "mstr_price": 220,
+      "mnav": 1.981,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-09-27",
+      "btc_price": 19110.55,
+      "mstr_price": 214.47,
+      "mnav": 1.933,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-10-04",
+      "btc_price": 20336.84,
+      "mstr_price": 208.95,
+      "mnav": 1.792,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-10-11",
+      "btc_price": 19051.42,
+      "mstr_price": 203.42,
+      "mnav": 1.888,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-10-18",
+      "btc_price": 19334.42,
+      "mstr_price": 197.89,
+      "mnav": 1.835,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-10-25",
+      "btc_price": 20095.86,
+      "mstr_price": 192.37,
+      "mnav": 1.741,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-11-01",
+      "btc_price": 20485.27,
+      "mstr_price": 186.84,
+      "mnav": 1.684,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-11-08",
+      "btc_price": 18541.27,
+      "mstr_price": 181.32,
+      "mnav": 1.835,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-11-15",
+      "btc_price": 16884.61,
+      "mstr_price": 175.79,
+      "mnav": 1.986,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-11-22",
+      "btc_price": 16189.77,
+      "mstr_price": 170.26,
+      "mnav": 2.041,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-11-29",
+      "btc_price": 16444.98,
+      "mstr_price": 164.74,
+      "mnav": 1.98,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-12-06",
+      "btc_price": 17089.5,
+      "mstr_price": 159.21,
+      "mnav": 1.877,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-12-13",
+      "btc_price": 17781.32,
+      "mstr_price": 153.68,
+      "mnav": 1.777,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-12-20",
+      "btc_price": 16906.3,
+      "mstr_price": 148.16,
+      "mnav": 1.84,
+      "btc_held": 130000,
+      "shares": 11430000
+    },
+    {
+      "date": "2022-12-27",
+      "btc_price": 16717.17,
+      "mstr_price": 150.0,
+      "mnav": 1.835,
+      "btc_held": 132500,
+      "shares": 11430000
+    },
+    {
+      "date": "2023-01-03",
+      "btc_price": 16679.86,
+      "mstr_price": 161.67,
+      "mnav": 1.824,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-01-10",
+      "btc_price": 17446.29,
+      "mstr_price": 173.33,
+      "mnav": 1.802,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-01-17",
+      "btc_price": 21161.52,
+      "mstr_price": 185.0,
+      "mnav": 1.534,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-01-24",
+      "btc_price": 22636.47,
+      "mstr_price": 196.67,
+      "mnav": 1.479,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-01-31",
+      "btc_price": 23139.28,
+      "mstr_price": 208.33,
+      "mnav": 1.492,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-02-07",
+      "btc_price": 23264.29,
+      "mstr_price": 220.0,
+      "mnav": 1.528,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-02-14",
+      "btc_price": 22220.8,
+      "mstr_price": 231.67,
+      "mnav": 1.645,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-02-21",
+      "btc_price": 24436.35,
+      "mstr_price": 243.33,
+      "mnav": 1.538,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-02-28",
+      "btc_price": 23147.35,
+      "mstr_price": 255.0,
+      "mnav": 1.668,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-03-07",
+      "btc_price": 22219.77,
+      "mstr_price": 266.67,
+      "mnav": 1.784,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-03-14",
+      "btc_price": 24746.07,
+      "mstr_price": 278.33,
+      "mnav": 1.643,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-03-21",
+      "btc_price": 28175.82,
+      "mstr_price": 290.0,
+      "mnav": 1.479,
+      "btc_held": 132500,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-03-28",
+      "btc_price": 27268.13,
+      "mstr_price": 301.09,
+      "mnav": 1.492,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-04-04",
+      "btc_price": 28168.09,
+      "mstr_price": 308.7,
+      "mnav": 1.467,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-04-11",
+      "btc_price": 30235.06,
+      "mstr_price": 316.3,
+      "mnav": 1.387,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-04-18",
+      "btc_price": 30397.55,
+      "mstr_price": 323.91,
+      "mnav": 1.401,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-04-25",
+      "btc_price": 28307.6,
+      "mstr_price": 331.52,
+      "mnav": 1.527,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-05-02",
+      "btc_price": 28680.54,
+      "mstr_price": 339.13,
+      "mnav": 1.529,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-05-09",
+      "btc_price": 27658.78,
+      "mstr_price": 346.74,
+      "mnav": 1.609,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-05-16",
+      "btc_price": 27036.65,
+      "mstr_price": 354.35,
+      "mnav": 1.669,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-05-23",
+      "btc_price": 27225.73,
+      "mstr_price": 361.96,
+      "mnav": 1.681,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-05-30",
+      "btc_price": 27702.35,
+      "mstr_price": 369.57,
+      "mnav": 1.675,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-06-06",
+      "btc_price": 27238.78,
+      "mstr_price": 377.17,
+      "mnav": 1.727,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-06-13",
+      "btc_price": 25918.73,
+      "mstr_price": 384.78,
+      "mnav": 1.839,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-06-20",
+      "btc_price": 28327.49,
+      "mstr_price": 392.39,
+      "mnav": 1.706,
+      "btc_held": 138955,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-06-27",
+      "btc_price": 30688.16,
+      "mstr_price": 400,
+      "mnav": 1.455,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-07-04",
+      "btc_price": 30777.58,
+      "mstr_price": 396.07,
+      "mnav": 1.441,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-07-11",
+      "btc_price": 30620.95,
+      "mstr_price": 392.13,
+      "mnav": 1.439,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-07-18",
+      "btc_price": 29856.56,
+      "mstr_price": 388.2,
+      "mnav": 1.465,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-07-25",
+      "btc_price": 29227.39,
+      "mstr_price": 384.27,
+      "mnav": 1.487,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-08-01",
+      "btc_price": 29675.73,
+      "mstr_price": 380.34,
+      "mnav": 1.454,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-08-08",
+      "btc_price": 29765.49,
+      "mstr_price": 376.4,
+      "mnav": 1.44,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-08-15",
+      "btc_price": 29170.35,
+      "mstr_price": 372.47,
+      "mnav": 1.459,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-08-22",
+      "btc_price": 26031.66,
+      "mstr_price": 368.54,
+      "mnav": 1.623,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-08-29",
+      "btc_price": 27727.39,
+      "mstr_price": 364.61,
+      "mnav": 1.513,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-09-05",
+      "btc_price": 25779.98,
+      "mstr_price": 360.67,
+      "mnav": 1.616,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-09-12",
+      "btc_price": 25833.34,
+      "mstr_price": 356.74,
+      "mnav": 1.601,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-09-19",
+      "btc_price": 27211.12,
+      "mstr_price": 352.81,
+      "mnav": 1.509,
+      "btc_held": 152333,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-09-26",
+      "btc_price": 26217.25,
+      "mstr_price": 355.07,
+      "mnav": 1.514,
+      "btc_held": 158245,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-10-03",
+      "btc_price": 27429.98,
+      "mstr_price": 372.84,
+      "mnav": 1.494,
+      "btc_held": 158245,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-10-10",
+      "btc_price": 27391.02,
+      "mstr_price": 390.6,
+      "mnav": 1.544,
+      "btc_held": 158245,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-10-17",
+      "btc_price": 28415.75,
+      "mstr_price": 408.36,
+      "mnav": 1.534,
+      "btc_held": 158245,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-10-24",
+      "btc_price": 33901.53,
+      "mstr_price": 426.12,
+      "mnav": 1.325,
+      "btc_held": 158245,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-10-31",
+      "btc_price": 34667.78,
+      "mstr_price": 443.88,
+      "mnav": 1.333,
+      "btc_held": 158245,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-11-07",
+      "btc_price": 35443.56,
+      "mstr_price": 461.64,
+      "mnav": 1.341,
+      "btc_held": 158245,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-11-14",
+      "btc_price": 35537.64,
+      "mstr_price": 479.4,
+      "mnav": 1.374,
+      "btc_held": 158245,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-11-21",
+      "btc_price": 35813.81,
+      "mstr_price": 497.16,
+      "mnav": 1.4,
+      "btc_held": 158245,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-11-28",
+      "btc_price": 37831.09,
+      "mstr_price": 514.93,
+      "mnav": 1.359,
+      "btc_held": 158245,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-12-05",
+      "btc_price": 44080.65,
+      "mstr_price": 534.81,
+      "mnav": 1.088,
+      "btc_held": 174530,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-12-12",
+      "btc_price": 41450.22,
+      "mstr_price": 555.56,
+      "mnav": 1.19,
+      "btc_held": 174530,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-12-19",
+      "btc_price": 42270.53,
+      "mstr_price": 576.3,
+      "mnav": 1.2,
+      "btc_held": 174530,
+      "shares": 11630000
+    },
+    {
+      "date": "2023-12-26",
+      "btc_price": 42520.4,
+      "mstr_price": 597.04,
+      "mnav": 1.225,
+      "btc_held": 174530,
+      "shares": 11630000
+    },
+    {
+      "date": "2024-01-02",
+      "btc_price": 44957.97,
+      "mstr_price": 597.07,
+      "mnav": 1.252,
+      "btc_held": 189150,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-01-09",
+      "btc_price": 46139.73,
+      "mstr_price": 593.66,
+      "mnav": 1.214,
+      "btc_held": 189150,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-01-16",
+      "btc_price": 43154.95,
+      "mstr_price": 590.24,
+      "mnav": 1.292,
+      "btc_held": 189150,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-01-23",
+      "btc_price": 39845.55,
+      "mstr_price": 586.83,
+      "mnav": 1.393,
+      "btc_held": 189150,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-01-30",
+      "btc_price": 42952.61,
+      "mstr_price": 583.41,
+      "mnav": 1.286,
+      "btc_held": 189150,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-02-06",
+      "btc_price": 43084.67,
+      "mstr_price": 580,
+      "mnav": 1.277,
+      "btc_held": 189150,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-02-13",
+      "btc_price": 49742.44,
+      "mstr_price": 615.0,
+      "mnav": 1.159,
+      "btc_held": 189150,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-02-20",
+      "btc_price": 52284.88,
+      "mstr_price": 650.0,
+      "mnav": 1.153,
+      "btc_held": 189150,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-02-27",
+      "btc_price": 57085.37,
+      "mstr_price": 752.86,
+      "mnav": 1.168,
+      "btc_held": 193000,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-03-05",
+      "btc_price": 63801.2,
+      "mstr_price": 1262.86,
+      "mnav": 1.731,
+      "btc_held": 193000,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-03-12",
+      "btc_price": 71481.29,
+      "mstr_price": 1712.5,
+      "mnav": 2.009,
+      "btc_held": 193000,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-03-19",
+      "btc_price": 61912.77,
+      "mstr_price": 1800,
+      "mnav": 2.184,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-03-26",
+      "btc_price": 69987.84,
+      "mstr_price": 1773.66,
+      "mnav": 1.907,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-04-02",
+      "btc_price": 65446.97,
+      "mstr_price": 1747.31,
+      "mnav": 2.012,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-04-09",
+      "btc_price": 69139.02,
+      "mstr_price": 1720.97,
+      "mnav": 1.879,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-04-16",
+      "btc_price": 63811.86,
+      "mstr_price": 1694.62,
+      "mnav": 2.009,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-04-23",
+      "btc_price": 66407.27,
+      "mstr_price": 1668.28,
+      "mnav": 1.904,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-04-30",
+      "btc_price": 60636.86,
+      "mstr_price": 1641.94,
+      "mnav": 2.056,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-05-07",
+      "btc_price": 62334.82,
+      "mstr_price": 1615.59,
+      "mnav": 1.972,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-05-14",
+      "btc_price": 61552.79,
+      "mstr_price": 1589.25,
+      "mnav": 1.969,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-05-21",
+      "btc_price": 70136.53,
+      "mstr_price": 1562.9,
+      "mnav": 1.703,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-05-28",
+      "btc_price": 68296.22,
+      "mstr_price": 1536.56,
+      "mnav": 1.723,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-06-04",
+      "btc_price": 70567.77,
+      "mstr_price": 1510.22,
+      "mnav": 1.643,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-06-11",
+      "btc_price": 67332.03,
+      "mstr_price": 1483.87,
+      "mnav": 1.696,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-06-18",
+      "btc_price": 65140.75,
+      "mstr_price": 1457.53,
+      "mnav": 1.726,
+      "btc_held": 214246,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-06-25",
+      "btc_price": 61804.64,
+      "mstr_price": 1432.14,
+      "mnav": 1.696,
+      "btc_held": 226331,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-07-02",
+      "btc_price": 62029.02,
+      "mstr_price": 1407.14,
+      "mnav": 1.665,
+      "btc_held": 226331,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-07-09",
+      "btc_price": 58009.23,
+      "mstr_price": 1382.14,
+      "mnav": 1.753,
+      "btc_held": 226331,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-07-16",
+      "btc_price": 65097.15,
+      "mstr_price": 1357.14,
+      "mnav": 1.538,
+      "btc_held": 226331,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-07-23",
+      "btc_price": 65927.67,
+      "mstr_price": 1332.14,
+      "mnav": 1.495,
+      "btc_held": 226331,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-07-30",
+      "btc_price": 66201.02,
+      "mstr_price": 1307.14,
+      "mnav": 1.465,
+      "btc_held": 226331,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-08-06",
+      "btc_price": 56034.32,
+      "mstr_price": 1164.53,
+      "mnav": 1.571,
+      "btc_held": 226331,
+      "shares": 14230000
+    },
+    {
+      "date": "2024-08-13",
+      "btc_price": 60609.57,
+      "mstr_price": 974.88,
+      "mnav": 12.169,
+      "btc_held": 226331,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-08-20",
+      "btc_price": 59012.79,
+      "mstr_price": 785.23,
+      "mnav": 10.116,
+      "btc_held": 226331,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-08-27",
+      "btc_price": 59504.13,
+      "mstr_price": 595.58,
+      "mnav": 7.669,
+      "btc_held": 226331,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-09-03",
+      "btc_price": 57431.02,
+      "mstr_price": 405.93,
+      "mnav": 5.498,
+      "btc_held": 226331,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-09-10",
+      "btc_price": 57648.71,
+      "mstr_price": 216.28,
+      "mnav": 3.038,
+      "btc_held": 226331,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-09-17",
+      "btc_price": 60308.54,
+      "mstr_price": 140.71,
+      "mnav": 1.975,
+      "btc_held": 226331,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-09-24",
+      "btc_price": 64301.97,
+      "mstr_price": 155.77,
+      "mnav": 1.868,
+      "btc_held": 252220,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-10-01",
+      "btc_price": 60837.01,
+      "mstr_price": 174.62,
+      "mnav": 2.18,
+      "btc_held": 252220,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-10-08",
+      "btc_price": 62131.97,
+      "mstr_price": 193.46,
+      "mnav": 2.336,
+      "btc_held": 252220,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-10-15",
+      "btc_price": 67041.11,
+      "mstr_price": 212.31,
+      "mnav": 2.352,
+      "btc_held": 252220,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-10-22",
+      "btc_price": 67361.41,
+      "mstr_price": 231.15,
+      "mnav": 2.527,
+      "btc_held": 252220,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-10-29",
+      "btc_price": 72720.49,
+      "mstr_price": 250.0,
+      "mnav": 2.513,
+      "btc_held": 252220,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-11-05",
+      "btc_price": 69359.56,
+      "mstr_price": 268.85,
+      "mnav": 2.816,
+      "btc_held": 252220,
+      "shares": 167800000
+    },
+    {
+      "date": "2024-11-12",
+      "btc_price": 87955.81,
+      "mstr_price": 298.57,
+      "mnav": 2.574,
+      "btc_held": 279420,
+      "shares": 198000000
+    },
+    {
+      "date": "2024-11-19",
+      "btc_price": 92343.79,
+      "mstr_price": 382.14,
+      "mnav": 2.76,
+      "btc_held": 331200,
+      "shares": 210000000
+    },
+    {
+      "date": "2024-11-26",
+      "btc_price": 91985.32,
+      "mstr_price": 390.0,
+      "mnav": 2.667,
+      "btc_held": 386700,
+      "shares": 225000000
+    },
+    {
+      "date": "2024-12-03",
+      "btc_price": 96002.16,
+      "mstr_price": 361.43,
+      "mnav": 2.291,
+      "btc_held": 402100,
+      "shares": 225000000
+    },
+    {
+      "date": "2024-12-10",
+      "btc_price": 96675.43,
+      "mstr_price": 365.71,
+      "mnav": 2.316,
+      "btc_held": 423650,
+      "shares": 240000000
+    },
+    {
+      "date": "2024-12-17",
+      "btc_price": 106140.6,
+      "mstr_price": 338.57,
+      "mnav": 1.896,
+      "btc_held": 439000,
+      "shares": 240000000
+    },
+    {
+      "date": "2024-12-24",
+      "btc_price": 98676.09,
+      "mstr_price": 325.71,
+      "mnav": 1.945,
+      "btc_held": 444262,
+      "shares": 240000000
+    },
+    {
+      "date": "2024-12-31",
+      "btc_price": 93429.2,
+      "mstr_price": 301.43,
+      "mnav": 1.948,
+      "btc_held": 446400,
+      "shares": 246000000
+    },
+    {
+      "date": "2025-01-07",
+      "btc_price": 96922.7,
+      "mstr_price": 307.14,
+      "mnav": 1.931,
+      "btc_held": 446400,
+      "shares": 246000000
+    },
+    {
+      "date": "2025-01-14",
+      "btc_price": 96534.05,
+      "mstr_price": 297.5,
+      "mnav": 1.868,
+      "btc_held": 450000,
+      "shares": 246000000
+    },
+    {
+      "date": "2025-01-21",
+      "btc_price": 106146.27,
+      "mstr_price": 350,
+      "mnav": 1.994,
+      "btc_held": 461000,
+      "shares": 256000000
+    },
+    {
+      "date": "2025-01-28",
+      "btc_price": 101332.48,
+      "mstr_price": 336.43,
+      "mnav": 1.971,
+      "btc_held": 471107,
+      "shares": 256000000
+    },
+    {
+      "date": "2025-02-04",
+      "btc_price": 97871.82,
+      "mstr_price": 311.43,
+      "mnav": 1.902,
+      "btc_held": 471107,
+      "shares": 256000000
+    },
+    {
+      "date": "2025-02-11",
+      "btc_price": 95747.43,
+      "mstr_price": 287.86,
+      "mnav": 1.828,
+      "btc_held": 471107,
+      "shares": 256000000
+    },
+    {
+      "date": "2025-02-18",
+      "btc_price": 95539.55,
+      "mstr_price": 272.86,
+      "mnav": 1.746,
+      "btc_held": 471107,
+      "shares": 256000000
+    },
+    {
+      "date": "2025-02-25",
+      "btc_price": 88736.17,
+      "mstr_price": 259.52,
+      "mnav": 1.698,
+      "btc_held": 499096,
+      "shares": 256000000
+    },
+    {
+      "date": "2025-03-04",
+      "btc_price": 87222.2,
+      "mstr_price": 256.19,
+      "mnav": 1.708,
+      "btc_held": 499096,
+      "shares": 256000000
+    },
+    {
+      "date": "2025-03-11",
+      "btc_price": 82862.21,
+      "mstr_price": 252.86,
+      "mnav": 1.777,
+      "btc_held": 499096,
+      "shares": 256000000
+    },
+    {
+      "date": "2025-03-18",
+      "btc_price": 82718.5,
+      "mstr_price": 254.29,
+      "mnav": 1.789,
+      "btc_held": 499096,
+      "shares": 256000000
+    },
+    {
+      "date": "2025-03-25",
+      "btc_price": 87471.7,
+      "mstr_price": 278.57,
+      "mnav": 1.834,
+      "btc_held": 499096,
+      "shares": 256000000
+    },
+    {
+      "date": "2025-04-01",
+      "btc_price": 85169.17,
+      "mstr_price": 267.86,
+      "mnav": 1.79,
+      "btc_held": 528185,
+      "shares": 268000000
+    },
+    {
+      "date": "2025-04-08",
+      "btc_price": 76271.95,
+      "mstr_price": 252.86,
+      "mnav": 1.899,
+      "btc_held": 528185,
+      "shares": 268000000
+    },
+    {
+      "date": "2025-04-15",
+      "btc_price": 83668.99,
+      "mstr_price": 250.0,
+      "mnav": 1.714,
+      "btc_held": 528185,
+      "shares": 268000000
+    },
+    {
+      "date": "2025-04-22",
+      "btc_price": 93441.89,
+      "mstr_price": 315.71,
+      "mnav": 1.892,
+      "btc_held": 528185,
+      "shares": 268000000
+    },
+    {
+      "date": "2025-04-29",
+      "btc_price": 94284.79,
+      "mstr_price": 352.86,
+      "mnav": 1.98,
+      "btc_held": 553555,
+      "shares": 268000000
+    },
+    {
+      "date": "2025-05-06",
+      "btc_price": 96802.48,
+      "mstr_price": 374.29,
+      "mnav": 2.035,
+      "btc_held": 553555,
+      "shares": 268000000
+    },
+    {
+      "date": "2025-05-13",
+      "btc_price": 104169.81,
+      "mstr_price": 397.14,
+      "mnav": 1.991,
+      "btc_held": 568840,
+      "shares": 275000000
+    },
+    {
+      "date": "2025-05-20",
+      "btc_price": 106791.09,
+      "mstr_price": 382.14,
+      "mnav": 1.874,
+      "btc_held": 568840,
+      "shares": 275000000
+    },
+    {
+      "date": "2025-05-27",
+      "btc_price": 108994.64,
+      "mstr_price": 392.86,
+      "mnav": 1.884,
+      "btc_held": 568840,
+      "shares": 275000000
+    },
+    {
+      "date": "2025-06-03",
+      "btc_price": 105432.47,
+      "mstr_price": 380.71,
+      "mnav": 1.891,
+      "btc_held": 568840,
+      "shares": 275000000
+    },
+    {
+      "date": "2025-06-10",
+      "btc_price": 110257.23,
+      "mstr_price": 385.71,
+      "mnav": 1.83,
+      "btc_held": 568840,
+      "shares": 275000000
+    },
+    {
+      "date": "2025-06-17",
+      "btc_price": 104601.12,
+      "mstr_price": 390.71,
+      "mnav": 1.875,
+      "btc_held": 592100,
+      "shares": 275000000
+    },
+    {
+      "date": "2025-06-24",
+      "btc_price": 106045.63,
+      "mstr_price": 395.71,
+      "mnav": 1.872,
+      "btc_held": 592100,
+      "shares": 275000000
+    },
+    {
+      "date": "2025-07-01",
+      "btc_price": 105698.28,
+      "mstr_price": 400.71,
+      "mnav": 1.878,
+      "btc_held": 597325,
+      "shares": 275000000
+    },
+    {
+      "date": "2025-07-08",
+      "btc_price": 108950.27,
+      "mstr_price": 405.71,
+      "mnav": 1.843,
+      "btc_held": 597325,
+      "shares": 275000000
+    },
+    {
+      "date": "2025-07-15",
+      "btc_price": 117777.19,
+      "mstr_price": 412.86,
+      "mnav": 1.733,
+      "btc_held": 597325,
+      "shares": 275000000
+    },
+    {
+      "date": "2025-07-22",
+      "btc_price": 119995.41,
+      "mstr_price": 432.5,
+      "mnav": 1.777,
+      "btc_held": 597325,
+      "shares": 275000000
+    },
+    {
+      "date": "2025-07-29",
+      "btc_price": 117922.15,
+      "mstr_price": 450,
+      "mnav": 1.843,
+      "btc_held": 628791,
+      "shares": 285000000
+    },
+    {
+      "date": "2025-08-05",
+      "btc_price": 114141.45,
+      "mstr_price": 433.85,
+      "mnav": 1.84,
+      "btc_held": 628791,
+      "shares": 285000000
+    },
+    {
+      "date": "2025-08-12",
+      "btc_price": 120172.91,
+      "mstr_price": 417.86,
+      "mnav": 1.687,
+      "btc_held": 628791,
+      "shares": 285000000
+    },
+    {
+      "date": "2025-08-19",
+      "btc_price": 112831.18,
+      "mstr_price": 402.86,
+      "mnav": 1.737,
+      "btc_held": 628791,
+      "shares": 285000000
+    },
+    {
+      "date": "2025-08-26",
+      "btc_price": 111802.66,
+      "mstr_price": 387.14,
+      "mnav": 1.689,
+      "btc_held": 628791,
+      "shares": 285000000
+    },
+    {
+      "date": "2025-09-02",
+      "btc_price": 111200.59,
+      "mstr_price": 367.14,
+      "mnav": 1.632,
+      "btc_held": 628791,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-09-09",
+      "btc_price": 111530.55,
+      "mstr_price": 347.86,
+      "mnav": 1.525,
+      "btc_held": 638460,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-09-16",
+      "btc_price": 116843.19,
+      "mstr_price": 332.86,
+      "mnav": 1.398,
+      "btc_held": 638460,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-09-23",
+      "btc_price": 112014.5,
+      "mstr_price": 317.14,
+      "mnav": 1.395,
+      "btc_held": 638460,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-09-30",
+      "btc_price": 114056.09,
+      "mstr_price": 299.29,
+      "mnav": 1.299,
+      "btc_held": 638460,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-10-07",
+      "btc_price": 121451.38,
+      "mstr_price": 294.29,
+      "mnav": 1.201,
+      "btc_held": 638460,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-10-14",
+      "btc_price": 113118.66,
+      "mstr_price": 288.57,
+      "mnav": 1.267,
+      "btc_held": 638460,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-10-21",
+      "btc_price": 108476.89,
+      "mstr_price": 278.57,
+      "mnav": 1.28,
+      "btc_held": 638460,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-10-28",
+      "btc_price": 112956.16,
+      "mstr_price": 267.14,
+      "mnav": 1.183,
+      "btc_held": 638460,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-11-04",
+      "btc_price": 101590.52,
+      "mstr_price": 247.86,
+      "mnav": 1.23,
+      "btc_held": 638460,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-11-11",
+      "btc_price": 102997.47,
+      "mstr_price": 232.86,
+      "mnav": 1.148,
+      "btc_held": 638460,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-11-18",
+      "btc_price": 92948.88,
+      "mstr_price": 218.21,
+      "mnav": 1.179,
+      "btc_held": 649870,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-11-25",
+      "btc_price": 87341.89,
+      "mstr_price": 205.71,
+      "mnav": 1.192,
+      "btc_held": 649870,
+      "shares": 288000000
+    },
+    {
+      "date": "2025-12-02",
+      "btc_price": 91350.2,
+      "mstr_price": 193.57,
+      "mnav": 1.093,
+      "btc_held": 649870,
+      "shares": 293000000
+    },
+    {
+      "date": "2025-12-09",
+      "btc_price": 92691.71,
+      "mstr_price": 184.29,
+      "mnav": 1.015,
+      "btc_held": 660624,
+      "shares": 293000000
+    },
+    {
+      "date": "2025-12-16",
+      "btc_price": 87843.98,
+      "mstr_price": 179.29,
+      "mnav": 1.029,
+      "btc_held": 671268,
+      "shares": 293000000
+    },
+    {
+      "date": "2025-12-23",
+      "btc_price": 87414.0,
+      "mstr_price": 174.29,
+      "mnav": 1.009,
+      "btc_held": 671268,
+      "shares": 293000000
+    },
+    {
+      "date": "2025-12-30",
+      "btc_price": 88430.13,
+      "mstr_price": 169.29,
+      "mnav": 0.973,
+      "btc_held": 671268,
+      "shares": 293000000
+    },
+    {
+      "date": "2026-01-06",
+      "btc_price": 93729.03,
+      "mstr_price": 165.43,
+      "mnav": 0.901,
+      "btc_held": 673783,
+      "shares": 293000000
+    },
+    {
+      "date": "2026-01-13",
+      "btc_price": 95321.78,
+      "mstr_price": 168.62,
+      "mnav": 0.909,
+      "btc_held": 687410,
+      "shares": 303000000
+    },
+    {
+      "date": "2026-01-20",
+      "btc_price": 88310.91,
+      "mstr_price": 173,
+      "mnav": 0.999,
+      "btc_held": 709715,
+      "shares": 313000000
+    },
+    {
+      "date": "2026-01-27",
+      "btc_price": 89102.57,
+      "mstr_price": 159.29,
+      "mnav": 0.922,
+      "btc_held": 709715,
+      "shares": 313000000
+    },
+    {
+      "date": "2026-02-03",
+      "btc_price": 75633.55,
+      "mstr_price": 152.86,
+      "mnav": 1.043,
+      "btc_held": 713502,
+      "shares": 313000000
+    },
+    {
+      "date": "2026-02-10",
+      "btc_price": 68793.96,
+      "mstr_price": 138.12,
+      "mnav": 1.053,
+      "btc_held": 713502,
+      "shares": 313000000
+    },
+    {
+      "date": "2026-02-17",
+      "btc_price": 67494.22,
+      "mstr_price": 125,
+      "mnav": 0.983,
+      "btc_held": 717131,
+      "shares": 313000000
+    },
+    {
+      "date": "2026-02-24",
+      "btc_price": 64080.04,
+      "mstr_price": 130.71,
+      "mnav": 1.074,
+      "btc_held": 717131,
+      "shares": 313000000
+    },
+    {
+      "date": "2026-03-03",
+      "btc_price": 68293.65,
+      "mstr_price": 140.0,
+      "mnav": 1.102,
+      "btc_held": 720737,
+      "shares": 320000000
+    }
+  ]
+}
