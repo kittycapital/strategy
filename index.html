@@ -283,12 +283,6 @@ function renderTable(){
  document.getElementById('purchaseTable').innerHTML=[...purchaseData].reverse().map(p=>`<tr><td>${p.date}</td><td style="color:var(--orange)">${fmtNum(p.btc)}</td><td>${fmt(p.avg_price)}</td><td>${fmt(p.total_usd)}</td><td style="color:var(--text-bright)">${fmtNum(p.cumulative_btc)}</td><td><span class="funding-badge ${getFundingBadgeClass(p.funding)}">${getFundingLabel(p.funding)}</span></td></tr>`).join('');
 }
 
-/* ═══ SHARE ═══ */
-\n ${document.getElementById('kpiTotalCost').textContent}`)}&url=${encodeURIComponent(location.href)}`,'_blank')}
-}})}catch(e){copyLink()}}
-&text=${encodeURIComponent('Strategy(MSTR) BTC 트래커')}`,'_blank')}
-else{const t=document.createElement('textarea');t.value=location.href;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);alert('복사완료!')}}
-
 /* ═══ IFRAME HEIGHT ═══ */
 
 var SHARE_URL='https://herdvibe.com/131';
