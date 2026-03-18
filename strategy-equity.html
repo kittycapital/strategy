@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Strategy (MSTR)   &    | HerdVibe</title>
-<meta name="description" content="Strategy(MSTR) ATM    - MSTR , STRC, STRK, STRF, STRD    ">
+<title>Strategy (MSTR) 주식 발행 & 자본 조달 트래커 | HerdVibe</title>
+<meta name="description" content="Strategy(MSTR) ATM 주식 발행 현황 - MSTR 보통주, STRC, STRK, STRF, STRD 우선주 발행 이력 대시보드">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -68,406 +68,409 @@ tbody tr:hover{background:rgba(0,212,170,.04)}
 </head>
 <body>
 <div class="container">
-  <div class="header">
-    <h1> Strategy(MSTR)   &   </h1>
-    <div class="subtitle">SEC 8-K   · MSTR + STRC + STRK + STRF + STRD ATM  </div>
-    <div class="last-updated" id="lastUpdated">Source: SEC EDGAR 8-K filings</div>
-  </div>
+ <div class="header">
+ <h1> Strategy(MSTR) 주식 발행 & 자본 조달 트래커</h1>
+ <div class="subtitle">SEC 8-K 공시 기반 · MSTR + STRC + STRK + STRF + STRD ATM 발행 현황</div>
+ <div class="last-updated" id="lastUpdated">Source: SEC EDGAR 8-K filings</div>
+ </div>
 
-  <!-- KPI -->
-  <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-label">MSTR  </div><div class="kpi-value" style="color:var(--mstr)" id="kpiMstr">--</div><div class="kpi-sub" id="kpiMstrShares">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">STRC  (Stretch)</div><div class="kpi-value" style="color:var(--strc)" id="kpiStrc">--</div><div class="kpi-sub" id="kpiStrcShares">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">STRK  (Strike)</div><div class="kpi-value" style="color:var(--strk)" id="kpiStrk">--</div><div class="kpi-sub" id="kpiStrkShares">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">STRF  (Strife)</div><div class="kpi-value" style="color:var(--strf)" id="kpiStrf">--</div><div class="kpi-sub" id="kpiStrfShares">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">STRD  (Stride)</div><div class="kpi-value" style="color:var(--strd)" id="kpiStrd">--</div><div class="kpi-sub" id="kpiStrdShares">--</div></div>
-    <div class="kpi-card"><div class="kpi-label">  </div><div class="kpi-value" style="color:var(--text-bright)" id="kpiTotal">--</div><div class="kpi-sub" id="kpiTotalBtc">→ BTC  </div></div>
-    <div class="kpi-card"><div class="kpi-label"> mNAV</div><div class="kpi-value" style="color:var(--yellow)" id="kpiMnav">--</div><div class="kpi-sub" id="kpiMnavStatus">--</div></div>
-  </div>
+ <!-- KPI -->
+ <div class="kpi-grid">
+ <div class="kpi-card"><div class="kpi-label">MSTR 보통주 발행</div><div class="kpi-value" style="color:var(--mstr)" id="kpiMstr">--</div><div class="kpi-sub" id="kpiMstrShares">--</div></div>
+ <div class="kpi-card"><div class="kpi-label">STRC 우선주 (Stretch)</div><div class="kpi-value" style="color:var(--strc)" id="kpiStrc">--</div><div class="kpi-sub" id="kpiStrcShares">--</div></div>
+ <div class="kpi-card"><div class="kpi-label">STRK 우선주 (Strike)</div><div class="kpi-value" style="color:var(--strk)" id="kpiStrk">--</div><div class="kpi-sub" id="kpiStrkShares">--</div></div>
+ <div class="kpi-card"><div class="kpi-label">STRF 우선주 (Strife)</div><div class="kpi-value" style="color:var(--strf)" id="kpiStrf">--</div><div class="kpi-sub" id="kpiStrfShares">--</div></div>
+ <div class="kpi-card"><div class="kpi-label">STRD 우선주 (Stride)</div><div class="kpi-value" style="color:var(--strd)" id="kpiStrd">--</div><div class="kpi-sub" id="kpiStrdShares">--</div></div>
+ <div class="kpi-card"><div class="kpi-label">총 자본 조달</div><div class="kpi-value" style="color:var(--text-bright)" id="kpiTotal">--</div><div class="kpi-sub" id="kpiTotalBtc">→ BTC 매입 연결</div></div>
+ <div class="kpi-card"><div class="kpi-label">현재 mNAV</div><div class="kpi-value" style="color:var(--yellow)" id="kpiMnav">--</div><div class="kpi-sub" id="kpiMnavStatus">--</div></div>
+ </div>
 
-  <!-- Chart M1: mNAV History -->
-  <div class="chart-section">
-    <div class="chart-title"> mNAV   ( / )</div>
-    <div class="chart-desc">mNAV = Enterprise Value ÷ BTC  · 1.0x = NAV  · 1.0   ·  </div>
-    <button class="reset-zoom" id="rzM1" onclick="chartM1.resetZoom()"> </button>
-    <div class="chart-wrap"><canvas id="chartMnav"></canvas></div>
-  </div>
+ <!-- Chart M1: mNAV History -->
+ <div class="chart-section">
+ <div class="chart-title"> mNAV 멀티플 추이 (프리미엄 / 디스카운트)</div>
+ <div class="chart-desc">mNAV = Enterprise Value ÷ BTC 보유가치 · 1.0x = NAV 패리티 · 1.0 이상 프리미엄 · 이하 디스카운트</div>
+ <button class="reset-zoom" id="rzM1" onclick="chartM1.resetZoom()"> 리셋</button>
+ <div class="chart-wrap"><canvas id="chartMnav"></canvas></div>
+ </div>
 
-  <!-- Chart M2: BTC vs MSTR dual axis -->
-  <div class="chart-section">
-    <div class="chart-title"> BTC  vs MSTR </div>
-    <div class="chart-desc"> Y — BTC(, ) / MSTR(, ) ·  = mNAV  </div>
-    <button class="reset-zoom" id="rzM2" onclick="chartM2.resetZoom()"> </button>
-    <div class="chart-wrap"><canvas id="chartBtcMstr"></canvas></div>
-  </div>
+ <!-- Chart M2: BTC vs MSTR dual axis -->
+ <div class="chart-section">
+ <div class="chart-title"> BTC 가격 vs MSTR 주가</div>
+ <div class="chart-desc">듀얼 Y축 — BTC(주황, 좌) / MSTR(파랑, 우) · 괴리 = mNAV 변동 구간</div>
+ <button class="reset-zoom" id="rzM2" onclick="chartM2.resetZoom()"> 리셋</button>
+ <div class="chart-wrap"><canvas id="chartBtcMstr"></canvas></div>
+ </div>
 
-  <!-- Chart 1: Stacked bar - weekly ATM proceeds by ticker -->
-  <div class="chart-section">
-    <div class="chart-title">  ATM   ()</div>
-    <div class="chart-desc"> 8-K       (Stacked Bar)</div>
-    <div class="legend-row">
-      <div class="legend-item"><div class="legend-dot" style="background:var(--mstr)"></div>MSTR</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--strc)"></div>STRC</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--strk)"></div>STRK</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--strf)"></div>STRF</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--strd)"></div>STRD</div>
-    </div>
-    <button class="reset-zoom" id="rz1" onclick="chart1.resetZoom()"> </button>
-    <div class="chart-wrap"><canvas id="chart1"></canvas></div>
-  </div>
+ <!-- Chart 1: Stacked bar - weekly ATM proceeds by ticker -->
+ <div class="chart-section">
+ <div class="chart-title"> 주간 ATM 자본 조달 (티커별)</div>
+ <div class="chart-desc">매주 8-K 공시 기준 각 티커별 발행 수익금 (Stacked Bar)</div>
+ <div class="legend-row">
+ <div class="legend-item"><div class="legend-dot" style="background:var(--mstr)"></div>MSTR</div>
+ <div class="legend-item"><div class="legend-dot" style="background:var(--strc)"></div>STRC</div>
+ <div class="legend-item"><div class="legend-dot" style="background:var(--strk)"></div>STRK</div>
+ <div class="legend-item"><div class="legend-dot" style="background:var(--strf)"></div>STRF</div>
+ <div class="legend-item"><div class="legend-dot" style="background:var(--strd)"></div>STRD</div>
+ </div>
+ <button class="reset-zoom" id="rz1" onclick="chart1.resetZoom()"> 리셋</button>
+ <div class="chart-wrap"><canvas id="chart1"></canvas></div>
+ </div>
 
-  <!-- Chart 2: Cumulative proceeds line -->
-  <div class="chart-section">
-    <div class="chart-title">    </div>
-    <div class="chart-desc">    +   </div>
-    <button class="reset-zoom" id="rz2" onclick="chart2.resetZoom()"> </button>
-    <div class="chart-wrap"><canvas id="chart2"></canvas></div>
-  </div>
+ <!-- Chart 2: Cumulative proceeds line -->
+ <div class="chart-section">
+ <div class="chart-title"> 누적 자본 조달 추이</div>
+ <div class="chart-desc">총 자본 조달 누적액 + 티커별 누적 비중</div>
+ <button class="reset-zoom" id="rz2" onclick="chart2.resetZoom()"> 리셋</button>
+ <div class="chart-wrap"><canvas id="chart2"></canvas></div>
+ </div>
 
-  <!-- Chart 3: Pie - total proceeds by ticker -->
-  <div class="chart-section">
-    <div class="chart-title">    </div>
-    <div class="chart-desc"> ATM      </div>
-    <div class="chart-wrap" style="height:320px"><canvas id="chart3"></canvas></div>
-  </div>
+ <!-- Chart 3: Pie - total proceeds by ticker -->
+ <div class="chart-section">
+ <div class="chart-title"> 티커별 자본 조달 비중</div>
+ <div class="chart-desc">전체 ATM 발행 수익금 중 각 티커 비중</div>
+ <div class="chart-wrap" style="height:320px"><canvas id="chart3"></canvas></div>
+ </div>
 
-  <!-- Chart 4: ATM remaining capacity -->
-  <div class="chart-section">
-    <div class="chart-title"> ATM   </div>
-    <div class="chart-desc">2026 3 15   ATM     </div>
-    <div class="chart-wrap" style="height:280px"><canvas id="chart4"></canvas></div>
-  </div>
+ <!-- Chart 4: ATM remaining capacity -->
+ <div class="chart-section">
+ <div class="chart-title"> ATM 프로그램 잔여 한도</div>
+ <div class="chart-desc">2026년 3월 15일 기준 각 ATM 프로그램의 남은 발행 가능 금액</div>
+ <div class="chart-wrap" style="height:280px"><canvas id="chart4"></canvas></div>
+ </div>
 
-  <!-- Table -->
-  <div class="chart-section">
-    <div class="chart-title">  ATM  </div>
-    <div class="chart-desc">SEC 8-K   — </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th></th><th>MSTR ($M)</th><th>STRC ($M)</th><th>STRK ($M)</th><th>STRF ($M)</th><th>STRD ($M)</th><th> ($M)</th><th>BTC </th></tr></thead>
-        <tbody id="issuanceTable"></tbody>
-      </table>
-    </div>
-  </div>
+ <!-- Table -->
+ <div class="chart-section">
+ <div class="chart-title"> 주간 ATM 발행 이력</div>
+ <div class="chart-desc">SEC 8-K 공시 기반 — 최신순</div>
+ <div class="table-wrap">
+ <table>
+ <thead><tr><th>기간</th><th>MSTR ($M)</th><th>STRC ($M)</th><th>STRK ($M)</th><th>STRF ($M)</th><th>STRD ($M)</th><th>합계 ($M)</th><th>BTC 매입</th></tr></thead>
+ <tbody id="issuanceTable"></tbody>
+ </table>
+ </div>
+ </div>
 
-    <div class="share-bar" style="border-top:none">
-    <div class="share-bar-preview"><span>Strategy — BTC & 자본조달 트래커</span> — herdvibe.com</div>
-    <div class="share-bar-buttons">
-      <button class="share-btn share-btn--x" onclick="doShare('twitter')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="label-text">트위터</span></button>
-      <button class="share-btn share-btn--kakao" onclick="doShare('kakao')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.463 2 10.691c0 2.724 1.8 5.112 4.508 6.458l-1.148 4.265a.5.5 0 0 0 .764.533l4.94-3.26c.304.02.612.03.936.03 5.523 0 10-3.462 10-7.735C22 6.463 17.523 3 12 3z"/></svg><span class="label-text">카카오톡</span></button>
-      <button class="share-btn share-btn--tg" onclick="doShare('telegram')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg><span class="label-text">텔레그램</span></button>
-      <button class="share-btn share-btn--copy" onclick="doShare('link',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span class="label-text">링크 복사</span></button>
-    </div>
-  </div>
+ <div class="share-bar">
+ <button class="share-btn" onclick="shareX()">𝕏 공유</button>
+ <button class="share-btn" onclick="shareKakao()"> 카카오톡</button>
+ <button class="share-btn" onclick="shareTelegram()">️ 텔레그램</button>
+ <button class="share-btn" onclick="copyLink()"> 링크복사</button>
+ </div>
+
+  <div class="footer">
+ <p>Herdvibe.com · Data: SEC EDGAR 8-K · <a href="https://www.strategy.com/purchases" target="_blank">strategy.com</a></p>
+ <p style="margin-top:4px">본 자료는 투자 권유가 아닙니다.</p>
+ </div>
+</div>
 
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
 <script>
-//  WATERMARK 
+// ═══ WATERMARK ═══
 Chart.register({id:'wm',afterDraw(c){const{ctx,chartArea:a}=c;if(!a)return;ctx.save();ctx.globalAlpha=.06;ctx.font='bold 24px JetBrains Mono';ctx.fillStyle='#fff';ctx.textAlign='center';ctx.fillText('Herdvibe.com',a.left+a.width/2,a.top+a.height/2);ctx.restore()}});
 Chart.defaults.color='#888';Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=10;
 Chart.defaults.plugins.legend.labels.usePointStyle=true;
 
-//  DATA: Weekly ATM issuance from 8-K filings 
+// ═══ DATA: Weekly ATM issuance from 8-K filings ═══
 // Each entry: {week, mstr_proceeds, strc_proceeds, strk_proceeds, strf_proceeds, strd_proceeds, btc_bought}
 // All proceeds in $M
 const issuanceData = [
-  // 2024 Q4 - massive ATM era begins
-  {week:"2024-11-11",mstr:2000,strc:0,strk:0,strf:0,strd:0,btc:27200},
-  {week:"2024-11-18",mstr:4600,strc:0,strk:0,strf:0,strd:0,btc:51780},
-  {week:"2024-11-25",mstr:5400,strc:0,strk:0,strf:0,strd:0,btc:55500},
-  {week:"2024-12-02",mstr:1500,strc:0,strk:0,strf:0,strd:0,btc:15400},
-  {week:"2024-12-09",mstr:2100,strc:0,strk:0,strf:0,strd:0,btc:21550},
-  {week:"2024-12-16",mstr:1500,strc:0,strk:0,strf:0,strd:0,btc:15350},
-  {week:"2024-12-23",mstr:561,strc:0,strk:0,strf:0,strd:0,btc:5262},
-  {week:"2024-12-30",mstr:209,strc:0,strk:0,strf:0,strd:0,btc:2138},
-  // 2025 Q1
-  {week:"2025-01-06",mstr:100,strc:0,strk:0,strf:0,strd:0,btc:1070},
-  {week:"2025-01-13",mstr:243,strc:0,strk:0,strf:0,strd:0,btc:2530},
-  {week:"2025-01-21",mstr:1100,strc:0,strk:0,strf:0,strd:0,btc:11000},
-  {week:"2025-01-27",mstr:1100,strc:0,strk:0,strf:0,strd:0,btc:10107},
-  {week:"2025-02-10",mstr:0,strc:0,strk:563,strf:179,strd:0,btc:7633},
-  {week:"2025-02-24",mstr:0,strc:0,strk:1278,strf:712,strd:0,btc:20356},
-  {week:"2025-03-17",mstr:10.7,strc:0,strk:0,strf:0,strd:0,btc:130},
-  {week:"2025-03-24",mstr:584,strc:0,strk:0,strf:0,strd:0,btc:6911},
-  {week:"2025-03-31",mstr:1920,strc:0,strk:0,strf:0,strd:0,btc:22048},
-  // 2025 Q2
-  {week:"2025-04-14",mstr:285.8,strc:0,strk:0,strf:0,strd:0,btc:3459},
-  {week:"2025-04-21",mstr:555.8,strc:0,strk:0,strf:0,strd:0,btc:6556},
-  {week:"2025-04-28",mstr:1420,strc:0,strk:0,strf:0,strd:0,btc:15355},
-  {week:"2025-05-05",mstr:180,strc:0,strk:0,strf:0,strd:0,btc:1895},
-  {week:"2025-05-12",mstr:1340,strc:0,strk:0,strf:0,strd:0,btc:13390},
-  {week:"2025-05-19",mstr:765,strc:0,strk:0,strf:0,strd:0,btc:7390},
-  {week:"2025-05-26",mstr:427,strc:0,strk:0,strf:0,strd:0,btc:4020},
-  {week:"2025-06-02",mstr:75,strc:0,strk:0,strf:0,strd:0,btc:705},
-  {week:"2025-06-16",mstr:1051,strc:0,strk:0,strf:0,strd:0,btc:10100},
-  {week:"2025-06-30",mstr:532,strc:0,strk:0,strf:0,strd:0,btc:4980},
-  // 2025 Q3 - STRC debuts Jul 2025
-  {week:"2025-07-14",mstr:420,strc:52,strk:0,strf:0,strd:0,btc:4225},
-  {week:"2025-07-21",mstr:650,strc:90,strk:0,strf:0,strd:0,btc:6220},
-  {week:"2025-07-29",mstr:2100,strc:365,strk:0,strf:0,strd:0,btc:21021},
-  {week:"2025-08-11",mstr:12,strc:6,strk:0,strf:0,strd:0,btc:155},
-  {week:"2025-08-18",mstr:35,strc:16,strk:0,strf:0,strd:0,btc:430},
-  {week:"2025-08-25",mstr:280,strc:77,strk:0,strf:0,strd:0,btc:3081},
-  {week:"2025-09-02",mstr:350,strc:99,strk:0,strf:0,strd:0,btc:4048},
-  {week:"2025-09-08",mstr:170,strc:47,strk:0,strf:0,strd:0,btc:1955},
-  {week:"2025-09-15",mstr:42,strc:18,strk:0,strf:0,strd:0,btc:525},
-  {week:"2025-09-22",mstr:72,strc:28,strk:0,strf:0,strd:0,btc:850},
-  {week:"2025-09-29",mstr:15,strc:7,strk:0,strf:0,strd:0,btc:196},
-  // 2025 Q4
-  {week:"2025-10-13",mstr:18,strc:9,strk:0,strf:0,strd:0,btc:220},
-  {week:"2025-10-20",mstr:12,strc:7,strk:0,strf:0,strd:0,btc:168},
-  {week:"2025-10-27",mstr:30,strc:13,strk:0,strf:0,strd:0,btc:390},
-  {week:"2025-11-03",mstr:33,strc:13,strk:0,strf:0,strd:0,btc:397},
-  {week:"2025-11-10",mstr:35,strc:15,strk:0,strf:0,strd:0,btc:487},
-  {week:"2025-11-17",mstr:700,strc:136,strk:0,strf:0,strd:0,btc:8178},
-  {week:"2025-12-01",mstr:8,strc:4,strk:0,strf:0,strd:0,btc:130},
-  {week:"2025-12-08",mstr:928,strc:0,strk:0,strf:0,strd:35,btc:10624},
-  {week:"2025-12-15",mstr:835,strc:0,strk:0,strf:0,strd:102,btc:10645},
-  {week:"2025-12-29",mstr:109,strc:0,strk:0,strf:0,strd:0,btc:1229},
-  // 2026 Q1 - STRC becomes major funding source
-  {week:"2026-01-05",mstr:116,strc:0,strk:0,strf:0,strd:0,btc:1283},
-  {week:"2026-01-12",mstr:1128,strc:119,strk:0,strf:0,strd:0,btc:13627},
-  {week:"2026-01-20",mstr:1830,strc:294,strk:3.4,strf:0,strd:0,btc:22305},
-  {week:"2026-01-26",mstr:180,strc:84,strk:0,strf:0,strd:0,btc:2932},
-  {week:"2026-02-02",mstr:0,strc:421,strk:0,strf:0,strd:0,btc:855},
-  {week:"2026-02-09",mstr:0,strc:90,strk:0,strf:0,strd:0,btc:1142},
-  {week:"2026-02-17",mstr:62,strc:106,strk:0,strf:0,strd:0,btc:2486},
-  {week:"2026-02-23",mstr:0,strc:40,strk:0,strf:0,strd:0,btc:592},
-  {week:"2026-03-02",mstr:230,strc:7,strk:0,strf:0,strd:0,btc:3015},
-  {week:"2026-03-09",mstr:900,strc:377,strk:0,strf:0,strd:0,btc:17994},
-  {week:"2026-03-16",mstr:396,strc:1180,strk:0,strf:0,strd:0,btc:22337},
+ // 2024 Q4 - massive ATM era begins
+ {week:"2024-11-11",mstr:2000,strc:0,strk:0,strf:0,strd:0,btc:27200},
+ {week:"2024-11-18",mstr:4600,strc:0,strk:0,strf:0,strd:0,btc:51780},
+ {week:"2024-11-25",mstr:5400,strc:0,strk:0,strf:0,strd:0,btc:55500},
+ {week:"2024-12-02",mstr:1500,strc:0,strk:0,strf:0,strd:0,btc:15400},
+ {week:"2024-12-09",mstr:2100,strc:0,strk:0,strf:0,strd:0,btc:21550},
+ {week:"2024-12-16",mstr:1500,strc:0,strk:0,strf:0,strd:0,btc:15350},
+ {week:"2024-12-23",mstr:561,strc:0,strk:0,strf:0,strd:0,btc:5262},
+ {week:"2024-12-30",mstr:209,strc:0,strk:0,strf:0,strd:0,btc:2138},
+ // 2025 Q1
+ {week:"2025-01-06",mstr:100,strc:0,strk:0,strf:0,strd:0,btc:1070},
+ {week:"2025-01-13",mstr:243,strc:0,strk:0,strf:0,strd:0,btc:2530},
+ {week:"2025-01-21",mstr:1100,strc:0,strk:0,strf:0,strd:0,btc:11000},
+ {week:"2025-01-27",mstr:1100,strc:0,strk:0,strf:0,strd:0,btc:10107},
+ {week:"2025-02-10",mstr:0,strc:0,strk:563,strf:179,strd:0,btc:7633},
+ {week:"2025-02-24",mstr:0,strc:0,strk:1278,strf:712,strd:0,btc:20356},
+ {week:"2025-03-17",mstr:10.7,strc:0,strk:0,strf:0,strd:0,btc:130},
+ {week:"2025-03-24",mstr:584,strc:0,strk:0,strf:0,strd:0,btc:6911},
+ {week:"2025-03-31",mstr:1920,strc:0,strk:0,strf:0,strd:0,btc:22048},
+ // 2025 Q2
+ {week:"2025-04-14",mstr:285.8,strc:0,strk:0,strf:0,strd:0,btc:3459},
+ {week:"2025-04-21",mstr:555.8,strc:0,strk:0,strf:0,strd:0,btc:6556},
+ {week:"2025-04-28",mstr:1420,strc:0,strk:0,strf:0,strd:0,btc:15355},
+ {week:"2025-05-05",mstr:180,strc:0,strk:0,strf:0,strd:0,btc:1895},
+ {week:"2025-05-12",mstr:1340,strc:0,strk:0,strf:0,strd:0,btc:13390},
+ {week:"2025-05-19",mstr:765,strc:0,strk:0,strf:0,strd:0,btc:7390},
+ {week:"2025-05-26",mstr:427,strc:0,strk:0,strf:0,strd:0,btc:4020},
+ {week:"2025-06-02",mstr:75,strc:0,strk:0,strf:0,strd:0,btc:705},
+ {week:"2025-06-16",mstr:1051,strc:0,strk:0,strf:0,strd:0,btc:10100},
+ {week:"2025-06-30",mstr:532,strc:0,strk:0,strf:0,strd:0,btc:4980},
+ // 2025 Q3 - STRC debuts Jul 2025
+ {week:"2025-07-14",mstr:420,strc:52,strk:0,strf:0,strd:0,btc:4225},
+ {week:"2025-07-21",mstr:650,strc:90,strk:0,strf:0,strd:0,btc:6220},
+ {week:"2025-07-29",mstr:2100,strc:365,strk:0,strf:0,strd:0,btc:21021},
+ {week:"2025-08-11",mstr:12,strc:6,strk:0,strf:0,strd:0,btc:155},
+ {week:"2025-08-18",mstr:35,strc:16,strk:0,strf:0,strd:0,btc:430},
+ {week:"2025-08-25",mstr:280,strc:77,strk:0,strf:0,strd:0,btc:3081},
+ {week:"2025-09-02",mstr:350,strc:99,strk:0,strf:0,strd:0,btc:4048},
+ {week:"2025-09-08",mstr:170,strc:47,strk:0,strf:0,strd:0,btc:1955},
+ {week:"2025-09-15",mstr:42,strc:18,strk:0,strf:0,strd:0,btc:525},
+ {week:"2025-09-22",mstr:72,strc:28,strk:0,strf:0,strd:0,btc:850},
+ {week:"2025-09-29",mstr:15,strc:7,strk:0,strf:0,strd:0,btc:196},
+ // 2025 Q4
+ {week:"2025-10-13",mstr:18,strc:9,strk:0,strf:0,strd:0,btc:220},
+ {week:"2025-10-20",mstr:12,strc:7,strk:0,strf:0,strd:0,btc:168},
+ {week:"2025-10-27",mstr:30,strc:13,strk:0,strf:0,strd:0,btc:390},
+ {week:"2025-11-03",mstr:33,strc:13,strk:0,strf:0,strd:0,btc:397},
+ {week:"2025-11-10",mstr:35,strc:15,strk:0,strf:0,strd:0,btc:487},
+ {week:"2025-11-17",mstr:700,strc:136,strk:0,strf:0,strd:0,btc:8178},
+ {week:"2025-12-01",mstr:8,strc:4,strk:0,strf:0,strd:0,btc:130},
+ {week:"2025-12-08",mstr:928,strc:0,strk:0,strf:0,strd:35,btc:10624},
+ {week:"2025-12-15",mstr:835,strc:0,strk:0,strf:0,strd:102,btc:10645},
+ {week:"2025-12-29",mstr:109,strc:0,strk:0,strf:0,strd:0,btc:1229},
+ // 2026 Q1 - STRC becomes major funding source
+ {week:"2026-01-05",mstr:116,strc:0,strk:0,strf:0,strd:0,btc:1283},
+ {week:"2026-01-12",mstr:1128,strc:119,strk:0,strf:0,strd:0,btc:13627},
+ {week:"2026-01-20",mstr:1830,strc:294,strk:3.4,strf:0,strd:0,btc:22305},
+ {week:"2026-01-26",mstr:180,strc:84,strk:0,strf:0,strd:0,btc:2932},
+ {week:"2026-02-02",mstr:0,strc:421,strk:0,strf:0,strd:0,btc:855},
+ {week:"2026-02-09",mstr:0,strc:90,strk:0,strf:0,strd:0,btc:1142},
+ {week:"2026-02-17",mstr:62,strc:106,strk:0,strf:0,strd:0,btc:2486},
+ {week:"2026-02-23",mstr:0,strc:40,strk:0,strf:0,strd:0,btc:592},
+ {week:"2026-03-02",mstr:230,strc:7,strk:0,strf:0,strd:0,btc:3015},
+ {week:"2026-03-09",mstr:900,strc:377,strk:0,strf:0,strd:0,btc:17994},
+ {week:"2026-03-16",mstr:396,strc:1180,strk:0,strf:0,strd:0,btc:22337},
 ];
 
-//  ATM Remaining Capacity as of Mar 15, 2026 ($M) 
+// ═══ ATM Remaining Capacity as of Mar 15, 2026 ($M) ═══
 const atmCapacity = {
-  MSTR: {total:21000,remaining:6317,color:'var(--mstr)'},
-  STRC: {total:4200,remaining:1976,color:'var(--strc)'},
-  STRK: {total:21000,remaining:20332,color:'var(--strk)'},
-  STRF: {total:2100,remaining:1619,color:'var(--strf)'},
-  STRD: {total:4200,remaining:4015,color:'var(--strd)'},
+ MSTR: {total:21000,remaining:6317,color:'var(--mstr)'},
+ STRC: {total:4200,remaining:1976,color:'var(--strc)'},
+ STRK: {total:21000,remaining:20332,color:'var(--strk)'},
+ STRF: {total:2100,remaining:1619,color:'var(--strf)'},
+ STRD: {total:4200,remaining:4015,color:'var(--strd)'},
 };
 
 let chart1,chart2,chart3,chart4;
 let chartM1,chartM2;
 
-//  LOAD mNAV DATA 
+// ═══ LOAD mNAV DATA ═══
 async function loadMnavData(){
-  try{
-    const r=await fetch('strategy_mnav.json');
-    if(!r.ok) return null;
-    const d=await r.json();
-    console.log('mNAV loaded:',d.weekly?.length,'entries');
-    return d;
-  }catch(e){console.warn('mNAV load error:',e);return null}
+ try{
+ const r=await fetch('strategy_mnav.json');
+ if(!r.ok) return null;
+ const d=await r.json();
+ console.log('mNAV loaded:',d.weekly?.length,'entries');
+ return d;
+ }catch(e){console.warn('mNAV load error:',e);return null}
 }
 
 async function renderMnavCharts(){
-  const data=await loadMnavData();
-  if(!data||!data.weekly||!data.weekly.length) return;
+ const data=await loadMnavData();
+ if(!data||!data.weekly||!data.weekly.length) return;
 
-  const w=data.weekly.filter(d=>d.mnav&&d.mnav>0&&d.mnav<15);
+ const w=data.weekly.filter(d=>d.mnav&&d.mnav>0&&d.mnav<15);
 
-  // KPI
-  if(data.current&&data.current.mnav){
-    const m=data.current.mnav;
-    document.getElementById('kpiMnav').textContent=m.toFixed(2)+'x';
-    const el=document.getElementById('kpiMnavStatus');
-    if(m>=1){el.textContent='';el.style.color='var(--red)'}
-    else{el.textContent='';el.style.color='var(--green)'}
-  }
+ // KPI
+ if(data.current&&data.current.mnav){
+ const m=data.current.mnav;
+ document.getElementById('kpiMnav').textContent=m.toFixed(2)+'x';
+ const el=document.getElementById('kpiMnavStatus');
+ if(m>=1){el.textContent='프리미엄';el.style.color='var(--red)'}
+ else{el.textContent='디스카운트';el.style.color='var(--green)'}
+ }
 
-  //  CHART M1: mNAV with premium/discount zones 
-  const mnavCtx=document.getElementById('chartMnav').getContext('2d');
-  
-  // Background gradient plugin for premium/discount zones
-  const zonePlugin={
-    id:'mnavZones',
-    beforeDraw(chart){
-      const{ctx,chartArea,scales}=chart;
-      if(!chartArea||!scales.y) return;
-      const yScale=scales.y;
-      const navLine=yScale.getPixelForValue(1);
-      
-      // Premium zone (above 1.0) - subtle red
-      ctx.fillStyle='rgba(255,71,87,0.06)';
-      ctx.fillRect(chartArea.left,chartArea.top,chartArea.width,navLine-chartArea.top);
-      
-      // Discount zone (below 1.0) - subtle green
-      ctx.fillStyle='rgba(0,212,170,0.06)';
-      ctx.fillRect(chartArea.left,navLine,chartArea.width,chartArea.bottom-navLine);
-      
-      // 1.0x line
-      ctx.strokeStyle='rgba(255,255,255,0.3)';
-      ctx.lineWidth=1.5;
-      ctx.setLineDash([6,4]);
-      ctx.beginPath();ctx.moveTo(chartArea.left,navLine);ctx.lineTo(chartArea.right,navLine);ctx.stroke();
-      ctx.setLineDash([]);
-      
-      // Label
-      ctx.font='bold 10px JetBrains Mono';
-      ctx.fillStyle='rgba(255,255,255,0.4)';
-      ctx.textAlign='left';
-      ctx.fillText('NAV 1.0x',chartArea.left+6,navLine-5);
-    }
-  };
+ // ═══ CHART M1: mNAV with premium/discount zones ═══
+ const mnavCtx=document.getElementById('chartMnav').getContext('2d');
+ 
+ // Background gradient plugin for premium/discount zones
+ const zonePlugin={
+ id:'mnavZones',
+ beforeDraw(chart){
+ const{ctx,chartArea,scales}=chart;
+ if(!chartArea||!scales.y) return;
+ const yScale=scales.y;
+ const navLine=yScale.getPixelForValue(1);
+ 
+ // Premium zone (above 1.0) - subtle red
+ ctx.fillStyle='rgba(255,71,87,0.06)';
+ ctx.fillRect(chartArea.left,chartArea.top,chartArea.width,navLine-chartArea.top);
+ 
+ // Discount zone (below 1.0) - subtle green
+ ctx.fillStyle='rgba(0,212,170,0.06)';
+ ctx.fillRect(chartArea.left,navLine,chartArea.width,chartArea.bottom-navLine);
+ 
+ // 1.0x line
+ ctx.strokeStyle='rgba(255,255,255,0.3)';
+ ctx.lineWidth=1.5;
+ ctx.setLineDash([6,4]);
+ ctx.beginPath();ctx.moveTo(chartArea.left,navLine);ctx.lineTo(chartArea.right,navLine);ctx.stroke();
+ ctx.setLineDash([]);
+ 
+ // Label
+ ctx.font='bold 10px JetBrains Mono';
+ ctx.fillStyle='rgba(255,255,255,0.4)';
+ ctx.textAlign='left';
+ ctx.fillText('NAV 1.0x',chartArea.left+6,navLine-5);
+ }
+ };
 
-  chartM1=new Chart(mnavCtx,{
-    type:'line',
-    plugins:[zonePlugin],
-    data:{
-      labels:w.map(d=>d.date),
-      datasets:[{
-        label:'mNAV',
-        data:w.map(d=>d.mnav),
-        borderColor:'#eab308',
-        backgroundColor:'rgba(234,179,8,0.08)',
-        borderWidth:2,
-        fill:true,
-        tension:0.3,
-        pointRadius:1.5,
-        pointBackgroundColor:'#eab308',
-      }]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
-      scales:{
-        x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:20,font:{size:9}}},
-        y:{grid:{color:'rgba(255,255,255,.05)'},
-          suggestedMin:0,suggestedMax:4,
-          ticks:{callback:v=>v.toFixed(1)+'x'}}
-      },
-      plugins:{
-        zoom:zoomOpts('rzM1'),
-        tooltip:{callbacks:{
-          label:c=>{
-            const d=w[c.dataIndex];
-            return[
-              `mNAV: ${d.mnav.toFixed(3)}x`,
-              `BTC: $${d.btc_price?.toLocaleString()}`,
-              `MSTR: $${d.mstr_price?.toLocaleString()}`,
-              `BTC : ${d.btc_held?.toLocaleString()}`,
-              d.mnav>=1?' ':' '
-            ];
-          }
-        }}
-      }
-    }
-  });
+ chartM1=new Chart(mnavCtx,{
+ type:'line',
+ plugins:[zonePlugin],
+ data:{
+ labels:w.map(d=>d.date),
+ datasets:[{
+ label:'mNAV',
+ data:w.map(d=>d.mnav),
+ borderColor:'#eab308',
+ backgroundColor:'rgba(234,179,8,0.08)',
+ borderWidth:2,
+ fill:true,
+ tension:0.3,
+ pointRadius:1.5,
+ pointBackgroundColor:'#eab308',
+ }]
+ },
+ options:{
+ responsive:true,maintainAspectRatio:false,
+ interaction:{mode:'index',intersect:false},
+ scales:{
+ x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:20,font:{size:9}}},
+ y:{grid:{color:'rgba(255,255,255,.05)'},
+ suggestedMin:0,suggestedMax:4,
+ ticks:{callback:v=>v.toFixed(1)+'x'}}
+ },
+ plugins:{
+ zoom:zoomOpts('rzM1'),
+ tooltip:{callbacks:{
+ label:c=>{
+ const d=w[c.dataIndex];
+ return[
+ `mNAV: ${d.mnav.toFixed(3)}x`,
+ `BTC: $${d.btc_price?.toLocaleString()}`,
+ `MSTR: $${d.mstr_price?.toLocaleString()}`,
+ `BTC 보유: ${d.btc_held?.toLocaleString()}`,
+ d.mnav>=1?'⬆ 프리미엄':'⬇ 디스카운트'
+ ];
+ }
+ }}
+ }
+ }
+ });
 
-  //  CHART M2: BTC vs MSTR dual axis 
-  const btcMstrCtx=document.getElementById('chartBtcMstr').getContext('2d');
-  chartM2=new Chart(btcMstrCtx,{
-    type:'line',
-    data:{
-      labels:w.map(d=>d.date),
-      datasets:[
-        {
-          label:'BTC  (USD)',
-          data:w.map(d=>d.btc_price),
-          borderColor:'rgba(247,147,26,1)',
-          backgroundColor:'rgba(247,147,26,0.05)',
-          borderWidth:2,
-          fill:true,
-          tension:0.3,
-          pointRadius:1,
-          yAxisID:'yBtc',
-        },
-        {
-          label:'MSTR  (USD)',
-          data:w.map(d=>d.mstr_price),
-          borderColor:'rgba(98,126,234,1)',
-          backgroundColor:'rgba(98,126,234,0.05)',
-          borderWidth:2,
-          fill:true,
-          tension:0.3,
-          pointRadius:1,
-          yAxisID:'yMstr',
-        }
-      ]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
-      scales:{
-        x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:20,font:{size:9}}},
-        yBtc:{position:'left',grid:{color:'rgba(255,255,255,.05)'},
-          title:{display:true,text:'BTC (USD)',color:'#f7931a',font:{size:10}},
-          ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K',color:'#f7931a'}},
-        yMstr:{position:'right',grid:{display:false},
-          title:{display:true,text:'MSTR (USD)',color:'#627eea',font:{size:10}},
-          ticks:{callback:v=>'$'+v,color:'#627eea'}}
-      },
-      plugins:{
-        zoom:zoomOpts('rzM2'),
-        tooltip:{callbacks:{
-          label:c=>c.dataset.label+': $'+c.raw?.toLocaleString()
-        }}
-      }
-    }
-  });
+ // ═══ CHART M2: BTC vs MSTR dual axis ═══
+ const btcMstrCtx=document.getElementById('chartBtcMstr').getContext('2d');
+ chartM2=new Chart(btcMstrCtx,{
+ type:'line',
+ data:{
+ labels:w.map(d=>d.date),
+ datasets:[
+ {
+ label:'BTC 가격 (USD)',
+ data:w.map(d=>d.btc_price),
+ borderColor:'rgba(247,147,26,1)',
+ backgroundColor:'rgba(247,147,26,0.05)',
+ borderWidth:2,
+ fill:true,
+ tension:0.3,
+ pointRadius:1,
+ yAxisID:'yBtc',
+ },
+ {
+ label:'MSTR 주가 (USD)',
+ data:w.map(d=>d.mstr_price),
+ borderColor:'rgba(98,126,234,1)',
+ backgroundColor:'rgba(98,126,234,0.05)',
+ borderWidth:2,
+ fill:true,
+ tension:0.3,
+ pointRadius:1,
+ yAxisID:'yMstr',
+ }
+ ]
+ },
+ options:{
+ responsive:true,maintainAspectRatio:false,
+ interaction:{mode:'index',intersect:false},
+ scales:{
+ x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:20,font:{size:9}}},
+ yBtc:{position:'left',grid:{color:'rgba(255,255,255,.05)'},
+ title:{display:true,text:'BTC (USD)',color:'#f7931a',font:{size:10}},
+ ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K',color:'#f7931a'}},
+ yMstr:{position:'right',grid:{display:false},
+ title:{display:true,text:'MSTR (USD)',color:'#627eea',font:{size:10}},
+ ticks:{callback:v=>'$'+v,color:'#627eea'}}
+ },
+ plugins:{
+ zoom:zoomOpts('rzM2'),
+ tooltip:{callbacks:{
+ label:c=>c.dataset.label+': $'+c.raw?.toLocaleString()
+ }}
+ }
+ }
+ });
 }
 
 renderMnavCharts();
 
-//  HELPERS 
+// ═══ HELPERS ═══
 function fmt(n){if(n==null||isNaN(n))return'--';if(Math.abs(n)>=1e3)return'$'+(n/1e3).toFixed(1)+'B';return'$'+n.toFixed(0)+'M'}
 function fmtM(n){if(n==null||isNaN(n))return'--';return'$'+n.toLocaleString('en-US',{maximumFractionDigits:0})+'M'}
 function fmtShares(n){if(n==null)return'--';if(n>=1e6)return(n/1e6).toFixed(1)+'M shares';return n.toLocaleString()+'shares'}
 function fmtNum(n){return n==null?'--':n.toLocaleString('en-US',{maximumFractionDigits:0})}
 
-//  COMPUTE 
+// ═══ COMPUTE ═══
 let totMstr=0,totStrc=0,totStrk=0,totStrf=0,totStrd=0;
 issuanceData.forEach(d=>{totMstr+=d.mstr;totStrc+=d.strc;totStrk+=d.strk;totStrf+=d.strf;totStrd+=d.strd});
 const totAll=totMstr+totStrc+totStrk+totStrf+totStrd;
 const totBtc=issuanceData.reduce((s,d)=>s+d.btc,0);
 
-//  KPIs 
+// ═══ KPIs ═══
 document.getElementById('kpiMstr').textContent=fmt(totMstr);
-document.getElementById('kpiMstrShares').textContent=`: $${(atmCapacity.MSTR.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiMstrShares').textContent=`잔여: $${(atmCapacity.MSTR.remaining/1e3).toFixed(1)}B`;
 document.getElementById('kpiStrc').textContent=fmt(totStrc);
-document.getElementById('kpiStrcShares').textContent=`: $${(atmCapacity.STRC.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrcShares').textContent=`잔여: $${(atmCapacity.STRC.remaining/1e3).toFixed(1)}B`;
 document.getElementById('kpiStrk').textContent=fmt(totStrk);
-document.getElementById('kpiStrkShares').textContent=`: $${(atmCapacity.STRK.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrkShares').textContent=`잔여: $${(atmCapacity.STRK.remaining/1e3).toFixed(1)}B`;
 document.getElementById('kpiStrf').textContent=fmt(totStrf);
-document.getElementById('kpiStrfShares').textContent=`: $${(atmCapacity.STRF.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrfShares').textContent=`잔여: $${(atmCapacity.STRF.remaining/1e3).toFixed(1)}B`;
 document.getElementById('kpiStrd').textContent=fmt(totStrd);
-document.getElementById('kpiStrdShares').textContent=`: $${(atmCapacity.STRD.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrdShares').textContent=`잔여: $${(atmCapacity.STRD.remaining/1e3).toFixed(1)}B`;
 document.getElementById('kpiTotal').textContent=fmt(totAll);
-document.getElementById('kpiTotalBtc').textContent=`→ ${fmtNum(totBtc)} BTC `;
+document.getElementById('kpiTotalBtc').textContent=`→ ${fmtNum(totBtc)} BTC 매입`;
 
 const syncCharts = ['chartM1','chartM2'];
 let syncing = false;
 
 function syncZoom(sourceChart, rzId) {
-  if (syncing) return;
-  syncing = true;
-  document.getElementById(rzId).style.display = 'block';
-  
-  const {min, max} = sourceChart.scales.x;
-  
-  // Sync only mNAV and BTC vs MSTR (same date range)
-  [chartM1, chartM2].forEach(c => {
-    if (c && c !== sourceChart && c.scales && c.scales.x) {
-      c.zoomScale('x', {min, max}, 'none');
-      c.update('none');
-    }
-  });
-  
-  ['rzM1','rzM2'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'block';
-  });
-  
-  syncing = false;
+ if (syncing) return;
+ syncing = true;
+ document.getElementById(rzId).style.display = 'block';
+ 
+ const {min, max} = sourceChart.scales.x;
+ 
+ // Sync only mNAV and BTC vs MSTR (same date range)
+ [chartM1, chartM2].forEach(c => {
+ if (c && c !== sourceChart && c.scales && c.scales.x) {
+ c.zoomScale('x', {min, max}, 'none');
+ c.update('none');
+ }
+ });
+ 
+ ['rzM1','rzM2'].forEach(id => {
+ const el = document.getElementById(id);
+ if (el) el.style.display = 'block';
+ });
+ 
+ syncing = false;
 }
 
 function resetAllCharts() {
-  [chartM1, chartM2].forEach(c => { if (c) c.resetZoom() });
-  ['rzM1','rzM2'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
-  });
+ [chartM1, chartM2].forEach(c => { if (c) c.resetZoom() });
+ ['rzM1','rzM2'].forEach(id => {
+ const el = document.getElementById(id);
+ if (el) el.style.display = 'none';
+ });
 }
 
 const zoomOpts=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:({chart})=>syncZoom(chart,rzId)},pan:{enabled:true,mode:'x',onPan:({chart})=>syncZoom(chart,rzId)}});
@@ -475,90 +478,90 @@ const zoomOpts=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x
 // Standalone zoom for ATM charts (no sync)
 const zoomAlone=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById(rzId).style.display='block'}},pan:{enabled:true,mode:'x'}});
 
-//  CHART 1: Stacked Bar 
+// ═══ CHART 1: Stacked Bar ═══
 chart1=new Chart(document.getElementById('chart1'),{
-  type:'bar',
-  data:{
-    labels:issuanceData.map(d=>d.week),
-    datasets:[
-      {label:'MSTR',data:issuanceData.map(d=>d.mstr),backgroundColor:'rgba(98,126,234,.7)',stack:'s'},
-      {label:'STRC',data:issuanceData.map(d=>d.strc),backgroundColor:'rgba(0,212,170,.7)',stack:'s'},
-      {label:'STRK',data:issuanceData.map(d=>d.strk),backgroundColor:'rgba(247,147,26,.7)',stack:'s'},
-      {label:'STRF',data:issuanceData.map(d=>d.strf),backgroundColor:'rgba(255,71,87,.7)',stack:'s'},
-      {label:'STRD',data:issuanceData.map(d=>d.strd),backgroundColor:'rgba(168,85,247,.7)',stack:'s'},
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,scales:{
-    x:{stacked:true,grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},
-    y:{stacked:true,grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>v>=1000?'$'+(v/1000).toFixed(0)+'B':'$'+v+'M'}}
-  },plugins:{zoom:zoomAlone('rz1'),tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.raw.toLocaleString()+'M'}}}}
+ type:'bar',
+ data:{
+ labels:issuanceData.map(d=>d.week),
+ datasets:[
+ {label:'MSTR',data:issuanceData.map(d=>d.mstr),backgroundColor:'rgba(98,126,234,.7)',stack:'s'},
+ {label:'STRC',data:issuanceData.map(d=>d.strc),backgroundColor:'rgba(0,212,170,.7)',stack:'s'},
+ {label:'STRK',data:issuanceData.map(d=>d.strk),backgroundColor:'rgba(247,147,26,.7)',stack:'s'},
+ {label:'STRF',data:issuanceData.map(d=>d.strf),backgroundColor:'rgba(255,71,87,.7)',stack:'s'},
+ {label:'STRD',data:issuanceData.map(d=>d.strd),backgroundColor:'rgba(168,85,247,.7)',stack:'s'},
+ ]
+ },
+ options:{responsive:true,maintainAspectRatio:false,scales:{
+ x:{stacked:true,grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},
+ y:{stacked:true,grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>v>=1000?'$'+(v/1000).toFixed(0)+'B':'$'+v+'M'}}
+ },plugins:{zoom:zoomAlone('rz1'),tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.raw.toLocaleString()+'M'}}}}
 });
 
-//  CHART 2: Cumulative Line 
+// ═══ CHART 2: Cumulative Line ═══
 let cumM=0,cumS=0,cumK=0,cumF=0,cumD=0;
 const cumData=issuanceData.map(d=>{cumM+=d.mstr;cumS+=d.strc;cumK+=d.strk;cumF+=d.strf;cumD+=d.strd;return{t:cumM+cumS+cumK+cumF+cumD,m:cumM,s:cumS,k:cumK,f:cumF,d:cumD}});
 chart2=new Chart(document.getElementById('chart2'),{
-  type:'line',
-  data:{
-    labels:issuanceData.map(d=>d.week),
-    datasets:[
-      {label:' ',data:cumData.map(d=>d.t),borderColor:'#fff',borderWidth:2.5,fill:false,tension:.2,pointRadius:2},
-      {label:'MSTR',data:cumData.map(d=>d.m),borderColor:'var(--mstr)',borderWidth:1.5,fill:false,tension:.2,pointRadius:0,borderDash:[4,2]},
-      {label:'STRC',data:cumData.map(d=>d.s),borderColor:'var(--strc)',borderWidth:1.5,fill:false,tension:.2,pointRadius:0,borderDash:[4,2]},
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{
-    x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},
-    y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'B'}}
-  },plugins:{zoom:zoomAlone('rz2'),tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.raw/1000).toFixed(2)+'B'}}}}
+ type:'line',
+ data:{
+ labels:issuanceData.map(d=>d.week),
+ datasets:[
+ {label:'총 누적',data:cumData.map(d=>d.t),borderColor:'#fff',borderWidth:2.5,fill:false,tension:.2,pointRadius:2},
+ {label:'MSTR',data:cumData.map(d=>d.m),borderColor:'var(--mstr)',borderWidth:1.5,fill:false,tension:.2,pointRadius:0,borderDash:[4,2]},
+ {label:'STRC',data:cumData.map(d=>d.s),borderColor:'var(--strc)',borderWidth:1.5,fill:false,tension:.2,pointRadius:0,borderDash:[4,2]},
+ ]
+ },
+ options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{
+ x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},
+ y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'B'}}
+ },plugins:{zoom:zoomAlone('rz2'),tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.raw/1000).toFixed(2)+'B'}}}}
 });
 
-//  CHART 3: Doughnut 
+// ═══ CHART 3: Doughnut ═══
 chart3=new Chart(document.getElementById('chart3'),{
-  type:'doughnut',
-  data:{
-    labels:['MSTR','STRC','STRK','STRF','STRD'],
-    datasets:[{data:[totMstr,totStrc,totStrk,totStrf,totStrd],backgroundColor:['rgba(98,126,234,.8)','rgba(0,212,170,.8)','rgba(247,147,26,.8)','rgba(255,71,87,.8)','rgba(168,85,247,.8)'],borderColor:'#111',borderWidth:2}]
-  },
-  options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:12}},
-    tooltip:{callbacks:{label:c=>{const p=(c.raw/totAll*100).toFixed(1);return`${c.label}: $${(c.raw/1000).toFixed(1)}B (${p}%)`}}}}}
+ type:'doughnut',
+ data:{
+ labels:['MSTR','STRC','STRK','STRF','STRD'],
+ datasets:[{data:[totMstr,totStrc,totStrk,totStrf,totStrd],backgroundColor:['rgba(98,126,234,.8)','rgba(0,212,170,.8)','rgba(247,147,26,.8)','rgba(255,71,87,.8)','rgba(168,85,247,.8)'],borderColor:'#111',borderWidth:2}]
+ },
+ options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:12}},
+ tooltip:{callbacks:{label:c=>{const p=(c.raw/totAll*100).toFixed(1);return`${c.label}: $${(c.raw/1000).toFixed(1)}B (${p}%)`}}}}}
 });
 
-//  CHART 4: Horizontal Bar - ATM Capacity 
+// ═══ CHART 4: Horizontal Bar - ATM Capacity ═══
 const capLabels=Object.keys(atmCapacity);
 const capUsed=capLabels.map(k=>atmCapacity[k].total-atmCapacity[k].remaining);
 const capRemain=capLabels.map(k=>atmCapacity[k].remaining);
 chart4=new Chart(document.getElementById('chart4'),{
-  type:'bar',
-  data:{
-    labels:capLabels,
-    datasets:[
-      {label:'',data:capUsed,backgroundColor:'rgba(255,255,255,.15)'},
-      {label:' ',data:capRemain,backgroundColor:capLabels.map(k=>atmCapacity[k].color.replace('var(--','rgba(').replace(')',',.6)'))}
-    ]
-  },
-  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{
-    x:{stacked:true,grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'B'}},
-    y:{stacked:true,grid:{display:false}}
-  },plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.raw/1000).toFixed(1)+'B'}}}}
+ type:'bar',
+ data:{
+ labels:capLabels,
+ datasets:[
+ {label:'사용됨',data:capUsed,backgroundColor:'rgba(255,255,255,.15)'},
+ {label:'잔여 한도',data:capRemain,backgroundColor:capLabels.map(k=>atmCapacity[k].color.replace('var(--','rgba(').replace(')',',.6)'))}
+ ]
+ },
+ options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{
+ x:{stacked:true,grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'B'}},
+ y:{stacked:true,grid:{display:false}}
+ },plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.raw/1000).toFixed(1)+'B'}}}}
 });
 
 // Fix chart4 colors manually
 chart4.data.datasets[1].backgroundColor=['rgba(98,126,234,.6)','rgba(0,212,170,.6)','rgba(247,147,26,.6)','rgba(255,71,87,.6)','rgba(168,85,247,.6)'];
 chart4.update();
 
-//  TABLE 
+// ═══ TABLE ═══
 document.getElementById('issuanceTable').innerHTML=[...issuanceData].reverse().map(d=>{
-  const tot=d.mstr+d.strc+d.strk+d.strf+d.strd;
-  return`<tr><td>${d.week}</td><td style="color:var(--mstr)">${d.mstr?'$'+d.mstr.toLocaleString():'-'}</td><td style="color:var(--strc)">${d.strc?'$'+d.strc.toLocaleString():'-'}</td><td style="color:var(--strk)">${d.strk?'$'+d.strk.toLocaleString():'-'}</td><td style="color:var(--strf)">${d.strf?'$'+d.strf.toLocaleString():'-'}</td><td style="color:var(--strd)">${d.strd?'$'+d.strd.toLocaleString():'-'}</td><td style="color:var(--text-bright)">$${tot.toLocaleString()}</td><td style="color:var(--orange)">${d.btc.toLocaleString()}</td></tr>`;
+ const tot=d.mstr+d.strc+d.strk+d.strf+d.strd;
+ return`<tr><td>${d.week}</td><td style="color:var(--mstr)">${d.mstr?'$'+d.mstr.toLocaleString():'-'}</td><td style="color:var(--strc)">${d.strc?'$'+d.strc.toLocaleString():'-'}</td><td style="color:var(--strk)">${d.strk?'$'+d.strk.toLocaleString():'-'}</td><td style="color:var(--strf)">${d.strf?'$'+d.strf.toLocaleString():'-'}</td><td style="color:var(--strd)">${d.strd?'$'+d.strd.toLocaleString():'-'}</td><td style="color:var(--text-bright)">$${tot.toLocaleString()}</td><td style="color:var(--orange)">${d.btc.toLocaleString()}</td></tr>`;
 }).join('');
 
-//  SHARE 
-&url=${encodeURIComponent('https://herdvibe.com/131')}`,'_blank')}
+// ═══ SHARE ═══
+&url=${encodeURIComponent(location.href)}`,'_blank')}
 }})}catch(e){copyLink()}}
-&text=${encodeURIComponent('Strategy  ')}`,'_blank')}
+&text=${encodeURIComponent('Strategy 자본조달 트래커')}`,'_blank')}
 
-//  IFRAME 
+// ═══ IFRAME ═══
 
 var SHARE_URL='https://herdvibe.com/131';
 function ensureKakao(){try{if(typeof Kakao!=='undefined'&&!Kakao.isInitialized())Kakao.init('a43ed7b39fac35458f4f9df925a279b5');return typeof Kakao!=='undefined'&&Kakao.isInitialized();}catch(e){return false;}}
