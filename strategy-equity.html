@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategy (MSTR) 주식 발행 & 자본 조달 트래커 | HerdVibe</title>
+<meta name="description" content="Strategy(MSTR) ATM 주식 발행 현황 - MSTR 보통주, STRC, STRK, STRF, STRD 우선주 발행 이력 대시보드">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
+<style>
+:root{--bg:#0a0a0a;--card:#111111;--card-border:#1a1a1a;--accent:#00d4aa;--text:#e0e0e0;--text-dim:#888888;--text-bright:#fff;--green:#00d4aa;--red:#ff4757;--orange:#f7931a;--blue:#627eea;--purple:#a855f7;--cyan:#06b6d4;--pink:#ec4899;--yellow:#eab308;--mstr:#627eea;--strc:#00d4aa;--strk:#f7931a;--strf:#ff4757;--strd:#a855f7;--stre:#06b6d4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;line-height:1.6}
+.container{max-width:1200px;margin:0 auto;padding:20px 16px}
+.header{text-align:center;margin-bottom:24px;padding:24px 0;border-bottom:1px solid var(--card-border)}
+.header h1{font-size:22px;font-weight:900;color:var(--text-bright);margin-bottom:6px}
+.header .subtitle{font-size:12px;color:var(--text-dim);font-family:'JetBrains Mono',monospace}
+.header .subtitle a{color:var(--accent);text-decoration:none}
+.last-updated{font-size:11px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;margin-top:8px}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:24px}
+.kpi-card{background:var(--card);border:1px solid var(--card-border);border-radius:10px;padding:14px;text-align:center;transition:border-color .2s}
+.kpi-card:hover{border-color:var(--accent)}
+.kpi-label{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.kpi-value{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;line-height:1.2}
+.kpi-sub{font-size:9px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;margin-top:3px}
+.chart-section{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:20px;margin-bottom:20px;position:relative}
+.chart-title{font-size:15px;font-weight:700;color:var(--text-bright);margin-bottom:4px}
+.chart-desc{font-size:12px;color:var(--text-dim);margin-bottom:16px}
+.chart-wrap{position:relative;width:100%;height:380px}
+.chart-wrap canvas{width:100%!important;height:100%!important}
+.reset-zoom{position:absolute;top:12px;right:12px;background:var(--accent);color:#000;border:none;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono',monospace;display:none;z-index:10}
+.legend-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px;justify-content:center}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text-dim)}
+.legend-dot{width:10px;height:10px;border-radius:2px}
+.table-wrap{overflow-x:auto;margin-top:12px;max-height:400px;overflow-y:auto}
+.table-wrap::-webkit-scrollbar{width:6px;height:6px}.table-wrap::-webkit-scrollbar-track{background:var(--bg)}.table-wrap::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead th{position:sticky;top:0;background:var(--card);color:var(--text-dim);font-weight:500;text-align:right;padding:7px 8px;border-bottom:1px solid var(--card-border);font-size:10px;text-transform:uppercase;white-space:nowrap}
+thead th:first-child{text-align:left}
+tbody td{padding:6px 8px;text-align:right;border-bottom:1px solid #151515;font-family:'JetBrains Mono',monospace;font-size:10px;white-space:nowrap}
+tbody td:first-child{text-align:left;color:var(--text-dim)}
+tbody tr:hover{background:rgba(0,212,170,.04)}
+.ticker-badge{display:inline-block;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700}
+.share-bar{display:flex;gap:8px;justify-content:center;padding:16px 0;flex-wrap:wrap}
+.share-btn{display:flex;align-items:center;gap:4px;padding:6px 14px;border-radius:20px;border:1px solid var(--card-border);background:transparent;color:var(--text-dim);font-size:12px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s}
+.share-btn:hover{border-color:var(--accent);color:var(--accent)}
+.guide-text{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:20px;margin-top:20px;font-size:13px;line-height:1.8;color:var(--text-dim)}
+.guide-text h2{color:var(--text-bright);font-size:16px;margin-bottom:12px}
+.guide-text h3{color:var(--text);font-size:14px;margin:16px 0 8px}
+.footer{text-align:center;padding:20px 0;font-size:11px;color:var(--text-dim);font-family:'JetBrains Mono',monospace}
+.footer a{color:var(--accent);text-decoration:none}
+@media(max-width:768px){.header h1{font-size:17px}.kpi-grid{grid-template-columns:repeat(2,1fr);gap:8px}.kpi-value{font-size:15px}.chart-wrap{height:300px}}
+@media(max-width:480px){.kpi-value{font-size:13px}.chart-wrap{height:250px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🏦 Strategy(MSTR) 주식 발행 & 자본 조달 트래커</h1>
+    <div class="subtitle">SEC 8-K 공시 기반 · MSTR + STRC + STRK + STRF + STRD ATM 발행 현황</div>
+    <div class="last-updated" id="lastUpdated">Source: SEC EDGAR 8-K filings</div>
+  </div>
+
+  <!-- KPI -->
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-label">MSTR 보통주 발행</div><div class="kpi-value" style="color:var(--mstr)" id="kpiMstr">--</div><div class="kpi-sub" id="kpiMstrShares">--</div></div>
+    <div class="kpi-card"><div class="kpi-label">STRC 우선주 (Stretch)</div><div class="kpi-value" style="color:var(--strc)" id="kpiStrc">--</div><div class="kpi-sub" id="kpiStrcShares">--</div></div>
+    <div class="kpi-card"><div class="kpi-label">STRK 우선주 (Strike)</div><div class="kpi-value" style="color:var(--strk)" id="kpiStrk">--</div><div class="kpi-sub" id="kpiStrkShares">--</div></div>
+    <div class="kpi-card"><div class="kpi-label">STRF 우선주 (Strife)</div><div class="kpi-value" style="color:var(--strf)" id="kpiStrf">--</div><div class="kpi-sub" id="kpiStrfShares">--</div></div>
+    <div class="kpi-card"><div class="kpi-label">STRD 우선주 (Stride)</div><div class="kpi-value" style="color:var(--strd)" id="kpiStrd">--</div><div class="kpi-sub" id="kpiStrdShares">--</div></div>
+    <div class="kpi-card"><div class="kpi-label">총 자본 조달</div><div class="kpi-value" style="color:var(--text-bright)" id="kpiTotal">--</div><div class="kpi-sub" id="kpiTotalBtc">→ BTC 매입 연결</div></div>
+  </div>
+
+  <!-- Chart 1: Stacked bar - weekly ATM proceeds by ticker -->
+  <div class="chart-section">
+    <div class="chart-title">📊 주간 ATM 자본 조달 (티커별)</div>
+    <div class="chart-desc">매주 8-K 공시 기준 각 티커별 발행 수익금 (Stacked Bar)</div>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--mstr)"></div>MSTR</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--strc)"></div>STRC</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--strk)"></div>STRK</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--strf)"></div>STRF</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--strd)"></div>STRD</div>
+    </div>
+    <button class="reset-zoom" id="rz1" onclick="chart1.resetZoom()">🔄 리셋</button>
+    <div class="chart-wrap"><canvas id="chart1"></canvas></div>
+  </div>
+
+  <!-- Chart 2: Cumulative proceeds line -->
+  <div class="chart-section">
+    <div class="chart-title">📈 누적 자본 조달 추이</div>
+    <div class="chart-desc">총 자본 조달 누적액 + 티커별 누적 비중</div>
+    <button class="reset-zoom" id="rz2" onclick="chart2.resetZoom()">🔄 리셋</button>
+    <div class="chart-wrap"><canvas id="chart2"></canvas></div>
+  </div>
+
+  <!-- Chart 3: Pie - total proceeds by ticker -->
+  <div class="chart-section">
+    <div class="chart-title">🍩 티커별 자본 조달 비중</div>
+    <div class="chart-desc">전체 ATM 발행 수익금 중 각 티커 비중</div>
+    <div class="chart-wrap" style="height:320px"><canvas id="chart3"></canvas></div>
+  </div>
+
+  <!-- Chart 4: ATM remaining capacity -->
+  <div class="chart-section">
+    <div class="chart-title">📦 ATM 프로그램 잔여 한도</div>
+    <div class="chart-desc">2026년 3월 15일 기준 각 ATM 프로그램의 남은 발행 가능 금액</div>
+    <div class="chart-wrap" style="height:280px"><canvas id="chart4"></canvas></div>
+  </div>
+
+  <!-- Table -->
+  <div class="chart-section">
+    <div class="chart-title">📋 주간 ATM 발행 이력</div>
+    <div class="chart-desc">SEC 8-K 공시 기반 — 최신순</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>기간</th><th>MSTR ($M)</th><th>STRC ($M)</th><th>STRK ($M)</th><th>STRF ($M)</th><th>STRD ($M)</th><th>합계 ($M)</th><th>BTC 매입</th></tr></thead>
+        <tbody id="issuanceTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="share-bar">
+    <button class="share-btn" onclick="shareX()">𝕏 공유</button>
+    <button class="share-btn" onclick="shareKakao()">💬 카카오톡</button>
+    <button class="share-btn" onclick="shareTelegram()">✈️ 텔레그램</button>
+    <button class="share-btn" onclick="copyLink()">🔗 링크복사</button>
+  </div>
+
+  <div class="guide-text">
+    <h2>Strategy 자본 조달 대시보드 안내</h2>
+    <p>Strategy(MSTR)는 비트코인 매입을 위해 다양한 증권을 ATM(At-The-Market) 방식으로 발행합니다. 이 대시보드는 매주 공시되는 8-K 파일링에서 각 티커별 발행량과 수익금을 추적합니다.</p>
+    <h3>증권 구조</h3>
+    <p>MSTR: Class A 보통주 (Nasdaq). STRC(Stretch): 변동금리 우선주, 월배당, $100 액면가 근처 유지 설계, 현재 연 11.5% 배당. STRK(Strike): 전환형 우선주, 연 8% 비누적 배당. STRF(Strife): 비전환 우선주, 연 10% 누적 배당, 가장 보수적. STRD(Stride): 비전환 우선주, 연 10% 비누적 배당. STRE(Stream): 유로화 우선주, 연 10% 누적 배당.</p>
+    <h3>42/42 플랜</h3>
+    <p>Strategy는 2027년까지 총 $84B(840억 달러)를 주식 발행 + 전환사채로 조달하여 비트코인을 매입하는 "42/42 Plan"을 추진 중입니다. ATM 프로그램: STRK $21B, STRD $4.2B, STRF $2.1B, STRC $4.2B.</p>
+  </div>
+
+  <div class="footer">
+    <p>Herdvibe.com · Data: SEC EDGAR 8-K · <a href="https://www.strategy.com/purchases" target="_blank">strategy.com</a></p>
+    <p style="margin-top:4px">본 자료는 투자 권유가 아닙니다.</p>
+  </div>
+</div>
+
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
+<script>
+// ═══ WATERMARK ═══
+Chart.register({id:'wm',afterDraw(c){const{ctx,chartArea:a}=c;if(!a)return;ctx.save();ctx.globalAlpha=.06;ctx.font='bold 24px JetBrains Mono';ctx.fillStyle='#fff';ctx.textAlign='center';ctx.fillText('Herdvibe.com',a.left+a.width/2,a.top+a.height/2);ctx.restore()}});
+Chart.defaults.color='#888';Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=10;
+Chart.defaults.plugins.legend.labels.usePointStyle=true;
+
+// ═══ DATA: Weekly ATM issuance from 8-K filings ═══
+// Each entry: {week, mstr_proceeds, strc_proceeds, strk_proceeds, strf_proceeds, strd_proceeds, btc_bought}
+// All proceeds in $M
+const issuanceData = [
+  // 2024 Q4 - massive ATM era begins
+  {week:"2024-11-11",mstr:2000,strc:0,strk:0,strf:0,strd:0,btc:27200},
+  {week:"2024-11-18",mstr:4600,strc:0,strk:0,strf:0,strd:0,btc:51780},
+  {week:"2024-11-25",mstr:5400,strc:0,strk:0,strf:0,strd:0,btc:55500},
+  {week:"2024-12-02",mstr:1500,strc:0,strk:0,strf:0,strd:0,btc:15400},
+  {week:"2024-12-09",mstr:2100,strc:0,strk:0,strf:0,strd:0,btc:21550},
+  {week:"2024-12-16",mstr:1500,strc:0,strk:0,strf:0,strd:0,btc:15350},
+  {week:"2024-12-23",mstr:561,strc:0,strk:0,strf:0,strd:0,btc:5262},
+  {week:"2024-12-30",mstr:209,strc:0,strk:0,strf:0,strd:0,btc:2138},
+  // 2025 Q1
+  {week:"2025-01-06",mstr:100,strc:0,strk:0,strf:0,strd:0,btc:1070},
+  {week:"2025-01-13",mstr:243,strc:0,strk:0,strf:0,strd:0,btc:2530},
+  {week:"2025-01-21",mstr:1100,strc:0,strk:0,strf:0,strd:0,btc:11000},
+  {week:"2025-01-27",mstr:1100,strc:0,strk:0,strf:0,strd:0,btc:10107},
+  {week:"2025-02-10",mstr:0,strc:0,strk:563,strf:179,strd:0,btc:7633},
+  {week:"2025-02-24",mstr:0,strc:0,strk:1278,strf:712,strd:0,btc:20356},
+  {week:"2025-03-17",mstr:10.7,strc:0,strk:0,strf:0,strd:0,btc:130},
+  {week:"2025-03-24",mstr:584,strc:0,strk:0,strf:0,strd:0,btc:6911},
+  {week:"2025-03-31",mstr:1920,strc:0,strk:0,strf:0,strd:0,btc:22048},
+  // 2025 Q2
+  {week:"2025-04-14",mstr:285.8,strc:0,strk:0,strf:0,strd:0,btc:3459},
+  {week:"2025-04-21",mstr:555.8,strc:0,strk:0,strf:0,strd:0,btc:6556},
+  {week:"2025-04-28",mstr:1420,strc:0,strk:0,strf:0,strd:0,btc:15355},
+  {week:"2025-05-05",mstr:180,strc:0,strk:0,strf:0,strd:0,btc:1895},
+  {week:"2025-05-12",mstr:1340,strc:0,strk:0,strf:0,strd:0,btc:13390},
+  {week:"2025-05-19",mstr:765,strc:0,strk:0,strf:0,strd:0,btc:7390},
+  {week:"2025-05-26",mstr:427,strc:0,strk:0,strf:0,strd:0,btc:4020},
+  {week:"2025-06-02",mstr:75,strc:0,strk:0,strf:0,strd:0,btc:705},
+  {week:"2025-06-16",mstr:1051,strc:0,strk:0,strf:0,strd:0,btc:10100},
+  {week:"2025-06-30",mstr:532,strc:0,strk:0,strf:0,strd:0,btc:4980},
+  // 2025 Q3 - STRC debuts Jul 2025
+  {week:"2025-07-14",mstr:420,strc:52,strk:0,strf:0,strd:0,btc:4225},
+  {week:"2025-07-21",mstr:650,strc:90,strk:0,strf:0,strd:0,btc:6220},
+  {week:"2025-07-29",mstr:2100,strc:365,strk:0,strf:0,strd:0,btc:21021},
+  {week:"2025-08-11",mstr:12,strc:6,strk:0,strf:0,strd:0,btc:155},
+  {week:"2025-08-18",mstr:35,strc:16,strk:0,strf:0,strd:0,btc:430},
+  {week:"2025-08-25",mstr:280,strc:77,strk:0,strf:0,strd:0,btc:3081},
+  {week:"2025-09-02",mstr:350,strc:99,strk:0,strf:0,strd:0,btc:4048},
+  {week:"2025-09-08",mstr:170,strc:47,strk:0,strf:0,strd:0,btc:1955},
+  {week:"2025-09-15",mstr:42,strc:18,strk:0,strf:0,strd:0,btc:525},
+  {week:"2025-09-22",mstr:72,strc:28,strk:0,strf:0,strd:0,btc:850},
+  {week:"2025-09-29",mstr:15,strc:7,strk:0,strf:0,strd:0,btc:196},
+  // 2025 Q4
+  {week:"2025-10-13",mstr:18,strc:9,strk:0,strf:0,strd:0,btc:220},
+  {week:"2025-10-20",mstr:12,strc:7,strk:0,strf:0,strd:0,btc:168},
+  {week:"2025-10-27",mstr:30,strc:13,strk:0,strf:0,strd:0,btc:390},
+  {week:"2025-11-03",mstr:33,strc:13,strk:0,strf:0,strd:0,btc:397},
+  {week:"2025-11-10",mstr:35,strc:15,strk:0,strf:0,strd:0,btc:487},
+  {week:"2025-11-17",mstr:700,strc:136,strk:0,strf:0,strd:0,btc:8178},
+  {week:"2025-12-01",mstr:8,strc:4,strk:0,strf:0,strd:0,btc:130},
+  {week:"2025-12-08",mstr:928,strc:0,strk:0,strf:0,strd:35,btc:10624},
+  {week:"2025-12-15",mstr:835,strc:0,strk:0,strf:0,strd:102,btc:10645},
+  {week:"2025-12-29",mstr:109,strc:0,strk:0,strf:0,strd:0,btc:1229},
+  // 2026 Q1 - STRC becomes major funding source
+  {week:"2026-01-05",mstr:116,strc:0,strk:0,strf:0,strd:0,btc:1283},
+  {week:"2026-01-12",mstr:1128,strc:119,strk:0,strf:0,strd:0,btc:13627},
+  {week:"2026-01-20",mstr:1830,strc:294,strk:3.4,strf:0,strd:0,btc:22305},
+  {week:"2026-01-26",mstr:180,strc:84,strk:0,strf:0,strd:0,btc:2932},
+  {week:"2026-02-02",mstr:0,strc:421,strk:0,strf:0,strd:0,btc:855},
+  {week:"2026-02-09",mstr:0,strc:90,strk:0,strf:0,strd:0,btc:1142},
+  {week:"2026-02-17",mstr:62,strc:106,strk:0,strf:0,strd:0,btc:2486},
+  {week:"2026-02-23",mstr:0,strc:40,strk:0,strf:0,strd:0,btc:592},
+  {week:"2026-03-02",mstr:230,strc:7,strk:0,strf:0,strd:0,btc:3015},
+  {week:"2026-03-09",mstr:900,strc:377,strk:0,strf:0,strd:0,btc:17994},
+  {week:"2026-03-16",mstr:396,strc:1180,strk:0,strf:0,strd:0,btc:22337},
+];
+
+// ═══ ATM Remaining Capacity as of Mar 15, 2026 ($M) ═══
+const atmCapacity = {
+  MSTR: {total:21000,remaining:6317,color:'var(--mstr)'},
+  STRC: {total:4200,remaining:1976,color:'var(--strc)'},
+  STRK: {total:21000,remaining:20332,color:'var(--strk)'},
+  STRF: {total:2100,remaining:1619,color:'var(--strf)'},
+  STRD: {total:4200,remaining:4015,color:'var(--strd)'},
+};
+
+let chart1,chart2,chart3,chart4;
+
+// ═══ HELPERS ═══
+function fmt(n){if(n==null||isNaN(n))return'--';if(Math.abs(n)>=1e3)return'$'+(n/1e3).toFixed(1)+'B';return'$'+n.toFixed(0)+'M'}
+function fmtM(n){if(n==null||isNaN(n))return'--';return'$'+n.toLocaleString('en-US',{maximumFractionDigits:0})+'M'}
+function fmtShares(n){if(n==null)return'--';if(n>=1e6)return(n/1e6).toFixed(1)+'M shares';return n.toLocaleString()+'shares'}
+function fmtNum(n){return n==null?'--':n.toLocaleString('en-US',{maximumFractionDigits:0})}
+
+// ═══ COMPUTE ═══
+let totMstr=0,totStrc=0,totStrk=0,totStrf=0,totStrd=0;
+issuanceData.forEach(d=>{totMstr+=d.mstr;totStrc+=d.strc;totStrk+=d.strk;totStrf+=d.strf;totStrd+=d.strd});
+const totAll=totMstr+totStrc+totStrk+totStrf+totStrd;
+const totBtc=issuanceData.reduce((s,d)=>s+d.btc,0);
+
+// ═══ KPIs ═══
+document.getElementById('kpiMstr').textContent=fmt(totMstr);
+document.getElementById('kpiMstrShares').textContent=`잔여: $${(atmCapacity.MSTR.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrc').textContent=fmt(totStrc);
+document.getElementById('kpiStrcShares').textContent=`잔여: $${(atmCapacity.STRC.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrk').textContent=fmt(totStrk);
+document.getElementById('kpiStrkShares').textContent=`잔여: $${(atmCapacity.STRK.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrf').textContent=fmt(totStrf);
+document.getElementById('kpiStrfShares').textContent=`잔여: $${(atmCapacity.STRF.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiStrd').textContent=fmt(totStrd);
+document.getElementById('kpiStrdShares').textContent=`잔여: $${(atmCapacity.STRD.remaining/1e3).toFixed(1)}B`;
+document.getElementById('kpiTotal').textContent=fmt(totAll);
+document.getElementById('kpiTotalBtc').textContent=`→ ${fmtNum(totBtc)} BTC 매입`;
+
+const zoomOpts=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById(rzId).style.display='block'}},pan:{enabled:true,mode:'x'}});
+
+// ═══ CHART 1: Stacked Bar ═══
+chart1=new Chart(document.getElementById('chart1'),{
+  type:'bar',
+  data:{
+    labels:issuanceData.map(d=>d.week),
+    datasets:[
+      {label:'MSTR',data:issuanceData.map(d=>d.mstr),backgroundColor:'rgba(98,126,234,.7)',stack:'s'},
+      {label:'STRC',data:issuanceData.map(d=>d.strc),backgroundColor:'rgba(0,212,170,.7)',stack:'s'},
+      {label:'STRK',data:issuanceData.map(d=>d.strk),backgroundColor:'rgba(247,147,26,.7)',stack:'s'},
+      {label:'STRF',data:issuanceData.map(d=>d.strf),backgroundColor:'rgba(255,71,87,.7)',stack:'s'},
+      {label:'STRD',data:issuanceData.map(d=>d.strd),backgroundColor:'rgba(168,85,247,.7)',stack:'s'},
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{
+    x:{stacked:true,grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},
+    y:{stacked:true,grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>v>=1000?'$'+(v/1000).toFixed(0)+'B':'$'+v+'M'}}
+  },plugins:{zoom:zoomOpts('rz1'),tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.raw.toLocaleString()+'M'}}}}
+});
+
+// ═══ CHART 2: Cumulative Line ═══
+let cumM=0,cumS=0,cumK=0,cumF=0,cumD=0;
+const cumData=issuanceData.map(d=>{cumM+=d.mstr;cumS+=d.strc;cumK+=d.strk;cumF+=d.strf;cumD+=d.strd;return{t:cumM+cumS+cumK+cumF+cumD,m:cumM,s:cumS,k:cumK,f:cumF,d:cumD}});
+chart2=new Chart(document.getElementById('chart2'),{
+  type:'line',
+  data:{
+    labels:issuanceData.map(d=>d.week),
+    datasets:[
+      {label:'총 누적',data:cumData.map(d=>d.t),borderColor:'#fff',borderWidth:2.5,fill:false,tension:.2,pointRadius:2},
+      {label:'MSTR',data:cumData.map(d=>d.m),borderColor:'var(--mstr)',borderWidth:1.5,fill:false,tension:.2,pointRadius:0,borderDash:[4,2]},
+      {label:'STRC',data:cumData.map(d=>d.s),borderColor:'var(--strc)',borderWidth:1.5,fill:false,tension:.2,pointRadius:0,borderDash:[4,2]},
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{
+    x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:15,font:{size:9}}},
+    y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'B'}}
+  },plugins:{zoom:zoomOpts('rz2'),tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.raw/1000).toFixed(2)+'B'}}}}
+});
+
+// ═══ CHART 3: Doughnut ═══
+chart3=new Chart(document.getElementById('chart3'),{
+  type:'doughnut',
+  data:{
+    labels:['MSTR','STRC','STRK','STRF','STRD'],
+    datasets:[{data:[totMstr,totStrc,totStrk,totStrf,totStrd],backgroundColor:['rgba(98,126,234,.8)','rgba(0,212,170,.8)','rgba(247,147,26,.8)','rgba(255,71,87,.8)','rgba(168,85,247,.8)'],borderColor:'#111',borderWidth:2}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:12}},
+    tooltip:{callbacks:{label:c=>{const p=(c.raw/totAll*100).toFixed(1);return`${c.label}: $${(c.raw/1000).toFixed(1)}B (${p}%)`}}}}}
+});
+
+// ═══ CHART 4: Horizontal Bar - ATM Capacity ═══
+const capLabels=Object.keys(atmCapacity);
+const capUsed=capLabels.map(k=>atmCapacity[k].total-atmCapacity[k].remaining);
+const capRemain=capLabels.map(k=>atmCapacity[k].remaining);
+chart4=new Chart(document.getElementById('chart4'),{
+  type:'bar',
+  data:{
+    labels:capLabels,
+    datasets:[
+      {label:'사용됨',data:capUsed,backgroundColor:'rgba(255,255,255,.15)'},
+      {label:'잔여 한도',data:capRemain,backgroundColor:capLabels.map(k=>atmCapacity[k].color.replace('var(--','rgba(').replace(')',',.6)'))}
+    ]
+  },
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{
+    x:{stacked:true,grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'B'}},
+    y:{stacked:true,grid:{display:false}}
+  },plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.raw/1000).toFixed(1)+'B'}}}}
+});
+
+// Fix chart4 colors manually
+chart4.data.datasets[1].backgroundColor=['rgba(98,126,234,.6)','rgba(0,212,170,.6)','rgba(247,147,26,.6)','rgba(255,71,87,.6)','rgba(168,85,247,.6)'];
+chart4.update();
+
+// ═══ TABLE ═══
+document.getElementById('issuanceTable').innerHTML=[...issuanceData].reverse().map(d=>{
+  const tot=d.mstr+d.strc+d.strk+d.strf+d.strd;
+  return`<tr><td>${d.week}</td><td style="color:var(--mstr)">${d.mstr?'$'+d.mstr.toLocaleString():'-'}</td><td style="color:var(--strc)">${d.strc?'$'+d.strc.toLocaleString():'-'}</td><td style="color:var(--strk)">${d.strk?'$'+d.strk.toLocaleString():'-'}</td><td style="color:var(--strf)">${d.strf?'$'+d.strf.toLocaleString():'-'}</td><td style="color:var(--strd)">${d.strd?'$'+d.strd.toLocaleString():'-'}</td><td style="color:var(--text-bright)">$${tot.toLocaleString()}</td><td style="color:var(--orange)">${d.btc.toLocaleString()}</td></tr>`;
+}).join('');
+
+// ═══ SHARE ═══
+function shareX(){window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent('📊 Strategy(MSTR) 자본조달 현황\n💰 총 '+fmt(totAll)+'\n🏦 MSTR: '+fmt(totMstr)+' | STRC: '+fmt(totStrc))}&url=${encodeURIComponent(location.href)}`,'_blank')}
+function shareKakao(){try{if(!Kakao.isInitialized())Kakao.init('a43ed7b39fac35458f4f9df925a279b5');Kakao.Share.sendDefault({objectType:'feed',content:{title:'Strategy 자본조달 트래커',description:'MSTR+STRC+STRK+STRF+STRD ATM 발행 현황',imageUrl:'https://herdvibe.com/images/og-strategy-equity.png',link:{mobileWebUrl:location.href,webUrl:location.href}}})}catch(e){copyLink()}}
+function shareTelegram(){window.open(`https://t.me/share/url?url=${encodeURIComponent(location.href)}&text=${encodeURIComponent('Strategy 자본조달 트래커')}`,'_blank')}
+function copyLink(){navigator.clipboard?navigator.clipboard.writeText(location.href).then(()=>alert('복사완료!')):alert(location.href)}
+
+// ═══ IFRAME ═══
+function postHeight(){const w=window.innerWidth,h=Math.max(w>1024?3600:w>768?3800:4000,document.body.scrollHeight);window.parent.postMessage({type:'herdvibe-height',height:h},'*')}
+if(window.ResizeObserver){let t;new ResizeObserver(()=>{clearTimeout(t);t=setTimeout(postHeight,150)}).observe(document.body)}
+</script>
+</body>
+</html>
