@@ -73,6 +73,23 @@ tbody tr:hover{background:rgba(0,212,170,.04)}
     <div class="kpi-card"><div class="kpi-label">STRF 우선주 (Strife)</div><div class="kpi-value" style="color:var(--strf)" id="kpiStrf">--</div><div class="kpi-sub" id="kpiStrfShares">--</div></div>
     <div class="kpi-card"><div class="kpi-label">STRD 우선주 (Stride)</div><div class="kpi-value" style="color:var(--strd)" id="kpiStrd">--</div><div class="kpi-sub" id="kpiStrdShares">--</div></div>
     <div class="kpi-card"><div class="kpi-label">총 자본 조달</div><div class="kpi-value" style="color:var(--text-bright)" id="kpiTotal">--</div><div class="kpi-sub" id="kpiTotalBtc">→ BTC 매입 연결</div></div>
+    <div class="kpi-card"><div class="kpi-label">현재 mNAV</div><div class="kpi-value" style="color:var(--yellow)" id="kpiMnav">--</div><div class="kpi-sub" id="kpiMnavStatus">--</div></div>
+  </div>
+
+  <!-- Chart M1: mNAV History -->
+  <div class="chart-section">
+    <div class="chart-title">⚡ mNAV 멀티플 추이 (프리미엄 / 디스카운트)</div>
+    <div class="chart-desc">mNAV = Enterprise Value ÷ BTC 보유가치 · 1.0x = NAV 패리티 · 1.0 이상 프리미엄 · 이하 디스카운트</div>
+    <button class="reset-zoom" id="rzM1" onclick="chartM1.resetZoom()">🔄 리셋</button>
+    <div class="chart-wrap"><canvas id="chartMnav"></canvas></div>
+  </div>
+
+  <!-- Chart M2: BTC vs MSTR dual axis -->
+  <div class="chart-section">
+    <div class="chart-title">📉 BTC 가격 vs MSTR 주가</div>
+    <div class="chart-desc">듀얼 Y축 — BTC(주황, 좌) / MSTR(파랑, 우) · 괴리 = mNAV 변동 구간</div>
+    <button class="reset-zoom" id="rzM2" onclick="chartM2.resetZoom()">🔄 리셋</button>
+    <div class="chart-wrap"><canvas id="chartBtcMstr"></canvas></div>
   </div>
 
   <!-- Chart 1: Stacked bar - weekly ATM proceeds by ticker -->
@@ -234,6 +251,167 @@ const atmCapacity = {
 };
 
 let chart1,chart2,chart3,chart4;
+let chartM1,chartM2;
+
+// ═══ LOAD mNAV DATA ═══
+async function loadMnavData(){
+  try{
+    const r=await fetch('strategy_mnav.json');
+    if(!r.ok) return null;
+    const d=await r.json();
+    console.log('mNAV loaded:',d.weekly?.length,'entries');
+    return d;
+  }catch(e){console.warn('mNAV load error:',e);return null}
+}
+
+async function renderMnavCharts(){
+  const data=await loadMnavData();
+  if(!data||!data.weekly||!data.weekly.length) return;
+
+  const w=data.weekly.filter(d=>d.mnav&&d.mnav>0&&d.mnav<15);
+
+  // KPI
+  if(data.current&&data.current.mnav){
+    const m=data.current.mnav;
+    document.getElementById('kpiMnav').textContent=m.toFixed(2)+'x';
+    const el=document.getElementById('kpiMnavStatus');
+    if(m>=1){el.textContent='프리미엄';el.style.color='var(--red)'}
+    else{el.textContent='디스카운트';el.style.color='var(--green)'}
+  }
+
+  // ═══ CHART M1: mNAV with premium/discount zones ═══
+  const mnavCtx=document.getElementById('chartMnav').getContext('2d');
+  
+  // Background gradient plugin for premium/discount zones
+  const zonePlugin={
+    id:'mnavZones',
+    beforeDraw(chart){
+      const{ctx,chartArea,scales}=chart;
+      if(!chartArea||!scales.y) return;
+      const yScale=scales.y;
+      const navLine=yScale.getPixelForValue(1);
+      
+      // Premium zone (above 1.0) - subtle red
+      ctx.fillStyle='rgba(255,71,87,0.06)';
+      ctx.fillRect(chartArea.left,chartArea.top,chartArea.width,navLine-chartArea.top);
+      
+      // Discount zone (below 1.0) - subtle green
+      ctx.fillStyle='rgba(0,212,170,0.06)';
+      ctx.fillRect(chartArea.left,navLine,chartArea.width,chartArea.bottom-navLine);
+      
+      // 1.0x line
+      ctx.strokeStyle='rgba(255,255,255,0.3)';
+      ctx.lineWidth=1.5;
+      ctx.setLineDash([6,4]);
+      ctx.beginPath();ctx.moveTo(chartArea.left,navLine);ctx.lineTo(chartArea.right,navLine);ctx.stroke();
+      ctx.setLineDash([]);
+      
+      // Label
+      ctx.font='bold 10px JetBrains Mono';
+      ctx.fillStyle='rgba(255,255,255,0.4)';
+      ctx.textAlign='left';
+      ctx.fillText('NAV 1.0x',chartArea.left+6,navLine-5);
+    }
+  };
+
+  chartM1=new Chart(mnavCtx,{
+    type:'line',
+    plugins:[zonePlugin],
+    data:{
+      labels:w.map(d=>d.date),
+      datasets:[{
+        label:'mNAV',
+        data:w.map(d=>d.mnav),
+        borderColor:'#eab308',
+        backgroundColor:'rgba(234,179,8,0.08)',
+        borderWidth:2,
+        fill:true,
+        tension:0.3,
+        pointRadius:1.5,
+        pointBackgroundColor:'#eab308',
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:20,font:{size:9}}},
+        y:{grid:{color:'rgba(255,255,255,.05)'},
+          suggestedMin:0,suggestedMax:4,
+          ticks:{callback:v=>v.toFixed(1)+'x'}}
+      },
+      plugins:{
+        zoom:zoomOpts('rzM1'),
+        tooltip:{callbacks:{
+          label:c=>{
+            const d=w[c.dataIndex];
+            return[
+              `mNAV: ${d.mnav.toFixed(3)}x`,
+              `BTC: $${d.btc_price?.toLocaleString()}`,
+              `MSTR: $${d.mstr_price?.toLocaleString()}`,
+              `BTC 보유: ${d.btc_held?.toLocaleString()}`,
+              d.mnav>=1?'⬆ 프리미엄':'⬇ 디스카운트'
+            ];
+          }
+        }}
+      }
+    }
+  });
+
+  // ═══ CHART M2: BTC vs MSTR dual axis ═══
+  const btcMstrCtx=document.getElementById('chartBtcMstr').getContext('2d');
+  chartM2=new Chart(btcMstrCtx,{
+    type:'line',
+    data:{
+      labels:w.map(d=>d.date),
+      datasets:[
+        {
+          label:'BTC 가격 (USD)',
+          data:w.map(d=>d.btc_price),
+          borderColor:'rgba(247,147,26,1)',
+          backgroundColor:'rgba(247,147,26,0.05)',
+          borderWidth:2,
+          fill:true,
+          tension:0.3,
+          pointRadius:1,
+          yAxisID:'yBtc',
+        },
+        {
+          label:'MSTR 주가 (USD)',
+          data:w.map(d=>d.mstr_price),
+          borderColor:'rgba(98,126,234,1)',
+          backgroundColor:'rgba(98,126,234,0.05)',
+          borderWidth:2,
+          fill:true,
+          tension:0.3,
+          pointRadius:1,
+          yAxisID:'yMstr',
+        }
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{maxRotation:45,maxTicksLimit:20,font:{size:9}}},
+        yBtc:{position:'left',grid:{color:'rgba(255,255,255,.05)'},
+          title:{display:true,text:'BTC (USD)',color:'#f7931a',font:{size:10}},
+          ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K',color:'#f7931a'}},
+        yMstr:{position:'right',grid:{display:false},
+          title:{display:true,text:'MSTR (USD)',color:'#627eea',font:{size:10}},
+          ticks:{callback:v=>'$'+v,color:'#627eea'}}
+      },
+      plugins:{
+        zoom:zoomOpts('rzM2'),
+        tooltip:{callbacks:{
+          label:c=>c.dataset.label+': $'+c.raw?.toLocaleString()
+        }}
+      }
+    }
+  });
+}
+
+renderMnavCharts();
 
 // ═══ HELPERS ═══
 function fmt(n){if(n==null||isNaN(n))return'--';if(Math.abs(n)>=1e3)return'$'+(n/1e3).toFixed(1)+'B';return'$'+n.toFixed(0)+'M'}
@@ -348,7 +526,7 @@ function shareTelegram(){window.open(`https://t.me/share/url?url=${encodeURIComp
 function copyLink(){navigator.clipboard?navigator.clipboard.writeText(location.href).then(()=>alert('복사완료!')):alert(location.href)}
 
 // ═══ IFRAME ═══
-function postHeight(){const w=window.innerWidth,h=Math.max(w>1024?3600:w>768?3800:4000,document.body.scrollHeight);window.parent.postMessage({type:'herdvibe-height',height:h},'*')}
+function postHeight(){const w=window.innerWidth,h=Math.max(w>1024?4800:w>768?5000:5200,document.body.scrollHeight);window.parent.postMessage({type:'herdvibe-height',height:h},'*')}
 if(window.ResizeObserver){let t;new ResizeObserver(()=>{clearTimeout(t);t=setTimeout(postHeight,150)}).observe(document.body)}
 </script>
 </body>
