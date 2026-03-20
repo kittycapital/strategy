@@ -226,6 +226,39 @@ async function loadMnavData(){
  }catch(e){console.warn('mNAV load error:',e);return null}
 }
 
+// ═══ ZOOM SYNC (global - used by both mNAV and ATM charts) ═══
+const syncCharts = ['chartM1','chartM2'];
+let syncing = false;
+
+function syncZoom(sourceChart, rzId) {
+ if (syncing) return;
+ syncing = true;
+ document.getElementById(rzId).style.display = 'block';
+ const {min, max} = sourceChart.scales.x;
+ [chartM1, chartM2].forEach(c => {
+ if (c && c !== sourceChart && c.scales && c.scales.x) {
+ c.zoomScale('x', {min, max}, 'none');
+ c.update('none');
+ }
+ });
+ ['rzM1','rzM2'].forEach(id => {
+ const el = document.getElementById(id);
+ if (el) el.style.display = 'block';
+ });
+ syncing = false;
+}
+
+function resetAllCharts() {
+ [chartM1, chartM2].forEach(c => { if (c) c.resetZoom() });
+ ['rzM1','rzM2'].forEach(id => {
+ const el = document.getElementById(id);
+ if (el) el.style.display = 'none';
+ });
+}
+
+const zoomOpts=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:({chart})=>syncZoom(chart,rzId)},pan:{enabled:true,mode:'x',onPan:({chart})=>syncZoom(chart,rzId)}});
+const zoomAlone=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById(rzId).style.display='block'}},pan:{enabled:true,mode:'x'}});
+
 async function renderMnavCharts(){
  const data=await loadMnavData();
  if(!data||!data.weekly||!data.weekly.length) return;
@@ -403,45 +436,6 @@ async function initAtmCharts(){
   document.getElementById('kpiStrdShares').textContent=`잔여: $${(atmCapacity.STRD.remaining/1e3).toFixed(1)}B`;
   document.getElementById('kpiTotal').textContent=fmt(totAll);
   document.getElementById('kpiTotalBtc').textContent=`→ ${fmtNum(totBtc)} BTC 매입`;
-
-const syncCharts = ['chartM1','chartM2'];
-let syncing = false;
-
-function syncZoom(sourceChart, rzId) {
- if (syncing) return;
- syncing = true;
- document.getElementById(rzId).style.display = 'block';
- 
- const {min, max} = sourceChart.scales.x;
- 
- // Sync only mNAV and BTC vs MSTR (same date range)
- [chartM1, chartM2].forEach(c => {
- if (c && c !== sourceChart && c.scales && c.scales.x) {
- c.zoomScale('x', {min, max}, 'none');
- c.update('none');
- }
- });
- 
- ['rzM1','rzM2'].forEach(id => {
- const el = document.getElementById(id);
- if (el) el.style.display = 'block';
- });
- 
- syncing = false;
-}
-
-function resetAllCharts() {
- [chartM1, chartM2].forEach(c => { if (c) c.resetZoom() });
- ['rzM1','rzM2'].forEach(id => {
- const el = document.getElementById(id);
- if (el) el.style.display = 'none';
- });
-}
-
-const zoomOpts=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:({chart})=>syncZoom(chart,rzId)},pan:{enabled:true,mode:'x',onPan:({chart})=>syncZoom(chart,rzId)}});
-
-// Standalone zoom for ATM charts (no sync)
-const zoomAlone=(rzId)=>({zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x',onZoom:()=>{document.getElementById(rzId).style.display='block'}},pan:{enabled:true,mode:'x'}});
 
 // ═══ CHART 1: Stacked Bar ═══
 chart1=new Chart(document.getElementById('chart1'),{
