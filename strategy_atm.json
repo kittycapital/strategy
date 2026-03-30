@@ -1,11 +1,11 @@
 {
-  "last_updated": "2026-03-16",
+  "last_updated": "2026-03-23",
   "source": "SEC EDGAR 8-K filings",
-  "note": "매주 월요일 8-K 공시 후 한 줄 추가. capacity는 최신 8-K의 remaining 수치로 교체.",
+  "note": "매주 월요일 8-K 공시 후 한 줄 추가. capacity는 최신 8-K의 remaining 수치로 교체. 2026-03-23: 신규 ATM 프로그램 추가 (MSTR +$21B, STRC +$21B, STRK +$2.1B)",
   "capacity": {
-    "MSTR": {"total": 21000, "remaining": 6317},
-    "STRC": {"total": 4200, "remaining": 1976},
-    "STRK": {"total": 21000, "remaining": 20332},
+    "MSTR": {"total": 42000, "remaining": 27240},
+    "STRC": {"total": 25200, "remaining": 22976},
+    "STRK": {"total": 23100, "remaining": 22432},
     "STRF": {"total": 2100, "remaining": 1619},
     "STRD": {"total": 4200, "remaining": 4015}
   },
@@ -68,6 +68,7 @@
     {"week":"2026-02-23","mstr":0,"strc":40,"strk":0,"strf":0,"strd":0,"btc":592},
     {"week":"2026-03-02","mstr":230,"strc":7,"strk":0,"strf":0,"strd":0,"btc":3015},
     {"week":"2026-03-09","mstr":900,"strc":377,"strk":0,"strf":0,"strd":0,"btc":17994},
-    {"week":"2026-03-16","mstr":396,"strc":1180,"strk":0,"strf":0,"strd":0,"btc":22337}
+    {"week":"2026-03-16","mstr":396,"strc":1180,"strk":0,"strf":0,"strd":0,"btc":22337},
+    {"week":"2026-03-23","mstr":76.5,"strc":0,"strk":0,"strf":0,"strd":0,"btc":1031}
   ]
 }
