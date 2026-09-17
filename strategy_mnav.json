@@ -1,11 +1,11 @@
 {
-  "last_updated": "2026-09-16T12:59:44Z",
+  "last_updated": "2026-09-17T12:55:54Z",
   "source": "BTC & MSTR prices: yfinance (CSV cached), mNAV: calculated",
   "current": {
-    "date": "2026-09-15",
-    "btc_price": 75612.51,
-    "mstr_price": 129.6,
-    "mnav": 0.896,
+    "date": "2026-09-16",
+    "btc_price": 76150.32,
+    "mstr_price": 126.18,
+    "mnav": 0.871,
     "btc_held": 761068,
     "shares": 325000000
   },
@@ -12255,6 +12255,14 @@
       "btc_price": 75612.51,
       "mstr_price": 129.6,
       "mnav": 0.896,
+      "btc_held": 761068,
+      "shares": 325000000
+    },
+    {
+      "date": "2026-09-16",
+      "btc_price": 76150.32,
+      "mstr_price": 126.18,
+      "mnav": 0.871,
       "btc_held": 761068,
       "shares": 325000000
     }
