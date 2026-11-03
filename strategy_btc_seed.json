@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-11-02T17:39:28Z",
+  "last_updated": "2026-11-03T15:41:23Z",
   "source": "bitbo.io/treasuries/microstrategy (BitcoinTreasuries.com)",
   "entity": "Strategy Inc (MSTR)",
   "cik": "0001050446",
   "summary": {
-    "total_btc": 848250,
-    "total_cost_usd": 63800454664,
-    "avg_cost_per_btc": 75214,
-    "total_purchase_events": 115
+    "total_btc": 849327,
+    "total_cost_usd": 63888454664,
+    "avg_cost_per_btc": 75222,
+    "total_purchase_events": 117
   },
   "purchases": [
     {
@@ -928,6 +928,22 @@
       "avg_price": 88000,
       "total_usd": 22000000,
       "cumulative_btc": 848250,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-10-19",
+      "btc": 267,
+      "avg_price": 82397,
+      "total_usd": 22000000,
+      "cumulative_btc": 848517,
+      "funding": "atm"
+    },
+    {
+      "date": "2026-11-02",
+      "btc": 811,
+      "avg_price": 81381,
+      "total_usd": 66000000,
+      "cumulative_btc": 849327,
       "funding": "atm"
     }
   ]
